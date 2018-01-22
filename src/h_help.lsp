@@ -53,5 +53,4 @@
 )
 (prompt "\nDigite AJ para abrir a lista de comandos.") ; tip
 
-
 ;;; EOF

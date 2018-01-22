@@ -131,7 +131,6 @@
 
 
 ;;; COMMAND: Copy and transfer text values
-;;; 	TO-DO: detect Multitext vs Dtext
 
 (defun c:tt (/ entlist2 entname1 entname1_assoc1 entname2 entname2_assoc1 mod)
   (prompt "\nTT - Transfere texto de textos, multitextos e atributos de blocos")
@@ -198,6 +197,5 @@
   (ad:endcmd)
   (princ)
 )
-
 
 ;;; EOF

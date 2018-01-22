@@ -1,5 +1,5 @@
 ;;;; error.lsp
-;;;; Error handling functions 
+;;;; Error handling functions
 ;;;; Written by Igor Eliezer Borges, Architect and Urban Planner
 ;;;; http://www.igoreliezer.com
 ;;;; Date: 2018-01-21
@@ -53,6 +53,5 @@
   (prompt "\nComando cancelado!\n")	; message
   (ad:endcmd)				; restore original command settings
 )
-
 
 ;;; EOF
