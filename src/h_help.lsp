@@ -31,11 +31,6 @@
 	    "\n	UNT - Unir textos"
 	    "\n\nFeito para AutoCAD 2007 ou superior."
 	    "\n\nEscrito por Igor Eliezer Borges (igoreliezer.com)\nLicença OpenSource/MIT."
-	    "\n\n[Rodando AutoCAD r"
-	    (substr (getvar "ACADVER") 1 4)
-	    ", processador "
-	    (getenv "PROCESSOR_ARCHITECTURE")
-	    "]"
     )
   )
 
