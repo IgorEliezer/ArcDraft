@@ -3,7 +3,7 @@
 ;;;; Written by Igor Eliezer Borges, Architect and Urban Planner
 ;;;; http://www.igoreliezer.com
 ;;;; Date: 2018-01-21
-;;;; License: OpenSource - The MIT License (MIT)
+;;;; License: ArcDraft, see LICENSE.txt.
 
 
 ;;;; First set ArcDraft version and check support.
