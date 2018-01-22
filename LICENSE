@@ -1,21 +1,23 @@
-MIT License
+LICENÇA ArchDraft
 
-Copyright (c) 2018 Igor Eliezer
+Copyright (c) 2018 Igor Eliezer Borges
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+O ArchDraft é um programa desenvolvido como hobby sem expectativa de retorno financeiro e está sendo disponibilizado graciosamente para quem achar útil ou interessante.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+O programa, na forma de código-fonte ou de binário, poderá ser:
+1. Usado como ferramenta auxiliar na produção de desenhos CAD de qualquer fim, enquanto compatível com a plataforma de trabalho;
+2. Aberto e lido por qualquer pessoa para verficar e estudar programa.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Com as seguintes condições:
+1. O nome do autor não seja removido;
+2. Nem o nome do autor nem do programa sejam usados para endorsar qualquer outro trabalho;
+3. Não poderá ser vendido sem autorização do autor;
+4. O uso do programa não estabelece relação comercial e está sendo oferecido na forma em que está, de boa-fé, sem garantias de qualquer tipo;
+5. Cabe ao usuário testar o programa e verificar os resultados dos testes e dos usos posteriores;
+6. O uso do programa implica na aceitação dos resultados do uso e desobriga o autor de qualquer responsabilidade ou dano.
+
+Recomendações e notas finais:
+* O uso do programa não exime o usuário da responsabilidade de verificar o seu próprio trabalho. Use o program enquanto for útil, seguro e compatível com a plataforma de trabalho.
+* No caso de o programa apresentar resultados indesejáveis, recomenda-se parar o uso programa. Por cortesia, comunique o problema ao autor.
+* O autor disponibiliza o código-fonte do programa em local acessível da Internet de sua escolha para que qualquer pessoa possa verificar o programa.
+* Ao invés de redistribuir cópias do programa, recomenda-se indicar a página de download oficial do autor para que usuários possam acessar o conteúdo original e mais atualizado.
