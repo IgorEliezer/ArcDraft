@@ -21,7 +21,7 @@
 ;;; FUNCTION: Set ArcDraft version
 
 (defun ad:version ()
-  (setq *ad:ver* "0.0.1 alfa, 2018-01-21") ; version number, stage and date
+  (setq *ad:ver* "0.0.1 alfa, 2018-01-29") ; version number, stage and date
 )
 
 (ad:version)				; execute
