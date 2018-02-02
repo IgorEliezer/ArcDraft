@@ -12,7 +12,7 @@
 ;;; ---- COMMANDS ----
 
 ;;; SS - Super save
-;;; TO-DO:: check if layer '0' is off
+;;; 	TO-DO: check if layer '0' is off
 
 (defun c:ss ()
   (prompt "\nSS - Super save (purge + zoom + camada 0 corrente)")
