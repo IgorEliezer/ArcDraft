@@ -11,7 +11,7 @@
 
 ;;; ---- COMMANDS ----
 
-;;; AJ - Ajuda e lista de comandos do ArcDraft
+;;; COMMAND: Ajuda e lista de comandos do ArcDraft
 
 (defun c:aj (/ filename filepath pathfilename)
   (prompt "\nAJ - Ajuda e lista de comandos do ArcDraft")

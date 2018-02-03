@@ -11,7 +11,7 @@
 
 ;;; ---- COMMANDS ----
 
-;;; SS - Super save
+;;; COMMAND: Super save
 ;;; 	TO-DO: check if layer '0' is off
 
 (defun c:ss ()

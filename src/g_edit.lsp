@@ -11,8 +11,8 @@
 
 ;;; ---- COMMANDS ----
 
-;; COMMAND: Break point
-;;; 	TO-DO: select once, and multiple breaks with while+getpoint
+;;; COMMAND: Break point
+;;; 	TO-DO: select once, then multiple breaks with while+getpoint
 
 (defun c:bb (/ entnamept pt1)
   (prompt "\nBB - Quebra no ponto")
