@@ -18,8 +18,9 @@
 
   ;; save values
   (setq	*ad:cmdecho_or*	(getvar "CMDECHO") ; echoing
+	*ad:osmode_or*	(getvar "OSMODE") ; osmode
+	*ad:nomutt_or*	(getvar "NOMUTT") ; command line muttering
 	*ad:error_or*	*error*		; error handling
-	*ad:osmode_or*	(getvar "OSMODE")
   )
 
   ;; change values
@@ -41,6 +42,7 @@
   ;; restore original values
   (setvar "CMDECHO" *ad:cmdecho_or*)
   (setvar "OSMODE" *ad:osmode_or*)
+  (setvar "NOMUTT" *ad:nomutt_or*)
   (setq *error* *ad:error_or*)
   (princ)
 )

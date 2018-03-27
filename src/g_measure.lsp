@@ -12,12 +12,13 @@
 ;;; ---- FUNCTIONS ----
 
 ;;; FUNCTION: SSGET with prompt
+;;;	TO-DO: Move it to a special module.
 
 (defun ad:ssgetp (filter msg / ss)
   (prompt msg)
-  (setvar "nomutt" 1)
+  (setvar "NOMUTT" 1)
   (vl-catch-all-apply '(lambda () (setq ss (ssget filter))))
-  (setvar "nomutt" 0)
+  (setvar "NOMUTT" 0)
   ss
 )
 
@@ -54,8 +55,8 @@
   (prompt (strcat "\nValor total: " str_total ". "))
 
   ;; Insert the text
-  ;;	TO-DO: configure inset height
-  (setvar "osmode" 0)			; turn off OSMODE
+  ;;	TO-DO: let user configure insert height
+  (setvar "OSMODE" 0)			; turn off OSMODE
   (setq stlname (getvar "textstyle"))
   (if
     (setq ptins (getpoint "Clique para inserir o texto com o valor total: "))
