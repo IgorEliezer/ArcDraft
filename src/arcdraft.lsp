@@ -11,6 +11,7 @@
 
 ;;;; /!\ ArcDraft REQUIRES AutoCAD 2007 OR HIGHER /!\
 ;;;; Custom functions and global variables are prefixed with "ad:"
+;;;; FOR FUTURE: BricsCAD support (it already does, but not officially)
 
 
 ;;; ---- HELLO WORLD! ----
@@ -21,7 +22,7 @@
 ;;; FUNCTION: Set ArcDraft version
 
 (defun ad:version ()
-  (setq *ad:ver* "0.0.1 alfa, 2018-01-29") ; version number, stage and date
+  (setq *ad:ver* "0.0.2 alfa, 2018-03-??") ; version number, stage and date
 )
 
 (ad:version)				; execute

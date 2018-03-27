@@ -19,20 +19,26 @@
 
   ;; Alert the user
   (alert
-    (strcat "*** ArcDraft - Aplicativo para desenho em CAD ***"
-	    "\nVersão "
-	    *ad:ver*
-	    "\n\nComandos:"
-		"\n	AJ - Abrir esta ajuda"
-	    "\n	AE - Alinhar texto e bloco sem atributo"
-	    "\n	CUR - Definir camada corrente por seleção"
-	    "\n	NLA - Criar camada"
-	    "\n	NS - Numerador sequencial"
-	    "\n	TT - Transferir textos"
-	    "\n	UNT - Unir textos"
-	    "\n\nFeito para AutoCAD 2007 ou superior."
-	    "\n\nEscrito por Igor Eliezer Borges (igoreliezer.com)\nLicença OpenSource/MIT."
-    )
+    (strcat
+      "*** ArcDraft - Aplicativo para desenho em CAD ***"
+      "\nVersão "
+      *ad:ver*
+      "\nFeito para AutoCAD 2007 ou superior"
+      "\n\nComandos:"
+      "\n	AJ - Abrir esta ajuda"
+      "\n	AE - Alinhar texto e bloco sem atributo"
+      "\n	BB - Quebra no ponto"
+      "\n	CUR - Definir camada corrente por seleção"
+      "\n	NLA - Criar camada"
+      "\n	NS - Numerador sequencial"
+      "\n	SOMT - Soma valores numéricos de textos"
+      "\n	SS - Super save"
+      "\n	TT - Transferir textos"
+      "\n	UNT - Unir textos"
+      "\n\nEscrito por Igor Eliezer Borges (igoreliezer.com)"
+      "\nDownload, documentação e ajuda em: igoreliezer.com/arcdraft"
+      "\nVer licença em LICENSE.txt."
+     )
   )
 
   (ad:endcmd)
@@ -44,7 +50,7 @@
 
 (prompt	(strcat	"\nArcDraft carregado. Versão "
 		*ad:ver*
-		". (c) Igor Eliezer Borges, licença OpenSource/MIT."
+		". (c) Igor Eliezer Borges, ver licença em LICENSE.txt."
 	)
 )
 (prompt "\nDigite AJ para abrir a lista de comandos.") ; tip
