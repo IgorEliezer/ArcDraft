@@ -33,8 +33,8 @@
 
   ;; User input
   (setq	ss    (ad:ssgetp
-		'((0 . "TEXT") (1 . "#*"))
-		"\nSelecione textos que contenham só números e ponto como separador decimal, e <ENTER> para concluir: "
+		'((0 . "TEXT") (1 . "#*,[+]#*,[`-]#*"))
+		"\nSelecione textos que iniciam com caracteres numéricos e que usam ponto como separador decimal. <ENTER> para concluir: "
 	      )
 	i     0
 	total 0.00
@@ -50,6 +50,10 @@
      )
   )
 
+  ;; Text height
+  ;; 	get it from the last entity
+  (setq height (cdr (assoc 40 (entget (ssname ss (1- i)))))) ; go back
+
   ;; Prompt the user
   (setq str_total (rtos total 2 2))
   (prompt (strcat "\nValor total: " str_total ". "))
@@ -57,12 +61,12 @@
   ;; Insert the text
   ;;	TO-DO: let user configure insert height
   (setvar "OSMODE" 0)			; turn off OSMODE
-  (setq stlname (getvar "textstyle"))
+  (setq stlname (getvar "TEXTSTYLE"))
   (if
     (setq ptins (getpoint "Clique para inserir o texto com o valor total: "))
      (if
        (= (cdr (assoc 40 (tblsearch "STYLE" stlname))) 0.0) ; zero as height?
-	(command "_text" "_s" stlname "_j" "_mc" ptins 1.0 0 str_total)
+	(command "_text" "_s" stlname "_j" "_mc" ptins height 0 str_total)
 	(command "_text" "_s" stlname "_j" "_mc" ptins 0 str_total)
      )
   )
