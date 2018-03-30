@@ -14,10 +14,10 @@
 ;;; FUNCTION: Get angle from a point of a linear entity
 
 (defun ad:angle_pt (pt / osmode_or pta)
-  (setq osmode_or (getvar "osmode"))
-  (setvar "osmode" 0)			; for safety 
+  (setq osmode_or (getvar "OSMODE"))
+  (setvar "OSMODE" 0)			; for safety 
   (setq pta (osnap (polar pt 0.00 0.01) "_nea")) ; get a second point along linear entity
-  (setvar "osmode" osmode_or)
+  (setvar "OSMODE" osmode_or)
 
   ;; Get object angle
   (if (not (null pta))			; check if <pta> is valid

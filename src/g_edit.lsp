@@ -18,7 +18,7 @@
   (prompt "\nBB - Quebra no ponto")
   (ad:inicmd)
 
-  (setvar "osmode" 544)			; nea + int
+  (setvar "OSMODE" 544)			; nea + int
   (while
     (setq entnamept (entsel "\nSelecione uma linha: "))
      (setq pt1 (getpoint "\nEspecifique o ponto de quebra: "))

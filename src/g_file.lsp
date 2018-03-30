@@ -34,8 +34,8 @@
 
 	;; Execution
 	(progn
-	  (setvar "clayer" "0")
-	  (setvar "cecolor" "bylayer")
+	  (setvar "CLAYER" "0")
+	  (setvar "CECOLOR" "bylayer")
 	  (command "_zoom" "_e")
 	  (repeat 3 (command "_purge" "_a" "" "_n")) ; 3 full purges (no RegApp)
 	  (command "_qsave")

@@ -18,7 +18,7 @@
   (ad:inicmd)
 
   ;; Point for alignment angle
-  (setvar "osmode" 512)			; nea
+  (setvar "OSMODE" 512)			; nea
   (if
     (setq
       pt1
@@ -95,7 +95,7 @@
   (ad:inicmd)
 
   ;; element 1
-  (setvar "osmode" 0)
+  (setvar "OSMODE" 0)
   (setq elem_1 (car (entsel "\nSelecione o texto a ser completado: ")))
 
   ;; text
