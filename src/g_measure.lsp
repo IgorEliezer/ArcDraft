@@ -33,7 +33,7 @@
 
   ;; User input
   (setq	ss    (ad:ssgetp
-		'((0 . "TEXT") (1 . "#*,[+]#*,[`-]#*"))
+		'((0 . "TEXT") (1 . "#*,[+]#*,[`-]#*")) ; also accepts + and -
 		"\nSelecione textos que começam com números e que usam ponto como separador decimal. <ENTER> para concluir: "
 	      )
 	i     0
