@@ -35,6 +35,7 @@
       "\n	SS - Super save"
       "\n	TT - Transferir textos"
       "\n	UNT - Unir textos"
+      "\n	VA - Obter ângulo de objeto linear"
       "\n\nEscrito por Igor Eliezer Borges (igoreliezer.com)"
       "\nDownload, documentação e ajuda em: igoreliezer.com/arcdraft"
       "\nVer licença em LICENSE.txt."

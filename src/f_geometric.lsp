@@ -12,6 +12,7 @@
 ;;; ---- ANGLES ----
 
 ;;; FUNCTION: Get angle from a point of a linear entity
+;;; 	TO-DO: rename it to ad:ptangle
 
 (defun ad:angle_pt (pt / osmode_or pta)
   (setq osmode_or (getvar "OSMODE"))
@@ -54,6 +55,18 @@
      )
   )
   ang					; returns
+)
+
+
+;;; FUNCTION: Invert angle
+;;; 	Add or subtract 1 pi from angles.
+
+(defun ad:iang (ang)
+  (if
+    (and (>= ang 0) (< ang pi))		; assumes always 0..2 pi rad
+     (+ ang pi)
+     (- ang pi)
+  )
 )
 
 ;;; EOF
