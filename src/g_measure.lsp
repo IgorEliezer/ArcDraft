@@ -77,6 +77,43 @@
 )
 
 
+;;; COMMAND: Get area from certain likely-closed entities
+
+(defun c:vaa (/ area ent ptins)
+  (prompt "\nVAA - Obter área")
+  (ad:inicmd)
+
+  ;; User input
+  (while
+    (setq ent (car (entsel "\nSelecione uma polilinha, círculo ou hachura: ")))
+     (if
+       (member (cdr (assoc 0 (entget ent))) '("LWPOLYLINE" "CIRCLE" "HATCH"))
+	(progn
+	  (command "_area" "_o" ent)
+	  (setq area (rtos (getvar "AREA")))
+
+	  ;; Prompt the user
+	  (prompt (strcat "\nÁrea: " area ". "))
+
+	  ;; Insert the text
+	  ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
+	  (setvar "OSMODE" 0)		; turn off OSMODE
+	  (if
+	    (setq ptins (getpoint "Clique para inserir o texto com a área: "))
+	     (command "_text" "_j" "_mc" ptins 1.0 0.0 area) ; hardcoded height
+	  )
+	)
+
+	;; Invalid entity
+	(prompt "\nObjeto inválido! Precisa ser uma POLILINHA, CÍRCULO ou HACHURA.")
+     )
+  )
+
+  (ad:endcmd)
+  (princ)
+)
+
+
 ;;; COMMAND: Get angle from linear entities
 
 (defun c:va (/ ang pt ptins str_ang tip)
@@ -86,10 +123,10 @@
   ;; User input
   (setvar "OSMODE" 512)
   (setq pt (getpoint "\nClique sobre uma entidade linear: "))
-  (setq ang (ad:angle_pt pt))  
+  (setq ang (ad:angle_pt pt))
 
   ;; Prompt the user
-  (if (= 0 (getvar "AUPREC"))
+  (if (= 0 (getvar "AUPREC"))		; precision
     (setq tip " Dica: Para formato e casas decimais, use _UNITS.") ; tip
     (setq tip "")
   )
@@ -97,11 +134,12 @@
   (prompt (strcat "\nÂngulos nos dois sentidos: " str_ang ". " tip))
 
   ;; Insert text
-  ; (getvar "DIMZIN")
+  ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
   (setvar "OSMODE" 0)
   (if
     (setq ptins (getpoint " Clique para inserir o texto com os ângulos: "))
-     (command "_text" "_j" "_mc" ptins 1.0 (angtos ang) (strcat "< " str_ang)) ; hardcoded text height
+     (command "_text" "_j" "_mc" ptins 1.0 (angtos ang) (strcat "< " str_ang " >"))
+					; hardcoded height
   )
 
   (ad:endcmd)

@@ -7,6 +7,7 @@
 
 
 ;;;; Create a new error handling for command escaping and errors.
+;;;;	TO-DO: Add protection for "DIMZIN".
 
 
 ;;; ---- FUNCIONS ----
