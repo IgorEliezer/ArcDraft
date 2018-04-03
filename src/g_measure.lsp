@@ -57,14 +57,14 @@
 
   ;; Prompt the user
   (setq str_total (rtos total 2 2))
-  (prompt (strcat "\nValor total: " str_total ". "))
+  (prompt (strcat "\nValor total: " str_total "."))
 
   ;; Insert the text
   ;;	TO-DO: let user configure insert height
   (setvar "OSMODE" 0)			; turn off OSMODE
   (setq stlname (getvar "TEXTSTYLE"))
   (if
-    (setq ptins (getpoint "Clique para inserir o texto com o valor total: "))
+    (setq ptins (getpoint " Clique para inserir o texto com o valor total: "))
      (if
        (= (cdr (assoc 40 (tblsearch "STYLE" stlname))) 0.0) ; zero as height?
 	(command "_text" "_s" stlname "_j" "_mc" ptins height 0 str_total)
@@ -93,13 +93,13 @@
 	  (setq area (rtos (getvar "AREA")))
 
 	  ;; Prompt the user
-	  (prompt (strcat "\nÁrea: " area ". "))
+	  (prompt (strcat "\nÁrea: " area "."))
 
 	  ;; Insert the text
 	  ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
 	  (setvar "OSMODE" 0)		; turn off OSMODE
 	  (if
-	    (setq ptins (getpoint "Clique para inserir o texto com a área: "))
+	    (setq ptins (getpoint " Clique para inserir o texto com a área: "))
 	     (command "_text" "_j" "_mc" ptins 1.0 0.0 area) ; hardcoded height
 	  )
 	)
@@ -131,7 +131,7 @@
     (setq tip "")
   )
   (setq str_ang (strcat (angtos (ad:iang ang)) " ou " (angtos ang)))
-  (prompt (strcat "\nÂngulos nos dois sentidos: " str_ang ". " tip))
+  (prompt (strcat "\nÂngulos nos dois sentidos: " str_ang "." tip))
 
   ;; Insert text
   ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
@@ -145,5 +145,60 @@
   (ad:endcmd)
   (princ)
 )
+
+
+;;; COMMAND: Get angle by vertex
+;;; 	TO-DO: catch error if the user clicks on empty space, which causes ptNa to be nil.
+;;;		Error at (inters <args>) line.
+
+(defun c:vv (/ ang1 ang2 ang_in ang_out pt1 pt1a pt2 pt2a ptins ptint str_ang)
+  (prompt "\nVV - Obter ângulo de vértice")
+  (ad:inicmd)
+
+  ;; User input
+  (setvar "OSMODE" 512)
+  (if (setq pt1 (getpoint "\nClique sobre a primeira linha: "))
+    (if	(setq pt2 (getpoint "\nClique sobre a segunda linha: "))
+      (progn
+	(setvar "OSMODE" 0)
+	(setq pt1a (osnap (polar pt1 0.00 0.01) "_nea")
+	      pt2a (osnap (polar pt2 0.00 0.01) "_nea")
+	)
+	(if
+	  (setq ptint (inters pt1 pt1a pt2 pt2a nil)) ; TO-DO: add catch error here
+	   (progn
+
+	     ;; Prompt the user
+	     (setq ang1	(angle ptint pt1)
+		   ang2	(angle ptint pt2)
+	     )
+	     (prompt (strcat "\nÂngulo 1: " (angtos ang1) ". Ângulo 2: " (angtos ang2) "."))
+	     (setq ang_in  (abs (- ang1 ang2))
+		   ang_out (- (* 2 pi) ang_in)
+	     )
+	     (setq str_ang
+		    (strcat (angtos (max ang_in ang_out))
+			    " \U+2220 "
+			    (angtos (min ang_in ang_out))
+		    )
+	     )
+	     (prompt (strcat "\nÂngulos replementares: " str_ang "."))
+
+	     ;; Insert text
+	     (setvar "OSMODE" 0)
+	     (if
+	       (setq ptins (getpoint " Clique para inserir o texto com os ângulos: "))
+		(command "_text" "_j" "_mc" ptins 1.0 0 str_ang) ; hardcoded height
+	     )
+	   )
+	  (prompt "\nNão há ângulo.")
+	)
+      )
+    )
+  )
+  (ad:endcmd)
+  (princ)
+)
+
 
 ;;; EOF
