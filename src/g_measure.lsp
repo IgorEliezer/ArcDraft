@@ -84,7 +84,7 @@
   (ad:inicmd)
 
   ;; User input
-  (while
+  (if
     (setq ent (car (entsel "\nSelecione uma polilinha, círculo ou hachura: ")))
      (if
        (member (cdr (assoc 0 (entget ent))) '("LWPOLYLINE" "CIRCLE" "HATCH"))
@@ -191,7 +191,7 @@
 		(command "_text" "_j" "_mc" ptins 1.0 0 str_ang) ; hardcoded height
 	     )
 	   )
-	  (prompt "\nNão há ângulo.")
+	   (prompt "\nNão há ângulo.")
 	)
       )
     )
