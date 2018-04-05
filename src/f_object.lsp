@@ -9,6 +9,21 @@
 ;;;; Functions for entity handling and listing.
 
 
+
+;;; ---- SELECTION ----
+
+;;; FUNCTION: SSGET with prompt
+;;; 	NOMUTT is covered by error.lsp
+
+(defun ad:ssgetp (filter msg / ss)
+  (prompt msg)
+  (setvar "NOMUTT" 1)
+  (vl-catch-all-apply '(lambda () (setq ss (ssget filter))))
+  (setvar "NOMUTT" 0)
+  ss
+)
+
+
 ;;; ---- BLOCK ----
 
 ;;; FUNCTION: List blocks by name from selection

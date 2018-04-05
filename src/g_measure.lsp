@@ -11,18 +11,6 @@
 
 ;;; ---- FUNCTIONS ----
 
-;;; FUNCTION: SSGET with prompt
-;;;	TO-DO: Move it to a special module (f_object.lsp?).
-;;; 	NOMUTT is covered by error.lsp
-
-(defun ad:ssgetp (filter msg / ss)
-  (prompt msg)
-  (setvar "NOMUTT" 1)
-  (vl-catch-all-apply '(lambda () (setq ss (ssget filter))))
-  (setvar "NOMUTT" 0)
-  ss
-)
-
 
 ;;; ---- COMMANDS ----
 
@@ -165,7 +153,7 @@
 	      pt2a (osnap (polar pt2 0.00 0.01) "_nea")
 	)
 	(if
-	  (setq ptint (inters pt1 pt1a pt2 pt2a nil)) ; TO-DO: add catch error here
+	  (setq ptint (inters pt1 pt1a pt2 pt2a nil)) ; TO-DO: catch error here
 	   (progn
 
 	     ;; Prompt the user
