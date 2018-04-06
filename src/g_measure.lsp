@@ -6,15 +6,62 @@
 ;;;; License: ArcDraft, see LICENSE.txt.
 
 
-;;;; Set up commands for text parsing and math.
+;;;; Set up commands for block listing, text parsing and math.
 
 
 ;;; ---- FUNCTIONS ----
 
+;;; FUNCTION: String assoc list to single string
+;;; 	TO-DO: make it support numbers.
+;;; 	TO-DO: Move it to a proper module.
+
+(defun ad:alist->str (alist sep_pair sep / i lst-str str)
+  (setq lst-str (mapcar '(lambda (pair) (strcat (car pair) sep_pair (cdr pair))) alist))
+  (setq	str (car lst-str)
+	i   1
+  )
+  (while (setq pair (nth i lst-str))
+    (setq str (strcat str sep pair)
+	  i   (1+ i)
+    )
+  )
+  str
+)
+
 
 ;;; ---- COMMANDS ----
 
+;;; COMMAND: List and count blocks from selection
+;;; 	TO-DO: Move it to a proper module.
+
+(defun c:lbl (/ result)
+  (prompt "\nLBL - Lista blocos de uma seleção")
+  (ad:inicmd)
+
+  ;; User input
+  (setq	result (ad:block-counter
+		 (ad:ssgetp '((0 . "INSERT")) "\nSelecione para listar blocos: ")
+	       )
+  )
+
+  ;; Propmt the user
+  (prompt (strcat "\n\nNº de nomes de blocos: " (itoa (length result))))
+  (prompt "\n--------------------------")
+  (prompt "\nNome do bloco (Quantidade)")
+  (prompt "\n--------------------------")
+  (foreach line	result
+    (prompt (strcat "\n" (car line) " (" (itoa (cdr line)) ")"))
+  )
+  (prompt "\n--------------------------")
+  (prompt "\nPressione F2 para ver resultados.")
+  
+  (ad:endcmd)
+  (princ)
+)
+
+
 ;;; COMMAND: Sum numeric values from texts
+;;; 	TO-DO: Move it to a proper module.
 
 (defun c:somt (/ ent height i ptins ss stlname str_total total value)
   (prompt "\nSOMT - Soma valores numéricos de textos")
