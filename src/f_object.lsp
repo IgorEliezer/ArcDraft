@@ -9,7 +9,6 @@
 ;;;; Functions for entity handling and listing.
 
 
-
 ;;; ---- SELECTION ----
 
 ;;; FUNCTION: SSGET with prompt
@@ -51,7 +50,7 @@
 ;;; FUNCTION: List and count blocks by name from selection
 ;;; 	Example: (ad:block-counter (ssget))
 
-(defun ad:block-counter	(ss / alst blkname entdata i pair pair_new)
+(defun ad:block-counter (ss / alst blkname entdata i pair pair_new)
   (setq	i    0
 	alst nil
   )
