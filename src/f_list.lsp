@@ -11,6 +11,23 @@
 
 ;;; ---- ASSOC LISTS ----
 
+
+;;; FUNCTION: list to single string
+;;; 	TO-DO: make it support numbers with (numberp item)
+
+(defun ad:lst->str (lst sep / i item str)
+  (setq	str (car lst)
+	i   1
+  )
+  (while (setq item (nth i lst))
+    (setq str (strcat str sep item)
+	  i   (1+ i)
+    )
+  )
+  str
+)
+
+
 ;;; FUNCTION: String assoc list to single string
 ;;; 	TO-DO: make it support numbers.
 
