@@ -6,14 +6,14 @@
 ;;;; License: ArcDraft, see LICENSE.txt.
 
 
-;;;; Functions for list handling Starting with assoc list to list.
+;;;; Functions for list handling.
 
 
-;;; ---- ASSOC LISTS ----
+;;; ---- LISTS ----
 
+;;; FUNCTION: list to string
 
-;;; FUNCTION: list to single string
-;;; 	TO-DO: make it support numbers with (numberp item)
+(defun ad:lst->str (lst sep / item str)
 
 (defun ad:lst->str (lst sep / i item str)
   (setq	str (car lst)
@@ -23,23 +23,34 @@
     (setq str (strcat str sep item)
 	  i   (1+ i)
     )
+    (setq lst (cdr lst))
   )
   str
 )
 
 
-;;; FUNCTION: String assoc list to single string
-;;; 	TO-DO: make it support numbers.
+;;; ---- ASSOC LISTS ----
 
-(defun ad:alist->str (alist sep_pair sep / i lst-str str)
-  (setq lst-str (mapcar '(lambda (pair) (strcat (car pair) sep_pair (cdr pair))) alist))
-  (setq	str (car lst-str)
-	i   1
-  )
-  (while (setq pair (nth i lst-str))
-    (setq str (strcat str sep pair)
-	  i   (1+ i)
+;;; FUNCTION: String assoc list to string
+
+(defun ad:alist->str (alist sep_pair sep / key pair str val)
+
+  (while alist
+    (setq pair (car alist))
+    (if	(numberp (setq key (car pair)))
+      (setq key (rtos key))		; covert to STR
     )
+    (if	(numberp (setq val (cdr pair)))
+      (setq val (rtos val))		; covert to STR
+    )
+    (setq pair (strcat key sep_pair val)) ; combine
+
+    ;; Build
+    (if	str
+      (setq str (strcat str sep pair))	; add
+      (setq str pair)			; create
+    )
+    (setq alist (cdr alist))
   )
   str
 )
