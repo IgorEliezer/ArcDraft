@@ -15,13 +15,15 @@
 
 (defun ad:lst->str (lst sep / item str)
 
-(defun ad:lst->str (lst sep / i item str)
-  (setq	str (car lst)
-	i   1
-  )
-  (while (setq item (nth i lst))
-    (setq str (strcat str sep item)
-	  i   (1+ i)
+  (while lst
+    (if	(numberp (setq item (car lst)))
+      (setq item (rtos item))		; covert to STR
+    )
+
+    ;; Build
+    (if	str
+      (setq str (strcat str sep item))	; add
+      (setq str item)			; create
     )
     (setq lst (cdr lst))
   )
