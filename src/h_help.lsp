@@ -29,19 +29,21 @@
       "\n	AE - Alinhar texto e bloco sem atributo"
       "\n	BB - Quebra no ponto"
       "\n	CUR - Definir camada corrente por seleção"
+      "\n	LBL - Listar blocos de uma seleção"
       "\n	NLA - Criar camada"
       "\n	NS - Numerador sequencial"
       "\n	SOMT - Soma valores numéricos de textos"
       "\n	SS - Super save"
       "\n	TT - Transferir textos"
       "\n	UNT - Unir textos"
+      "\n	VAA - Obter área"
       "\n	VA - Obter ângulo de objeto linear"
+      "\n	VV - Obter ângulo de vértice"
       "\n\nEscrito por Igor Eliezer Borges (igoreliezer.com)"
       "\nDownload, documentação e ajuda em: igoreliezer.com/arcdraft"
       "\nVer licença em LICENSE.txt."
      )
   )
-
   (ad:endcmd)
   (princ)
 )

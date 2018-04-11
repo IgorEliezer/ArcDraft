@@ -14,27 +14,40 @@
 ;;; COMMAND: List and count blocks from selection
 ;;; 	TO-DO: Move it to a proper module.
 
-(defun c:lbl (/ result)
+(defun c:lbl (/ div header result total)
   (prompt "\nLBL - Lista blocos de uma seleção")
   (ad:inicmd)
 
   ;; User input
   (setq	result (ad:block-counter
-		 (ad:ssgetp '((0 . "INSERT")) "\nSelecione para listar blocos: ")
+		 (ad:ssgetp '((0 . "INSERT"))
+			    "\nSelecione para listar blocos, e <ENTER> para concluir:: "
+		 )
 	       )
   )
 
   ;; Propmt the user
-  (prompt (strcat "\n\nNº de nomes de blocos: " (itoa (length result))))
-  (prompt "\n--------------------------")
-  (prompt "\nNome do bloco (Quantidade)")
-  (prompt "\n--------------------------")
-  (foreach line	result
-    (prompt (strcat "\n" (car line) " (" (itoa (cdr line)) ")"))
+  (if result
+    (progn
+      (setq total  (strcat "Nº de nomes de blocos: " (itoa (length result)))
+	    header "\nNome do bloco (Quantidade)"
+	    div	   "\n-------------------------------"
+      )
+      (alert (strcat total div header div "\n" (ad:alist->str result " (" ")\n") ")"))
+      (prompt "\n\n")
+      (prompt total)
+      (prompt div)
+      (prompt header)
+      (prompt div)
+      (foreach line result
+	(prompt (strcat "\n" (car line) " (" (itoa (cdr line)) ")"))
+      )
+      (prompt div)
+      (prompt "\nPressione F2 para ver resultados.")
+    )
+    (prompt "\nNenhum bloco selecionado.")
   )
-  (prompt "\n--------------------------")
-  (prompt "\nPressione F2 para ver resultados.")
-  
+
   (ad:endcmd)
   (princ)
 )
@@ -50,7 +63,7 @@
   ;; User input
   (setq	ss    (ad:ssgetp
 		'((0 . "TEXT") (1 . "#*,[+]#*,[`-]#*")) ; also accepts + and -
-		"\nSelecione textos que começam com números e que usam ponto como separador decimal. <ENTER> para concluir: "
+		"\nSelecione textos que começam com números e que usam ponto como separador decimal, e <ENTER> para concluir: "
 	      )
 	i     0
 	total 0.00
