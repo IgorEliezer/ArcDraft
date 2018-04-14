@@ -6,7 +6,7 @@
 ;;;; License: ArcDraft, see LICENSE.txt.
 
 
-;;;; Help UI.
+;;;; Help and credits UI.
 
 
 ;;; ---- COMMANDS ----
@@ -30,6 +30,7 @@
       "\n	BB - Quebra no ponto"
       "\n	CUR - Definir camada corrente por seleção"
       "\n	LBL - Listar blocos de uma seleção"
+      "\n	LLA - Listar camadas de uma seleção"
       "\n	NLA - Criar camada"
       "\n	NS - Numerador sequencial"
       "\n	SOMT - Soma valores numéricos de textos"
@@ -40,7 +41,7 @@
       "\n	VA - Obter ângulo de objeto linear"
       "\n	VV - Obter ângulo de vértice"
       "\n\nEscrito por Igor Eliezer Borges (igoreliezer.com)"
-      "\nDownload, documentação e ajuda em: igoreliezer.com/arcdraft"
+      "\nDownload e manual: igoreliezer.com/arcdraft"
       "\nVer licença em LICENSE.txt."
      )
   )

@@ -15,13 +15,13 @@
 ;;; 	TO-DO: Move it to a proper module.
 
 (defun c:lbl (/ div header result total)
-  (prompt "\nLBL - Lista blocos de uma seleção")
+  (prompt "\nLBL - Listar blocos de uma seleção")
   (ad:inicmd)
 
   ;; User input
   (setq	result (ad:block-counter
 		 (ad:ssgetp '((0 . "INSERT"))
-			    "\nSelecione para listar blocos, e <ENTER> para concluir:: "
+			    "\nSelecione para listar blocos, e <ENTER> para concluir: "
 		 )
 	       )
   )
@@ -46,6 +46,48 @@
       (prompt "\nPressione F2 para ver resultados.")
     )
     (prompt "\nNenhum bloco selecionado.")
+  )
+
+  (ad:endcmd)
+  (princ)
+)
+
+
+;;; COMMAND: List layers and count entities from selection
+;;; 	TO-DO: Move it to a proper module.
+
+(defun c:lla (/ div header result total)
+  (prompt "\nLLA - Listar camadas de uma seleção")
+  (ad:inicmd)
+
+  ;; User input
+  (setq	result (ad:layer-counter
+		 (ad:ssgetp nil
+			    "\nSelecione para listar camadas, e <ENTER> para concluir: "
+		 )
+	       )
+  )
+
+  ;; Propmt the user
+  (if result
+    (progn
+      (setq total  (strcat "Nº de camadas: " (itoa (length result)))
+	    header "\nNome da camada (Quantidade)"
+	    div	   "\n-------------------------------"
+      )
+      (alert (strcat total div header div "\n" (ad:alist->str result " (" ")\n") ")"))
+      (prompt "\n\n")
+      (prompt total)
+      (prompt div)
+      (prompt header)
+      (prompt div)
+      (foreach line result
+	(prompt (strcat "\n" (car line) " (" (itoa (cdr line)) ")"))
+      )
+      (prompt div)
+      (prompt "\nPressione F2 para ver resultados.")
+    )
+    (prompt "\nNenhum objeto selecionado.")
   )
 
   (ad:endcmd)

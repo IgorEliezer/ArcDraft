@@ -57,4 +57,37 @@
   str
 )
 
+
+;;; ---- LAYER  ----
+
+;;; FUNCTION: List blocks by name from selection
+;;; 	Example: (ad:layer-counter (ssget))
+;;; 	TO-DO: Move it to a separate module
+
+
+(defun ad:layer-counter (ss / alst i layname pair pair_new)
+  (if ss
+    (progn
+      (setq i	 0
+	    alst nil
+      )
+      (repeat (sslength ss)
+	(setq layname (cdr (assoc 8 (entget (ssname ss i)))))
+	(if (setq pair (assoc layname alst)) ; pair exists in the list
+
+	  ;; 1+ the count in the pair
+	  (setq	pair_new (cons layname (1+ (cdr pair)))
+		alst	 (subst pair_new pair alst) ; update list
+	  )
+	  ;; Create pair and add to list
+	  (setq alst (append alst (list (cons layname 1))))
+	)
+	(setq i (1+ i))
+      )
+      alst
+    )
+    nil
+  )
+)
+
 ;;; EOF
