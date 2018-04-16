@@ -87,6 +87,42 @@
   )
 )
 
+
+;;; ---- TEXT ----
+
+;;; FUNCTION: Quick text insert
+;;; 	TO-DO: Move it to a separate module
+;;;	Example: (ad:text "Standard" "_c" (getpoint "\nPonto: ") 5.5 15 "TESTx")
+
+(defun ad:text (style justify pt h rot content)
+
+  ;; Style
+  (if (null style)
+    (setq style (getvar "TEXTSTYLE"))
+  )
+
+  ;; Justification
+  (if (null justify)
+    (setq justify "_mc")
+  )
+
+  ;; <pt> is required
+
+  ;; <h> is required, unless style has a height (see below)
+
+  ;; Rotation
+  (if (null rot)
+    (setq rot 0)
+  )
+
+  ;; Insert text
+  (if					; if style has a height, drop <h>
+    (= (cdr (assoc 40 (tblsearch "STYLE" style))) 0.0)
+     (command "_text" "_s" style "_j" justify pt h rot content)
+     (command "_text" "_s" style "_j" justify pt rot content)
+  )
+)
+
 ;;; EOF
 
 
