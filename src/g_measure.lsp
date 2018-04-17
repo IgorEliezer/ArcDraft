@@ -123,7 +123,7 @@
 
   ;; Text height
   ;; 	get it from the last entity
-  (setq height (cdr (assoc 40 (entget (ssname ss (1- i)))))) ; go back
+  (setq height (cdr (assoc 40 (entget (ssname ss (1- i))))))
 
   ;; Prompt the user
   (setq str_total (rtos total 2 2))
@@ -132,14 +132,10 @@
   ;; Insert the text
   ;;	TO-DO: let user configure insert height
   (setvar "OSMODE" 0)			; turn off OSMODE
-  (setq stlname (getvar "TEXTSTYLE"))
+  (setq stlname (getvar "TEXTSTYLE"))	; TO-DO: get the style from the last entity
   (if
     (setq ptins (getpoint " Clique para inserir o texto com o valor total: "))
-     (if
-       (= (cdr (assoc 40 (tblsearch "STYLE" stlname))) 0.0) ; zero as height?
-	(command "_text" "_s" stlname "_j" "_mc" ptins height 0 str_total)
-	(command "_text" "_s" stlname "_j" "_mc" ptins 0 str_total)
-     )
+     (ad:text stlname "_mc" ptins height 0 str_total)
   )
 
   (ad:endcmd)
@@ -170,7 +166,7 @@
 	  (setvar "OSMODE" 0)		; turn off OSMODE
 	  (if
 	    (setq ptins (getpoint " Clique para inserir o texto com a área: "))
-	     (command "_text" "_j" "_mc" ptins 1.0 0.0 area) ; hardcoded height
+	     (ad:text nil "_mc" ptins 1.0 0 area) ; hardcoded height
 	  )
 	)
 
@@ -208,8 +204,7 @@
   (setvar "OSMODE" 0)
   (if
     (setq ptins (getpoint " Clique para inserir o texto com os ângulos: "))
-     (command "_text" "_j" "_mc" ptins 1.0 (angtos ang) (strcat "< " str_ang " >"))
-					; hardcoded height
+     (ad:text nil "_mc" ptins 1.0 (angtos ang) (strcat "< " str_ang " >")) ; hardcoded height
   )
 
   (ad:endcmd)
@@ -258,7 +253,7 @@
 	     (setvar "OSMODE" 0)
 	     (if
 	       (setq ptins (getpoint " Clique para inserir o texto com os ângulos: "))
-		(command "_text" "_j" "_mc" ptins 1.0 0 str_ang) ; hardcoded height
+		(ad:text nil "_mc" ptins 1.0 0 str_ang) ; hardcoded height. TO-DO: bisect for rot
 	     )
 	   )
 	   (prompt "\nNão há ângulo.")
@@ -266,6 +261,7 @@
       )
     )
   )
+
   (ad:endcmd)
   (princ)
 )

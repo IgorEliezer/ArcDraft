@@ -92,6 +92,8 @@
 
 ;;; FUNCTION: Quick text insert
 ;;; 	TO-DO: Move it to a separate module
+;;;	TO-DO: Remove <style> as it's implied. Use (setvar "TEXTSTYLE") instead.
+;;;	TO-DO: Maybe, reorder the variables in content, pt, h, rot, justify.
 ;;;	Example: (ad:text "Standard" "_c" (getpoint "\nPonto: ") 5.5 15 "TESTx")
 
 (defun ad:text (style justify pt h rot content)
