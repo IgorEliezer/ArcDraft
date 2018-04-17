@@ -134,7 +134,7 @@
   (setvar "OSMODE" 0)			; turn off OSMODE
   (setq stlname (getvar "TEXTSTYLE"))	; TO-DO: get the style from the last entity
   (if
-    (setq ptins (getpoint " Clique para inserir o texto com o valor total: "))
+    (setq ptins (getpoint " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "))
      (ad:text stlname "_mc" ptins height 0 str_total)
   )
 
@@ -165,7 +165,7 @@
 	  ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
 	  (setvar "OSMODE" 0)		; turn off OSMODE
 	  (if
-	    (setq ptins (getpoint " Clique para inserir o texto com a área: "))
+	    (setq ptins (getpoint " Clique para inserir o texto com a área, ou <ENTER> para sair: "))
 	     (ad:text nil "_mc" ptins 1.0 0 area) ; hardcoded height
 	  )
 	)
@@ -203,7 +203,7 @@
   ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
   (setvar "OSMODE" 0)
   (if
-    (setq ptins (getpoint " Clique para inserir o texto com os ângulos: "))
+    (setq ptins (getpoint " Clique para inserir o texto com os ângulos, ou <ENTER> para sair: "))
      (ad:text nil "_mc" ptins 1.0 (angtos ang) (strcat "< " str_ang " >")) ; hardcoded height
   )
 
@@ -252,7 +252,7 @@
 	     ;; Insert text
 	     (setvar "OSMODE" 0)
 	     (if
-	       (setq ptins (getpoint " Clique para inserir o texto com os ângulos: "))
+	       (setq ptins (getpoint " Clique para inserir o texto com os ângulos, ou <ENTER> para sair: "))
 		(ad:text nil "_mc" ptins 1.0 0 str_ang) ; hardcoded height. TO-DO: bisect for rot
 	     )
 	   )
