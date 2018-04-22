@@ -11,6 +11,42 @@
 
 ;;; ---- COMMANDS ----
 
+;;; COMMAND: Insert coordenates
+
+(defun c:ico (/)
+  (prompt "\nICO - Inserir coordenadas X e Y")
+  (ad:inicmd)
+
+  ;; User input
+  (setq	pt1 (getpoint "\nClique num ponto para obter as coordenadas: ")
+	pt2 (getpoint pt1 "\nClique no segundo ponto para linha de chamada: ")
+  )
+
+  ;; Build string
+  (setq	x      (rtos (car pt1))
+	y      (rtos (cadr pt1))
+	pref_x "X = "
+	pref_y "Y = "
+  )
+  (setq coord (strcat pref_x x " ; " pref_y y))
+
+  ;; 3rd point for leader line
+  (if (<= (car pt1) (car pt2))		; left->right?
+    (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.5))) (cdr pt2)))
+    (setq pta (append (list (- (car pt2) (* (strlen coord) 0.5))) (cdr pt2)))
+  )
+
+  ;; Draw leader line
+  (command "_pline" pt1 pt2 pta "")
+
+  ;; Insert text
+  (setq ptins pta)			; CHANGE IT!
+  (ad:text nil "_bc" ptins 1.0 nil coord)
+
+  (ad:endcmd)
+  (princ)
+)
+
 ;;; COMMAND: List and count blocks from selection
 ;;; 	TO-DO: Move it to a proper module.
 
@@ -134,7 +170,10 @@
   (setvar "OSMODE" 0)			; turn off OSMODE
   (setq stlname (getvar "TEXTSTYLE"))	; TO-DO: get the style from the last entity
   (if
-    (setq ptins (getpoint " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "))
+    (setq ptins	(getpoint
+		  " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
+		)
+    )
      (ad:text stlname "_mc" ptins height 0 str_total)
   )
 
@@ -165,7 +204,9 @@
 	  ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
 	  (setvar "OSMODE" 0)		; turn off OSMODE
 	  (if
-	    (setq ptins (getpoint " Clique para inserir o texto com a área, ou <ENTER> para sair: "))
+	    (setq
+	      ptins (getpoint " Clique para inserir o texto com a área, ou <ENTER> para sair: ")
+	    )
 	     (ad:text nil "_mc" ptins 1.0 0 area) ; hardcoded height
 	  )
 	)
@@ -203,7 +244,9 @@
   ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
   (setvar "OSMODE" 0)
   (if
-    (setq ptins (getpoint " Clique para inserir o texto com os ângulos, ou <ENTER> para sair: "))
+    (setq
+      ptins (getpoint " Clique para inserir o texto com os ângulos, ou <ENTER> para sair: ")
+    )
      (ad:text nil "_mc" ptins 1.0 (angtos ang) (strcat "< " str_ang " >")) ; hardcoded height
   )
 
@@ -252,8 +295,13 @@
 	     ;; Insert text
 	     (setvar "OSMODE" 0)
 	     (if
-	       (setq ptins (getpoint " Clique para inserir o texto com os ângulos, ou <ENTER> para sair: "))
-		(ad:text nil "_mc" ptins 1.0 0 str_ang) ; hardcoded height. TO-DO: bisect for rot
+	       (setq
+		 ptins (getpoint
+			 " Clique para inserir o texto com os ângulos, ou <ENTER> para sair: "
+		       )
+	       )
+		(ad:text nil "_mc" ptins 1.0 0 str_ang)
+					; hardcoded height. TO-DO: bisect for rot
 	     )
 	   )
 	   (prompt "\nNão há ângulo.")
