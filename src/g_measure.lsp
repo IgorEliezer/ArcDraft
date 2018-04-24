@@ -13,7 +13,7 @@
 
 ;;; COMMAND: Insert coordenates
 
-(defun c:ico (/)
+(defun c:ico (/ coord pref_x pref_y pt1 pt2 pta ptins x y)
   (prompt "\nICO - Inserir coordenadas X e Y")
   (ad:inicmd)
 
@@ -32,20 +32,21 @@
 
   ;; 3rd point for leader line
   (if (<= (car pt1) (car pt2))		; left->right?
-    (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.5))) (cdr pt2)))
-    (setq pta (append (list (- (car pt2) (* (strlen coord) 0.5))) (cdr pt2)))
+    (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.66))) (cdr pt2)))
+    (setq pta (append (list (- (car pt2) (* (strlen coord) 0.66))) (cdr pt2)))
   )
 
   ;; Draw leader line
   (command "_pline" pt1 pt2 pta "")
 
   ;; Insert text
-  (setq ptins pta)			; CHANGE IT!
+  (setq ptins (ad:ptmed pt2 pta))
   (ad:text nil "_bc" ptins 1.0 nil coord)
 
   (ad:endcmd)
   (princ)
 )
+
 
 ;;; COMMAND: List and count blocks from selection
 ;;; 	TO-DO: Move it to a proper module.

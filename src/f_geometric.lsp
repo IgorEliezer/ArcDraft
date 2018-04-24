@@ -9,6 +9,15 @@
 ;;;; Functions for points, angles, trigonometry etc (soon).
 
 
+;;; ---- POINTS ----
+
+;;; FUNCTION: Get the mid point between two 2D points
+
+(defun ad:ptmed	(pt1 pt2 / k1 k2)
+  (mapcar '(lambda (k1 k2) (/ (+ k1 k2) 2.0)) pt1 pt2)
+)
+
+
 ;;; ---- ANGLES ----
 
 ;;; FUNCTION: Get angle from a point of a linear entity
