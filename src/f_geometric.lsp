@@ -18,6 +18,62 @@
 )
 
 
+;;; ---- LENGTH ----
+
+;;; FUNCTION: Get length of LWPOLYLINE
+;;;	WARNING! This function doesn't measure the last seg in closed LWPL.
+;;;	TO-DO: Implement closed LWPL detection.
+
+(defun ad:pllen	(ent / bulge delta entlist i key len len_total pair pta ptb r)
+
+  ;; Get data
+  (setq entlist (entget ent))
+  (if (= (cdr (assoc 0 entlist)) "LWPOLYLINE")
+    (progn
+      (setq len_total 0.0
+	    i 1
+      )
+      (while (setq pair (nth i entlist))
+	(setq key (car pair))
+	(cond
+	  ((and (= key 10) (null pta))
+	   (setq pta (cdr pair))
+	  )
+	  ((= key 42)
+	   (setq bulge (cdr pair))
+	  )
+	  ((and (= key 10) pta)
+	   (setq ptb (cdr pair))
+	  )
+	)
+
+	;; Calculate
+	(if (and pta bulge ptb)
+	  (progn
+	    (if
+	      (= bulge 0.0)
+	       (setq len (distance pta ptb)) ; straight line
+	       (setq delta (abs (* 4.0 (atan bulge))) ; included angle
+		     r	   (/ (distance pta ptb) (* 2.0 (sin (/ delta 2.0)))) ; radius
+		     len   (* delta r)
+	       )
+	    )
+	    (setq pta	    ptb		; move pta->ptb
+		  ptb	    nil		; for next vertex
+		  len_total (+ len_total len) ; sum
+	    )
+	  )
+	)
+	(setq i (1+ i))
+      )
+
+      len_total				; return
+    )
+    nil
+  )
+)
+
+
 ;;; ---- ANGLES ----
 
 ;;; FUNCTION: Get angle from a point of a linear entity

@@ -315,4 +315,37 @@
   (princ)
 )
 
+
+;;; COMMAND: Get length of LWPOLYLINE
+
+(defun c:vpl (/ ent len ptins)
+  (prompt "\nVPL - Obter comprimento de LW-polilinha aberta")
+  (ad:inicmd)
+
+  ;; User input
+  (if
+    (setq ent (car (entsel "\nSelecione uma polilinha *aberta* para medir: ")))
+
+     ;; Prompt the user
+     (progn
+       (setq len (rtos (ad:pllen ent)))
+       (prompt (strcat "\nComprimento: " len "."))
+
+       ;; Insert the text
+       (setvar "OSMODE" 0)
+       (if
+	 (setq
+	   ptins (getpoint
+		   " Clique para inserir o texto com o comprimento, ou <ENTER> para sair: "
+		 )
+	 )
+	  (ad:text nil "_mc" ptins 0.2 0 len) ; hardcoded height
+       )
+     )
+  )
+  
+  (ad:endcmd)
+  (princ)
+)
+
 ;;; EOF
