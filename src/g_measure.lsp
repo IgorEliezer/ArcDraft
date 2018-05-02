@@ -318,32 +318,47 @@
 
 ;;; COMMAND: Get length of LWPOLYLINE
 
-(defun c:vpl (/ ent len ptins)
-  (prompt "\nVPL - Obter comprimento de LW-polilinha aberta")
+(defun c:vpl (/ entlist len ptins rot sel)
+  (prompt "\nVPL - Obter comprimento de polilinha aberta")
   (ad:inicmd)
 
   ;; User input
   (if
-    (setq ent (car (entsel "\nSelecione uma polilinha *aberta* para medir: ")))
-
-     ;; Prompt the user
+    (setq sel (entsel "\nSelecione uma polilinha aberta para medir: "))
      (progn
-       (setq len (rtos (ad:pllen ent)))
-       (prompt (strcat "\nComprimento: " len "."))
-
-       ;; Insert the text
-       (setvar "OSMODE" 0)
+       (setq entlist (entget (car sel)))
        (if
-	 (setq
-	   ptins (getpoint
-		   " Clique para inserir o texto com o comprimento, ou <ENTER> para sair: "
-		 )
+	 (and
+	   (= (cdr (assoc 0 entlist)) "LWPOLYLINE")
+	   (member (cdr (assoc 70 entlist)) '(0 128)) ; open LWPL
 	 )
-	  (ad:text nil "_mc" ptins 0.2 0 len) ; hardcoded height
+
+	  ;; Prompt the user
+	  (progn
+	    (setq len (rtos (ad:pllen (car sel))))
+	    (prompt (strcat "\nComprimento: " len "."))
+
+	    ;; Insert the text
+	    (setvar "OSMODE" 0)
+	    (if
+	      (setq
+		ptins (getpoint
+			" Clique para inserir o texto com o comprimento, ou <ENTER> para sair: "
+		      )
+	      )
+	       (progn
+		 (setq rot (angtos (ad:angle_pt (osnap (cadr sel) "_nea"))))
+		 (ad:text nil "_mc" ptins 1.0 rot len) ; hardcoded height
+	       )
+	    )
+	  )
+
+	  ;; Invalid entity
+	  (prompt "\nObjeto inválido! Precisa ser uma POLILINHA aberta.")
        )
      )
   )
-  
+
   (ad:endcmd)
   (princ)
 )

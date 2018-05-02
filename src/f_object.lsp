@@ -94,6 +94,7 @@
 ;;; 	TO-DO: Move it to a separate module
 ;;;	TO-DO: Remove <style> as it's implied. Use (setvar "TEXTSTYLE") instead.
 ;;;	TO-DO: Maybe, reorder the variables in content, pt, h, rot, justify.
+;;;	TO-DO: Check if style exists.
 ;;;	Example: (ad:text "Standard" "_c" (getpoint "\nPonto: ") 5.5 15 "TESTx")
 
 (defun ad:text (style justify pt h rot content)
@@ -103,7 +104,7 @@
     (setq style (getvar "TEXTSTYLE"))
   )
 
-  ;; Justification
+  ;; Justify
   (if (null justify)
     (setq justify "_mc")
   )
@@ -116,6 +117,8 @@
   (if (null rot)
     (setq rot 0)
   )
+
+  ;; <content> is required
 
   ;; Insert text
   (if					; if style has a height, drop <h>
