@@ -31,7 +31,7 @@
   (setq coord (strcat pref_x x " ; " pref_y y))
 
   ;; 3rd point for leader line
-  (if (<= (car pt1) (car pt2))		; left->right?
+  (if (<= (car pt1) (car pt2))		; if to right
     (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.66))) (cdr pt2)))
     (setq pta (append (list (- (car pt2) (* (strlen coord) 0.66))) (cdr pt2)))
   )
@@ -41,7 +41,7 @@
 
   ;; Insert text
   (setq ptins (ad:ptmed pt2 pta))
-  (ad:text nil "_bc" ptins 1.0 nil coord)
+  (ad:text nil "_bc" ptins 1.0 nil coord) ; hardcoded height
 
   (ad:endcmd)
   (princ)
@@ -132,10 +132,54 @@
 )
 
 
+;;; COMMAND: Sum LWPOLYLINEs
+
+(defun c:sompl (/ ent i len ptins ss str_total total)
+  (prompt "\nSOMPL - Soma comprimentos de polilinhas")
+  (ad:inicmd)
+
+  ;; User input
+  (setq	ss    (ad:ssgetp
+		'((0 . "LWPOLYLINE") (-4 . "<or") (70 . 0) (70 . 128) (-4 . "or>")) ; open LWPL
+		"\nSelecione polilinhas medir (somente as abertas serão consideradas), e <ENTER> para concluir: "
+	      )
+	i     0
+	total 0.00
+  )
+
+  ;; Sum
+  (while
+    (setq ent (ssname ss i))
+     (setq len	 (ad:pllen ent)
+	   total (+ total len)
+	   i	 (1+ i)
+     )
+  )
+
+  ;; Prompt the user
+  (setq str_total (rtos total))
+  (prompt (strcat "\nValor total: " str_total "."))
+
+  ;; Insert the text
+  ;;	TO-DO: let user configure insert height
+  (setvar "OSMODE" 0)			; turn off OSMODE
+  (if
+    (setq ptins	(getpoint
+		  " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
+		)
+    )
+     (ad:text nil "_mc" ptins 1.0 0 str_total) ; hardcoded height
+  )
+
+  (ad:endcmd)
+  (princ)
+)
+
+
 ;;; COMMAND: Sum numeric values from texts
 ;;; 	TO-DO: Move it to a proper module.
 
-(defun c:somt (/ ent height i ptins ss stlname str_total total value)
+(defun c:somt (/ ent height i ptins ss str_total total value)
   (prompt "\nSOMT - Soma valores numéricos de textos")
   (ad:inicmd)
 
@@ -152,8 +196,7 @@
   (while
     (setq ent (ssname ss i))
      (setq value     (atof (cdr (assoc 1 (entget ent)))) ; NOTE: only leading numberic chars.
-	   total     (+ value total)
-	   str_total (rtos total 2 2)
+	   total     (+ total value)
 	   i	     (1+ i)
      )
   )
@@ -163,24 +206,24 @@
   (setq height (cdr (assoc 40 (entget (ssname ss (1- i))))))
 
   ;; Prompt the user
-  (setq str_total (rtos total 2 2))
+  (setq str_total (rtos total))
   (prompt (strcat "\nValor total: " str_total "."))
 
   ;; Insert the text
   ;;	TO-DO: let user configure insert height
   (setvar "OSMODE" 0)			; turn off OSMODE
-  (setq stlname (getvar "TEXTSTYLE"))	; TO-DO: get the style from the last entity
   (if
     (setq ptins	(getpoint
 		  " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
 		)
     )
-     (ad:text stlname "_mc" ptins height 0 str_total)
+     (ad:text nil "_mc" ptins height 0 str_total)
   )
 
   (ad:endcmd)
   (princ)
 )
+
 
 
 ;;; COMMAND: Get area from certain likely-closed entities
