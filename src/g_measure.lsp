@@ -162,7 +162,7 @@
 
   ;; Insert the text
   ;;	TO-DO: let user configure insert height
-  (setvar "OSMODE" 0)			; turn off OSMODE
+  (setvar "OSMODE" 0)
   (if
     (setq ptins	(getpoint
 		  " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
@@ -211,7 +211,7 @@
 
   ;; Insert the text
   ;;	TO-DO: let user configure insert height
-  (setvar "OSMODE" 0)			; turn off OSMODE
+  (setvar "OSMODE" 0)
   (if
     (setq ptins	(getpoint
 		  " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
@@ -246,7 +246,7 @@
 
 	  ;; Insert the text
 	  ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
-	  (setvar "OSMODE" 0)		; turn off OSMODE
+	  (setvar "OSMODE" 0)
 	  (if
 	    (setq
 	      ptins (getpoint " Clique para inserir o texto com a área, ou <ENTER> para sair: ")
