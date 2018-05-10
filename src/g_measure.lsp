@@ -31,7 +31,7 @@
   (setq coord (strcat pref_x x " ; " pref_y y))
 
   ;; 3rd point for leader line
-  (if (<= (car pt1) (car pt2))		; if to right
+  (if (<= (car pt1) (car pt2))		; if rightward
     (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.66))) (cdr pt2)))
     (setq pta (append (list (- (car pt2) (* (strlen coord) 0.66))) (cdr pt2)))
   )
@@ -135,7 +135,7 @@
 ;;; COMMAND: Sum LWPOLYLINEs
 
 (defun c:sompl (/ ent i len ptins ss str_total total)
-  (prompt "\nSOMPL - Soma comprimentos de polilinhas")
+  (prompt "\nSOMPL - Somar comprimentos de polilinhas abertas")
   (ad:inicmd)
 
   ;; User input
@@ -185,7 +185,7 @@
 ;;; 	TO-DO: Move it to a proper module.
 
 (defun c:somt (/ ent height i ptins ss str_total total value)
-  (prompt "\nSOMT - Soma valores numéricos de textos")
+  (prompt "\nSOMT - Somar valores numéricos de textos")
   (ad:inicmd)
 
   ;; User input
