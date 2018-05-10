@@ -44,7 +44,7 @@
       "\n	VV - Obter ângulo de vértice"
       "\n	VPL - Obter comprimento de polilinha aberta"
       "\n\nEscrito por Igor Eliezer Borges (igoreliezer.com)"
-      "\nDownload e manual: igoreliezer.com/arcdraft"
+      "\nPágina oficial, download e manual: igoreliezer.com/arcdraft"
       "\nVer licença em LICENSE.txt."
      )
   )
