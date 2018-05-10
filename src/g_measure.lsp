@@ -82,7 +82,7 @@
       (prompt div)
       (prompt "\nPressione F2 para ver resultados.")
     )
-    (prompt "\nNenhum bloco selecionado.")
+    (prompt "\nNenhum bloco foi selecionado.")
   )
 
   (ad:endcmd)
@@ -124,7 +124,7 @@
       (prompt div)
       (prompt "\nPressione F2 para ver resultados.")
     )
-    (prompt "\nNenhum objeto selecionado.")
+    (prompt "\nNenhum objeto foi selecionado.")
   )
 
   (ad:endcmd)
@@ -148,27 +148,32 @@
   )
 
   ;; Sum
-  (while
-    (setq ent (ssname ss i))
-     (setq len	 (ad:pllen ent)
-	   total (+ total len)
-	   i	 (1+ i)
-     )
-  )
+  (if ss
+    (progn
+      (while
+	(setq ent (ssname ss i))
+	 (setq len   (ad:pllen ent)
+	       total (+ total len)
+	       i     (1+ i)
+	 )
+      )
 
-  ;; Prompt the user
-  (setq str_total (rtos total))
-  (prompt (strcat "\nValor total: " str_total "."))
+      ;; Prompt the user
+      (setq str_total (rtos total))
+      (prompt (strcat "\nValor total: " str_total "."))
 
-  ;; Insert the text
-  ;;	TO-DO: let user configure insert height
-  (setvar "OSMODE" 0)
-  (if
-    (setq ptins	(getpoint
-		  " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
-		)
+      ;; Insert the text
+      ;;	TO-DO: let user configure insert height
+      (setvar "OSMODE" 0)
+      (if
+	(setq ptins (getpoint
+		      " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
+		    )
+	)
+	 (ad:text nil "_mc" ptins 1.0 0 str_total) ; hardcoded height
+      )
     )
-     (ad:text nil "_mc" ptins 1.0 0 str_total) ; hardcoded height
+    (prompt "\nNenhuma polilinha aberta foi selecionada.")
   )
 
   (ad:endcmd)
@@ -193,31 +198,36 @@
   )
 
   ;; Sum
-  (while
-    (setq ent (ssname ss i))
-     (setq value     (atof (cdr (assoc 1 (entget ent)))) ; NOTE: only leading numberic chars.
-	   total     (+ total value)
-	   i	     (1+ i)
-     )
-  )
+  (if ss
+    (progn
+      (while
+	(setq ent (ssname ss i))
+	 (setq value (atof (cdr (assoc 1 (entget ent)))) ; NOTE: only leading numberic chars.
+	       total (+ total value)
+	       i     (1+ i)
+	 )
+      )
 
-  ;; Text height
-  ;; 	get it from the last entity
-  (setq height (cdr (assoc 40 (entget (ssname ss (1- i))))))
+      ;; Text height
+      ;; 	get it from the last entity
+      (setq height (cdr (assoc 40 (entget (ssname ss (1- i))))))
 
-  ;; Prompt the user
-  (setq str_total (rtos total))
-  (prompt (strcat "\nValor total: " str_total "."))
+      ;; Prompt the user
+      (setq str_total (rtos total))
+      (prompt (strcat "\nValor total: " str_total "."))
 
-  ;; Insert the text
-  ;;	TO-DO: let user configure insert height
-  (setvar "OSMODE" 0)
-  (if
-    (setq ptins	(getpoint
-		  " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
-		)
+      ;; Insert the text
+      ;;	TO-DO: let user configure insert height
+      (setvar "OSMODE" 0)
+      (if
+	(setq ptins (getpoint
+		      " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
+		    )
+	)
+	 (ad:text nil "_mc" ptins height 0 str_total)
+      )
     )
-     (ad:text nil "_mc" ptins height 0 str_total)
+    (prompt "\nNenhum texto foi selecionado.")
   )
 
   (ad:endcmd)
