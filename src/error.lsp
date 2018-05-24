@@ -7,7 +7,6 @@
 
 
 ;;;; Create a new error handling for command escaping and errors.
-;;;;	TO-DO: Add protection for "DIMZIN".
 
 
 ;;; ---- FUNCIONS ----
@@ -19,6 +18,7 @@
 
   ;; save values
   (setq	*ad:cmdecho_or*	(getvar "CMDECHO") ; echoing
+	*ad:dimzin_or*	(getvar "DIMZIN") ; zero suppression
 	*ad:osmode_or*	(getvar "OSMODE") ; osmode
 	*ad:nomutt_or*	(getvar "NOMUTT") ; command line muttering
 	*ad:error_or*	*error*		; error handling
@@ -42,6 +42,7 @@
 
   ;; restore original values
   (setvar "CMDECHO" *ad:cmdecho_or*)
+  (setvar "DIMZIN" *ad:dimzin_or*)  
   (setvar "OSMODE" *ad:osmode_or*)
   (setvar "NOMUTT" *ad:nomutt_or*)
   (setq *error* *ad:error_or*)

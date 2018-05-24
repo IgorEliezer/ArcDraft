@@ -29,4 +29,34 @@
   (princ)
 )
 
+
+;;; COMMAND: Set viewport scale
+
+(defun c:evp (/ ent sc)
+  (prompt "\nEVP - Escala de Viewport")
+  (ad:inicmd)
+
+  ;; Check if in paper space
+  (if
+    (= (getvar "TILEMODE") 0)
+     (progn
+
+       ;; User input
+       (setvar "DIMZIN" 8)		; suppress trailing zeros
+       (setq ent (car (entsel "\nSelecione um viewport: "))
+	     sc	 (getreal "\nDefina a nova escala do viewport (1/XXXX): 1 / ")
+       )
+
+       ;; Set viewport scale
+       (vla-put-customscale (vlax-ename->vla-object ent) (/ 1000 sc))
+       (prompt (strcat "\nEscala do viewport mudado para 1/" (rtos sc 2) "."))
+     )
+     (alert "Você precisa estar em modo paper space para usar o comando.")
+  )
+
+  (ad:endcmd)
+  (princ)
+)
+
+
 ;;; EOF

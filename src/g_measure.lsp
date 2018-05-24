@@ -50,6 +50,7 @@
 
 ;;; COMMAND: List and count blocks from selection
 ;;; 	TO-DO: Move it to a proper module.
+;;; 	TO-DO: Add a "count" option to count instances of a selected block.
 
 (defun c:lbl (/ div header result total)
   (prompt "\nLBL - Listar blocos de uma seleção")
@@ -92,6 +93,7 @@
 
 ;;; COMMAND: List layers and count entities from selection
 ;;; 	TO-DO: Move it to a proper module.
+;;; 	TO-DO: Add a "count" option to count object of a selected layer.
 
 (defun c:lla (/ div header result total)
   (prompt "\nLLA - Listar camadas de uma seleção")

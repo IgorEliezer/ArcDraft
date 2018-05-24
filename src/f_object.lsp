@@ -88,6 +88,19 @@
 )
 
 
+;;; ---- LAYER ----
+
+;;; FUNCTION: Make layer
+
+(defun ad:mlayer (name color ltype)
+  (if
+    (tblsearch "LAYER" name)		; if exists
+     (setvar "CLAYER" name)
+     (command "_layer" "_make" name "_color" color name "_ltype" ltype name "")
+  )
+)
+
+
 ;;; ---- TEXT ----
 
 ;;; FUNCTION: Quick text insert
