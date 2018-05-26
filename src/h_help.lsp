@@ -12,6 +12,7 @@
 ;;; ---- COMMANDS ----
 
 ;;; COMMAND: Ajuda e lista de comandos do ArcDraft
+;;; 	TO-DO: rename it to ?AD
 
 (defun c:aj (/ filename filepath pathfilename)
   (prompt "\nAJ - Ajuda e lista de comandos do ArcDraft")
@@ -29,6 +30,7 @@
       "\n	AE - Alinhar texto e bloco sem atributo"
       "\n	BB - Quebra no ponto"
       "\n	CUR - Definir camada corrente por seleção"
+      "\n	EVP - Escala de Viewport"
       "\n	ICO - Inserir coordenadas X e Y"
       "\n	LBL - Listar blocos de uma seleção"
       "\n	LLA - Listar camadas de uma seleção"
@@ -57,7 +59,7 @@
 
 (prompt	(strcat	"\nArcDraft carregado. Versão "
 		*ad:ver*
-		". (c) Igor Eliezer Borges, ver licença em LICENSE.txt."
+		". (c) Igor Eliezer Borges Arquiteto e Urbanista, ver licença em LICENSE.txt."
 	)
 )
 (prompt "\nDigite AJ para abrir a lista de comandos.") ; tip

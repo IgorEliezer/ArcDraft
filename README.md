@@ -5,7 +5,8 @@ ArcDraft é um aplicativo CAD que oferece várias ferramentas de auxílio e edi�
 
 ## Links
 
-* Página oficial de download e manual: http://igoreliezer.com/arcdraft.html
+* Página oficial de download: http://igoreliezer.com/arcdraft.html
+* Manual e lista de comandos: https://github.com/IgorEliezer/ArcDraft/wiki/Manual
 
 
 ## Autoria e licença
