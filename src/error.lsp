@@ -10,8 +10,8 @@
 
 
 ;;; ==== TO-DOs ====
-;; 1.	Protect LUPREC.
-;; 2.	Create an alist-based system.
+;;; 1.	Protect LUPREC.
+;;; 2.	Create an alist-based system.
 
 
 ;;; ---- FUNCIONS ----
