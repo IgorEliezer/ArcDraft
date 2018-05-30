@@ -9,6 +9,11 @@
 ;;;; Create a new error handling for command escaping and errors.
 
 
+;;; ==== TO-DOs ====
+;; 1.	Protect LUPREC.
+;; 2.	Create an alist-based system.
+
+
 ;;; ---- FUNCIONS ----
 
 ;;; FUNCTION: Command ini

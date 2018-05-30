@@ -58,14 +58,13 @@
 )
 
 
-;;; ---- LAYER  ----
+;;; ---- LAYER ----
 
 ;;; FUNCTION: List blocks by name from selection
 ;;; 	Example: (ad:layer-counter (ssget))
 ;;; 	TO-DO: Move it to a separate module
 
-
-(defun ad:layer-counter (ss / alst i layname pair pair_new)
+(defun ad:layer-counter	(ss / alst i layname pair pair_new)
   (if ss
     (progn
       (setq i	 0
@@ -89,5 +88,25 @@
     nil
   )
 )
+
+
+;;; ---- SELECTION SET  ----
+
+;;; FUNCTION: Filter selection set
+
+(defun ad:ssfilter (ss filter / i ent ss_out)
+  (setq	ss_out (ssadd)
+	i      0
+  )
+  (while (setq ent (ssname ss i))
+    (if
+      (member filter (entget ent))
+       (setq ss_out (ssadd ent ss_out))
+    )
+    (setq i (1+ i))
+  )
+  ss_out
+)
+
 
 ;;; EOF
