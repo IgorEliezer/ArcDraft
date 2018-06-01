@@ -36,6 +36,8 @@
       "\n	LLA - Listar camadas de uma seleção"
       "\n	NLA - Criar camada"
       "\n	NS - Numerador sequencial"
+      "\n	OSP - OSNAP pré-definido/recomendado"
+      "\n	SCM - Scale múltiplo"
       "\n	SOMT - Somar valores numéricos de textos"
       "\n	SOMPL - Somar comprimentos de polilinhas abertas"
       "\n	SS - Super save"

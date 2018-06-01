@@ -59,21 +59,23 @@
 )
 
 
-;;; COMMAND: Preset OSMODE (BROKEN)
-;;; 	NOTICE 1: This command will not work because OSMODE is protected by ad:inicmd.
-;;; 	NOTICE 2: Not included in the help.
+;;; COMMAND: OSMODE preset
+;;; 	NOTE: ad:inicmd and ad:endcmd commented out due to overriding setvar "OSMODE".
+;;;		- see TO-DO in error.lsp.
 ;;; 	TO-DO: Move it to a proper module.
 ;;; 	TO-DO: Implement config system.
 
-(defun c:osm (/ var)
-  (prompt "OSM - OSNAP pré-definido")
-  (ad:inicmd)
+(defun c:osp (/ var)
+  (prompt "OSP - OSNAP pré-definido/recomendado")
+;;;  (ad:inicmd)
 
   (setq var 679)			; set value: end, mid, cen, int, per, nea
   (setvar "OSMODE" var)
-  (prompt "\nRedefinido para os pontos mais usados: end, mid, cen, int, per e nea.")
+  (prompt
+    "\nRedefinido para os pontos: end, mid, cen, int, per e nea."
+  )
 
-  (ad:endcmd)
+;;;  (ad:endcmd)
   (princ)
 )
 
@@ -109,7 +111,7 @@
   (prompt "SCM - Scale múltiplo")
   (ad:inicmd)
 
-  ;;; Check global and use it 
+;;; Check global and use it 
   (if (and (null sc) *ad:scalefactor*)
     (setq sc *ad:scalefactor*)
   )
@@ -130,7 +132,7 @@
       (command "_scale" ss "" pt sc)
     )
   )
-  
+
   (ad:endcmd)
   (princ)
 )
