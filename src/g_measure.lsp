@@ -40,6 +40,7 @@
   (command "_pline" pt1 pt2 pta "")
 
   ;; Insert text
+  (setvar "OSMODE" 0)
   (setq ptins (ad:ptmed pt2 pta))
   (ad:text nil "_bc" ptins 1.0 nil coord) ; hardcoded height
 

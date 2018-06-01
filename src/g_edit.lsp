@@ -59,16 +59,18 @@
 )
 
 
-;;; COMMAND: Preset OSMODE
+;;; COMMAND: Preset OSMODE (BROKEN)
+;;; 	NOTICE 1: This command will not work because OSMODE is protected by ad:inicmd.
+;;; 	NOTICE 2: Not included in the help.
 ;;; 	TO-DO: Move it to a proper module.
-;;; 	TO-DO: Config.
+;;; 	TO-DO: Implement config system.
 
 (defun c:osm (/ var)
   (prompt "OSM - OSNAP pré-definido")
   (ad:inicmd)
 
   (setq var 679)			; set value: end, mid, cen, int, per, nea
-  (setvar 'osmode var)
+  (setvar "OSMODE" var)
   (prompt "\nRedefinido para os pontos mais usados: end, mid, cen, int, per e nea.")
 
   (ad:endcmd)

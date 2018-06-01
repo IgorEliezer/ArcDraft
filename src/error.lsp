@@ -12,6 +12,8 @@
 ;;; ==== TO-DOs ====
 ;;; 1.	Protect LUPREC.
 ;;; 2.	Create an alist-based system.
+;;; 3.  Create an opt-in variable list protection, e.g. (ad:inicmd '([protected-vars-list])).
+;;;		Also: (ad:inicmd nil) = none, (ad:inicmd t) = all.
 
 
 ;;; ---- FUNCIONS ----
