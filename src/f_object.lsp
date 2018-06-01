@@ -11,14 +11,14 @@
 
 ;;; ---- SELECTION ----
 
-;;; FUNCTION: SSGET with prompt
+;;; FUNCTION: SSGET with filter and prompt
 ;;; 	NOMUTT is covered by error.lsp
 
 (defun ad:ssgetp (filter msg / ss)
   (prompt msg)
   (setvar "NOMUTT" 1)
   (vl-catch-all-apply '(lambda () (setq ss (ssget filter))))
-  (setvar "NOMUTT" 0)
+  (setvar "NOMUTT" 0) ; as it must be
   ss
 )
 

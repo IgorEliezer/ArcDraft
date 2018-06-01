@@ -59,4 +59,78 @@
 )
 
 
+;;; COMMAND: Preset OSMODE
+;;; 	TO-DO: Move it to a proper module.
+;;; 	TO-DO: Config.
+
+(defun c:osm (/ var)
+  (prompt "OSM - OSNAP pré-definido")
+  (ad:inicmd)
+
+  (setq var 679)			; set value: end, mid, cen, int, per, nea
+  (setvar 'osmode var)
+  (prompt "\nRedefinido para os pontos mais usados: end, mid, cen, int, per e nea.")
+
+  (ad:endcmd)
+  (princ)
+)
+
+
+;;; COMMAND: Scale multiple
+
+;;; - Function: Dynamic prompt message
+;;; 	TO-DO: Move it to a proper module.
+
+(defun ad:msg (msg var)
+
+  ;; If it is a number
+  (if (numberp var)
+    (progn
+      (setvar "DIMZIN" 1)		; include leading zeros 0.X
+      (setq var (rtos var))		; convert it to string
+    )
+  )
+
+  ;; Build prompt
+  (if var
+    (strcat msg " <" var ">: ")
+    (strcat msg ": ")
+  )
+)
+
+
+;;; - Command
+;;;	Introduces global *ad:scalefactor*
+;;; 	TO-DO: Move it to a proper module.
+
+(defun c:scm (/ pt sc ss)
+  (prompt "SCM - Scale múltiplo")
+  (ad:inicmd)
+
+  ;;; Check global and use it 
+  (if (and (null sc) *ad:scalefactor*)
+    (setq sc *ad:scalefactor*)
+  )
+
+  ;; Scale factor
+  (if
+    (null
+      (setq sc (getreal (ad:msg "\nEspecifique um fator de escala" *ad:scalefactor*)))
+    )
+     (setq sc *ad:scalefactor*)
+     (setq *ad:scalefactor* sc)
+  )
+
+  ;; Apply
+  (if sc
+    (while (setq ss (ad:ssgetp nil "\nSelecione objetos: "))
+      (setq pt (getpoint "\nEspecifique um ponto base: "))
+      (command "_scale" ss "" pt sc)
+    )
+  )
+  
+  (ad:endcmd)
+  (princ)
+)
+
 ;;; EOF
