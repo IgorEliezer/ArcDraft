@@ -111,7 +111,7 @@
   (prompt "SCM - Scale múltiplo")
   (ad:inicmd)
 
-;;; Check global and use it 
+  ;; Check global and use it 
   (if (and (null sc) *ad:scalefactor*)
     (setq sc *ad:scalefactor*)
   )
