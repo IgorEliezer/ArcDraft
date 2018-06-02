@@ -42,10 +42,15 @@
      (progn
 
        ;; User input
-       (setvar "DIMZIN" 8)		; suppress trailing zeros
-       (setq ent (car (entsel "\nSelecione um viewport: "))
-	     sc	 (getreal "\nDefina a nova escala do viewport (1/XXXX): 1 / ")
+       (while
+	 (not (member '(0 . "VIEWPORT")
+		      (entget (setq ent (car (entsel "\nSelecione um viewport: "))))
+	      )
+	 )
+	  (prompt "\nIsso não é um viewport!")
        )
+       (setvar "DIMZIN" 8)		; suppress trailing zeros
+       (setq sc (getreal "\nDefina a nova escala do viewport (1/XXXX): 1 / "))
 
        ;; Set viewport scale
        (vla-put-customscale (vlax-ename->vla-object ent) (/ 1000 sc))
