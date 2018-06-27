@@ -78,7 +78,6 @@
 ;;; 	NOTE: ad:inicmd and ad:endcmd commented out due to overriding setvar "OSMODE".
 ;;;		- see TO-DO in error.lsp.
 ;;; 	TO-DO: Move it to a proper module.
-;;; 	TO-DO: Implement config system.
 
 (defun c:osp (/ var)
   (prompt "OSP - OSNAP pré-definido/recomendado")

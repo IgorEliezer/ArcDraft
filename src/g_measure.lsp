@@ -58,7 +58,7 @@
   ;; User input
   (setq	ss    (ad:ssgetp
 		'((0 . "LWPOLYLINE") (-4 . "<or") (70 . 0) (70 . 128) (-4 . "or>")) ; open LWPL
-		"\nSelecione polilinhas medir (somente as abertas serão consideradas), e <ENTER> para concluir: "
+		"\nSelecione polilinhas para medir (somente as abertas serão consideradas), e <ENTER> para concluir: "
 	      )
 	i     0
 	total 0.00
@@ -84,7 +84,7 @@
       (setvar "OSMODE" 0)
       (if
 	(setq ptins (getpoint
-		      " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
+		      " Clique para inserir o texto com o valor total ou <sair>: "
 		    )
 	)
 	 (ad:text nil "_mc" ptins 1.0 0 str_total) ; hardcoded height
@@ -138,7 +138,7 @@
       (setvar "OSMODE" 0)
       (if
 	(setq ptins (getpoint
-		      " Clique para inserir o texto com o valor total, ou <ENTER> para sair: "
+		      " Clique para inserir o texto com o valor total ou <sair>: "
 		    )
 	)
 	 (ad:text nil "_mc" ptins height 0 str_total)
@@ -175,7 +175,7 @@
 	  (setvar "OSMODE" 0)
 	  (if
 	    (setq
-	      ptins (getpoint " Clique para inserir o texto com a área, ou <ENTER> para sair: ")
+	      ptins (getpoint " Clique para inserir o texto com a área ou <sair>: ")
 	    )
 	     (ad:text nil "_mc" ptins 1.0 0 area) ; hardcoded height
 	  )
@@ -215,7 +215,7 @@
   (setvar "OSMODE" 0)
   (if
     (setq
-      ptins (getpoint " Clique para inserir o texto com os ângulos, ou <ENTER> para sair: ")
+      ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: ")
     )
      (ad:text nil "_mc" ptins 1.0 (angtos ang) (strcat "< " str_ang " >")) ; hardcoded height
   )
@@ -265,11 +265,7 @@
 	     ;; Insert text
 	     (setvar "OSMODE" 0)
 	     (if
-	       (setq
-		 ptins (getpoint
-			 " Clique para inserir o texto com os ângulos, ou <ENTER> para sair: "
-		       )
-	       )
+	       (setq ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: "))
 		(ad:text nil "_mc" ptins 1.0 0 str_ang)
 					; hardcoded height. TO-DO: bisect for rot
 	     )
@@ -312,7 +308,7 @@
 	    (if
 	      (setq
 		ptins (getpoint
-			" Clique para inserir o texto com o comprimento, ou <ENTER> para sair: "
+			" Clique para inserir o texto com o comprimento ou <sair>: "
 		      )
 	      )
 	       (progn

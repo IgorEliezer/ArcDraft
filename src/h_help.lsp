@@ -12,10 +12,9 @@
 ;;; ---- COMMANDS ----
 
 ;;; COMMAND: Ajuda e lista de comandos do ArcDraft
-;;; 	TO-DO: rename it to ?AD
 
-(defun c:aj (/ filename filepath pathfilename)
-  (prompt "\nAJ - Ajuda e lista de comandos do ArcDraft")
+(defun c:?a (/ filename filepath pathfilename)
+  (prompt "\n?A - Ajuda e lista de comandos do ArcDraft")
   (ad:inicmd)
 
   ;; Alert the user
@@ -26,7 +25,7 @@
       *ad:ver*
       "\nFeito para AutoCAD 2007 ou superior"
       "\n\nComandos:"
-      "\n	AJ - Abrir esta ajuda"
+      "\n	?A - Abrir esta ajuda"
       "\n	AE - Alinhar texto e bloco sem atributo"
       "\n	BB - Quebra no ponto"
       "\n	CUR - Definir camada corrente por seleção"
@@ -64,6 +63,6 @@
 		". (c) Igor Eliezer Borges Arquiteto e Urbanista, ver licença em LICENSE.txt."
 	)
 )
-(prompt "\nDigite AJ para abrir a lista de comandos.") ; tip
+(prompt "\nDigite ?A para abrir a lista de comandos.") ; tip
 
 ;;; EOF

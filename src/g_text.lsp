@@ -139,7 +139,7 @@
 
   ;; user input
   (while
-    (setq entname1 (car (nentsel "\nSelecione o objeto de origem ou <Sair>: ")))
+    (setq entname1 (car (nentsel "\nSelecione o objeto de origem ou <sair>: ")))
 
      (setq entname2 (car (nentsel "\nSelecione o objeto de destino ")))
 
@@ -171,14 +171,14 @@
 	 )
     (prompt "\nIsto não é um número!")
   )
-  (setq	str_prefix (getstring "\nDigite o prefixo ou <ESPAÇO> para nada: ")
-	str_sufix  (getstring "\nDigite o sufixo ou <ESPAÇO> para nada: ")
+  (setq	str_prefix (getstring "\nDigite o prefixo ou tecle <ESPAÇO> para nada: ")
+	str_sufix  (getstring "\nDigite o sufixo ou tecle <ESPAÇO> para nada: ")
   )
 
   ;; user selection
   (while
     (setq
-      entname (car (nentsel "\nSelecione um texto ou <ENTER> para concluir: "))
+      entname (car (nentsel "\nSelecione um texto ou <sair>: "))
     )
 
      ;; get data
