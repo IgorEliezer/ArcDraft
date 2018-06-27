@@ -50,11 +50,21 @@
 	  (prompt "\nIsso não é um viewport!")
        )
        (setvar "DIMZIN" 8)		; suppress trailing zeros
-       (setq sc (getreal "\nDefina a nova escala do viewport (1/XXXX): 1 / "))
+       (prompt
+	 (strcat " Escala atual: 1:"
+		 (rtos (/ 1000 (vla-get-customscale (vlax-ename->vla-object ent))))
+		 "."
+	 )
+       )
+       (if
+	 (setq sc (getreal "\nDefina a nova escala do viewport (1:___) <sair>: "))
 
-       ;; Set viewport scale
-       (vla-put-customscale (vlax-ename->vla-object ent) (/ 1000 sc))
-       (prompt (strcat "\nEscala do viewport mudado para 1/" (rtos sc 2) "."))
+	  ;; Set viewport scale
+	  (progn
+	    (vla-put-customscale (vlax-ename->vla-object ent) (/ 1000 sc))
+	    (prompt (strcat "\nEscala do viewport mudado para 1:" (rtos sc 2) "."))
+	  )
+       )
      )
      (alert "Você precisa estar em modo paper space para usar o comando.")
   )

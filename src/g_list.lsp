@@ -29,7 +29,7 @@
      ;; - Count
      (progn
        (if
-	 (= (setq name (getstring t "\nDigite o nome do bloco ou <obter de um bloco>: ")) "")
+	 (= (setq name (getstring t "\nDigite o nome do bloco ou <selecionar>: ")) "")
 	  (progn
 	    (while
 	      (/= "INSERT"
@@ -110,7 +110,7 @@
      ;; - Count
      (progn
        (if
-	 (= (setq name (getstring t "\nDigite o nome da camada ou <obter de um objeto>: ")) "")
+	 (= (setq name (getstring t "\nDigite o nome da camada ou <selecionar>: ")) "")
 	  (setq name (cdr (assoc 8 (entget (car (entsel "\nSelecione um objeto: "))))))
        )
        (setq ss	(ad:ssgetp
