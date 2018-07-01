@@ -96,7 +96,7 @@
 
 ;;; COMMAND: Scale multiple
 
-;;; - Function: Dynamic prompt message
+;;; - Function: Dynamic prompt message generator
 ;;; 	TO-DO: Move it to a proper module.
 
 (defun ad:msg (msg var)

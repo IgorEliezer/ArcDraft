@@ -11,6 +11,45 @@
 
 ;;; ---- COMMANDS ----
 
+;;; COMMAND: Set working scale
+
+;;; - Function: Set default working scale
+
+(defun ad:setscale ()
+  (setq *ad:sc* 0.10)			; default 1:100
+  (setvar "DIMZIN" 8)		; suppress trailing zeros
+  (prompt
+    (strcat "\nEscala de trabalho foi redefinida para 1:" (rtos (* 1000 *ad:sc*)) ".")
+  )
+)
+(ad:setscale)
+
+
+;;; - Command
+
+(defun c:est (/ msg_sc)
+  (prompt "\nEST - Escala de trabalho")
+  (ad:inicmd)
+
+  ;; Build numerical scale
+  (setvar "DIMZIN" 8)
+  (setq msg_sc (strcat "1:" (rtos (* 1000.0 *ad:sc*))))
+
+  ;; User input
+  (if
+    (setq sc (getreal (strcat (ad:msg "\nDefina a nova escala de trabalho" msg_sc) "1:")))
+     (setq *ad:sc*
+	    (/ sc
+	       1000.0
+	    )
+     )
+  )
+
+  (ad:endcmd)
+  (princ)
+)
+
+
 ;;; COMMAND: Super save
 ;;; 	TO-DO: check if layer '0' is off
 
