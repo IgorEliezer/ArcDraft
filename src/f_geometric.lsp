@@ -77,7 +77,6 @@
 ;;; ---- ANGLES ----
 
 ;;; FUNCTION: Get angle from a point of a linear entity
-;;; 	TO-DO: rename it to ad:ptangle
 
 (defun ad:angle_pt (pt / osmode_or pta)
   (setq osmode_or (getvar "OSMODE"))

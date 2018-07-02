@@ -62,7 +62,6 @@
 
 ;;; FUNCTION: List blocks by name from selection
 ;;; 	Example: (ad:layer-counter (ssget))
-;;; 	TO-DO: Move it to a separate module
 
 (defun ad:layer-counter	(ss / alst i layname pair pair_new)
   (if ss
