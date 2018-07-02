@@ -32,8 +32,8 @@
 
   ;; 3rd point for leader line
   (if (<= (car pt1) (car pt2))		; if rightward
-    (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.66))) (cdr pt2)))
-    (setq pta (append (list (- (car pt2) (* (strlen coord) 0.66))) (cdr pt2)))
+    (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.66 *ad:sc*))) (cdr pt2)))
+    (setq pta (append (list (- (car pt2) (* (strlen coord) 0.66 *ad:sc*))) (cdr pt2)))
   )
 
   ;; Draw leader line
@@ -42,7 +42,7 @@
   ;; Insert text
   (setvar "OSMODE" 0)
   (setq ptins (ad:ptmed pt2 pta))
-  (ad:text nil "_bc" ptins 1.0 nil coord) ; hardcoded height
+  (ad:text nil "_bc" ptins (* 1.0 *ad:sc*) nil coord)
 
   (ad:endcmd)
   (princ)
@@ -80,14 +80,10 @@
       (prompt (strcat "\nValor total: " str_total "."))
 
       ;; Insert the text
-      ;;	TO-DO: let user configure insert height
       (setvar "OSMODE" 0)
       (if
-	(setq ptins (getpoint
-		      " Clique para inserir o texto com o valor total ou <sair>: "
-		    )
-	)
-	 (ad:text nil "_mc" ptins 1.0 0 str_total) ; hardcoded height
+	(setq ptins (getpoint " Clique para inserir o texto com o valor total ou <sair>: "))
+	 (ad:text nil "_mc" ptins (* 1.0 *ad:sc*) 0 str_total)
       )
     )
     (prompt "\nNenhuma polilinha aberta foi selecionada.")
@@ -134,7 +130,6 @@
       (prompt (strcat "\nValor total: " str_total "."))
 
       ;; Insert the text
-      ;;	TO-DO: let user configure insert height
       (setvar "OSMODE" 0)
       (if
 	(setq ptins (getpoint
@@ -144,7 +139,7 @@
 	 (ad:text nil "_mc" ptins height 0 str_total)
       )
     )
-    (prompt "\nNenhum texto foi selecionado.")
+    (prompt "\nNenhum texto numérico foi selecionado.")
   )
 
   (ad:endcmd)
@@ -177,7 +172,7 @@
 	    (setq
 	      ptins (getpoint " Clique para inserir o texto com a área ou <sair>: ")
 	    )
-	     (ad:text nil "_mc" ptins 1.0 0 area) ; hardcoded height
+	     (ad:text nil "_mc" ptins (* 1.0 *ad:sc*) 0 area)
 	  )
 	)
 
@@ -217,7 +212,13 @@
     (setq
       ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: ")
     )
-     (ad:text nil "_mc" ptins 1.0 (angtos ang) (strcat "< " str_ang " >")) ; hardcoded height
+     (ad:text nil
+	      "_mc"
+	      ptins
+	      (* 1.0 *ad:sc*)
+	      (angtos ang)
+	      (strcat "< " str_ang " >")
+     )
   )
 
   (ad:endcmd)
@@ -266,8 +267,7 @@
 	     (setvar "OSMODE" 0)
 	     (if
 	       (setq ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: "))
-		(ad:text nil "_mc" ptins 1.0 0 str_ang)
-					; hardcoded height. TO-DO: bisect for rot
+		(ad:text nil "_mc" ptins (* 1.0 *ad:sc*) 0 str_ang) ; TO-DO: bisect for rot
 	     )
 	   )
 	   (prompt "\nNão há ângulo.")
@@ -313,7 +313,7 @@
 	      )
 	       (progn
 		 (setq rot (angtos (ad:angle_pt (osnap (cadr sel) "_nea"))))
-		 (ad:text nil "_mc" ptins 1.0 rot len) ; hardcoded height
+		 (ad:text nil "_mc" ptins (* 1.0 *ad:sc*) rot len)
 	       )
 	    )
 	  )

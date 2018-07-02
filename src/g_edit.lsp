@@ -95,29 +95,6 @@
 
 
 ;;; COMMAND: Scale multiple
-
-;;; - Function: Dynamic prompt message generator
-;;; 	TO-DO: Move it to a proper module.
-
-(defun ad:msg (msg var)
-
-  ;; If it is a number
-  (if (numberp var)
-    (progn
-      (setvar "DIMZIN" 1)		; include leading zeros 0.X
-      (setq var (rtos var))		; convert it to string
-    )
-  )
-
-  ;; Build prompt
-  (if var
-    (strcat msg " <" var ">: ")
-    (strcat msg ": ")
-  )
-)
-
-
-;;; - Command
 ;;;	Introduces global *ad:scalefactor*
 ;;; 	TO-DO: Move it to a proper module.
 

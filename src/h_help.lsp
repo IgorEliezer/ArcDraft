@@ -29,6 +29,7 @@
       "\n	AE - Alinhar texto e bloco sem atributo"
       "\n	BB - Quebra no ponto"
       "\n	CUR - Definir camada corrente por seleção"
+      "\n	EST - Escala de trabalho"
       "\n	EVP - Escala de Viewport"
       "\n	ICO - Inserir coordenadas X e Y"
       "\n	LBL - Listar blocos de uma seleção"

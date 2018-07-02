@@ -9,25 +9,53 @@
 ;;;; Commands for file management and handling. For now, a "better" save.
 
 
-;;; ---- COMMANDS ----
+;;; ---- FUNCTIONS ----
 
-;;; COMMAND: Set working scale
+;;; FUNCTION: Dynamic prompt message generator
 
-;;; - Function: Set default working scale
+(defun ad:msg (msg var)
+
+  ;; If it is a number
+  (if (numberp var)
+    (progn
+      (setvar "DIMZIN" 1)		; include leading zeros 0.X
+      (setq var (rtos var))		; convert it to string
+    )
+  )
+
+  ;; Build prompt
+  (if var
+    (strcat msg " <" var ">: ")
+    (strcat msg ": ")
+  )
+)
+
+
+;;; FUNCTION: Set default working scale
+;;;	Global
 
 (defun ad:setscale ()
-  (setq *ad:sc* 0.10)			; default 1:100
-  (setvar "DIMZIN" 8)		; suppress trailing zeros
-  (prompt
-    (strcat "\nEscala de trabalho foi redefinida para 1:" (rtos (* 1000 *ad:sc*)) ".")
+  (if (null *ad:sc*)
+    (progn
+      (setq *ad:sc* 0.10)		; default 1:100
+      (setvar "DIMZIN" 8)		; suppress trailing zeros
+      (prompt
+	(strcat	"\nEscala de trabalho foi redefinida para 1:"
+		(rtos (* 1000 *ad:sc*))
+		"."
+	)
+      )
+    )
   )
 )
 (ad:setscale)
 
 
-;;; - Command
+;;; ---- COMMANDS ----
 
-(defun c:est (/ msg_sc)
+;;; COMMAND: Set working scale
+
+(defun c:est (/ msg_sc sc)
   (prompt "\nEST - Escala de trabalho")
   (ad:inicmd)
 
