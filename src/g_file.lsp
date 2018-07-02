@@ -14,8 +14,6 @@
 ;;; FUNCTION: Dynamic prompt message generator
 
 (defun ad:msg (msg var)
-
-  ;; If it is a number
   (if (numberp var)
     (progn
       (setvar "DIMZIN" 1)		; include leading zeros 0.X
@@ -32,15 +30,15 @@
 
 
 ;;; FUNCTION: Set default working scale
-;;;	Global
+;;;	Global *ad:sc*
 
 (defun ad:setscale ()
   (if (null *ad:sc*)
     (progn
-      (setq *ad:sc* 0.10)		; default 1:100
+      (setq *ad:sc* 0.1)		; default 1:100
       (setvar "DIMZIN" 8)		; suppress trailing zeros
       (prompt
-	(strcat	"\nEscala de trabalho foi redefinida para 1:"
+	(strcat	"\n:: Escala de trabalho foi redefinida para 1:"
 		(rtos (* 1000 *ad:sc*))
 		"."
 	)
@@ -49,6 +47,23 @@
   )
 )
 (ad:setscale)
+
+
+;;; FUNCTION: Set default text height
+;;;	Global *ad:th*
+
+(defun ad:settextheight ()
+  (if (null *ad:th*)
+    (progn
+      (setq *ad:th* 2.0)		; default height
+      (setvar "DIMZIN" 0)		; includes trailing zeros
+      (prompt
+	(strcat	"\n:: Altura de texto base: " (rtos *ad:th*) ".")
+      )
+    )
+  )
+)
+(ad:settextheight)
 
 
 ;;; ---- COMMANDS ----

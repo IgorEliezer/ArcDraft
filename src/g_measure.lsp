@@ -18,31 +18,34 @@
   (ad:inicmd)
 
   ;; User input
-  (setq	pt1 (getpoint "\nClique num ponto para obter as coordenadas: ")
-	pt2 (getpoint pt1 "\nClique no segundo ponto para linha de chamada: ")
+  (if
+    (setq pt1 (getpoint "\nClique num ponto para obter as coordenadas: "))
+     (progn
+       (setq pt2 (getpoint pt1 "\nClique no segundo ponto para linha de chamada: "))
+
+       ;; Build string
+       (setq x	    (rtos (car pt1))
+	     y	    (rtos (cadr pt1))
+	     pref_x "X = "
+	     pref_y "Y = "
+       )
+       (setq coord (strcat pref_x x " ; " pref_y y))
+
+       ;; 3rd point for leader line
+       (if (<= (car pt1) (car pt2))	; if rightward
+	 (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.66 *ad:sc*))) (cdr pt2)))
+	 (setq pta (append (list (- (car pt2) (* (strlen coord) 0.66 *ad:sc*))) (cdr pt2)))
+       )
+
+       ;; Draw leader line
+       (command "_pline" pt1 pt2 pta "")
+
+       ;; Insert text
+       (setvar "OSMODE" 0)
+       (setq ptins (ad:ptmed pt2 pta))
+       (ad:text nil "_bc" ptins (* *ad:th* *ad:sc*) nil coord)
+     )
   )
-
-  ;; Build string
-  (setq	x      (rtos (car pt1))
-	y      (rtos (cadr pt1))
-	pref_x "X = "
-	pref_y "Y = "
-  )
-  (setq coord (strcat pref_x x " ; " pref_y y))
-
-  ;; 3rd point for leader line
-  (if (<= (car pt1) (car pt2))		; if rightward
-    (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.66 *ad:sc*))) (cdr pt2)))
-    (setq pta (append (list (- (car pt2) (* (strlen coord) 0.66 *ad:sc*))) (cdr pt2)))
-  )
-
-  ;; Draw leader line
-  (command "_pline" pt1 pt2 pta "")
-
-  ;; Insert text
-  (setvar "OSMODE" 0)
-  (setq ptins (ad:ptmed pt2 pta))
-  (ad:text nil "_bc" ptins (* 1.0 *ad:sc*) nil coord)
 
   (ad:endcmd)
   (princ)
@@ -83,7 +86,7 @@
       (setvar "OSMODE" 0)
       (if
 	(setq ptins (getpoint " Clique para inserir o texto com o valor total ou <sair>: "))
-	 (ad:text nil "_mc" ptins (* 1.0 *ad:sc*) 0 str_total)
+	 (ad:text nil "_mc" ptins (* *ad:th* *ad:sc*) 0 str_total)
       )
     )
     (prompt "\nNenhuma polilinha aberta foi selecionada.")
@@ -160,19 +163,19 @@
        (member (cdr (assoc 0 (entget ent))) '("LWPOLYLINE" "CIRCLE" "HATCH"))
 	(progn
 	  (command "_area" "_o" ent)
+	  (setvar "DIMZIN" 0)
 	  (setq area (rtos (getvar "AREA")))
 
 	  ;; Prompt the user
 	  (prompt (strcat "\nÁrea: " area "."))
 
 	  ;; Insert the text
-	  ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
 	  (setvar "OSMODE" 0)
 	  (if
 	    (setq
 	      ptins (getpoint " Clique para inserir o texto com a área ou <sair>: ")
 	    )
-	     (ad:text nil "_mc" ptins (* 1.0 *ad:sc*) 0 area)
+	     (ad:text nil "_mc" ptins (* *ad:th* *ad:sc*) 0 area)
 	  )
 	)
 
@@ -202,11 +205,11 @@
     (setq tip " Dica: Para formato e casas decimais, use _UNITS.") ; tip
     (setq tip "")
   )
+  (setvar "DIMZIN" 0)
   (setq str_ang (strcat (angtos (ad:iang ang)) " ou " (angtos ang)))
   (prompt (strcat "\nÂngulos nos dois sentidos: " str_ang "." tip))
 
   ;; Insert text
-  ;; 	TO-DO: (setvar "DIMZIN" 0) to stop zero-suppression
   (setvar "OSMODE" 0)
   (if
     (setq
@@ -215,7 +218,7 @@
      (ad:text nil
 	      "_mc"
 	      ptins
-	      (* 1.0 *ad:sc*)
+	      (* *ad:th* *ad:sc*)
 	      (angtos ang)
 	      (strcat "< " str_ang " >")
      )
@@ -267,7 +270,7 @@
 	     (setvar "OSMODE" 0)
 	     (if
 	       (setq ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: "))
-		(ad:text nil "_mc" ptins (* 1.0 *ad:sc*) 0 str_ang) ; TO-DO: bisect for rot
+		(ad:text nil "_mc" ptins (* *ad:th* *ad:sc*) 0 str_ang) ; TO-DO: bisect for rot
 	     )
 	   )
 	   (prompt "\nNão há ângulo.")
@@ -313,7 +316,7 @@
 	      )
 	       (progn
 		 (setq rot (angtos (ad:angle_pt (osnap (cadr sel) "_nea"))))
-		 (ad:text nil "_mc" ptins (* 1.0 *ad:sc*) rot len)
+		 (ad:text nil "_mc" ptins (* *ad:th* *ad:sc*) rot len)
 	       )
 	    )
 	  )
