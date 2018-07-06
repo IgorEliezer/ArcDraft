@@ -18,7 +18,7 @@
   (prompt msg)
   (setvar "NOMUTT" 1)
   (vl-catch-all-apply '(lambda () (setq ss (ssget filter))))
-  (setvar "NOMUTT" 0) ; as it must be
+  (setvar "NOMUTT" 0)			; important!
   ss
 )
 
@@ -104,12 +104,10 @@
 ;;; ---- TEXT ----
 
 ;;; FUNCTION: Quick text insert
-;;;	TO-DO: Remove <style> as it's implied. Use (setvar "TEXTSTYLE") instead.
-;;;	TO-DO: Maybe, reorder the variables in content, pt, h, rot, justify.
-;;;	TO-DO: Check if style exists.
-;;;	Example: (ad:text "Standard" "_c" (getpoint "\nPonto: ") 5.5 15 "TESTx")
+;;;	TO-DO: Check if style exists. Maybe reorder variables.
+;;;	Example: (ad:text "TESTx" "Standard" "_c" (getpoint "\nPonto: ") 5.5 15)
 
-(defun ad:text (style justify pt h rot content)
+(defun ad:text (content style justify pt h rot)
 
   ;; Style
   (if (null style)
@@ -130,9 +128,7 @@
     (setq rot 0)
   )
 
-  ;; <content> is required
-
-  ;; Insert text
+  ;; <content> is required - insert text
   (if					; if style has a height, drop <h>
     (= (cdr (assoc 40 (tblsearch "STYLE" style))) 0.0)
      (command "_text" "_s" style "_j" justify pt h rot content)

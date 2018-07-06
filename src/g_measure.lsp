@@ -43,7 +43,7 @@
        ;; Insert text
        (setvar "OSMODE" 0)
        (setq ptins (ad:ptmed pt2 pta))
-       (ad:text nil "_bc" ptins (* *ad:th* *ad:sc*) nil coord)
+       (ad:text coord nil "_bc" ptins (* *ad:th* *ad:sc*) nil)
      )
   )
 
@@ -86,7 +86,7 @@
       (setvar "OSMODE" 0)
       (if
 	(setq ptins (getpoint " Clique para inserir o texto com o valor total ou <sair>: "))
-	 (ad:text nil "_mc" ptins (* *ad:th* *ad:sc*) 0 str_total)
+	 (ad:text str_total nil "_mc" ptins (* *ad:th* *ad:sc*) 0)
       )
     )
     (prompt "\nNenhuma polilinha aberta foi selecionada.")
@@ -139,7 +139,7 @@
 		      " Clique para inserir o texto com o valor total ou <sair>: "
 		    )
 	)
-	 (ad:text nil "_mc" ptins height 0 str_total)
+	 (ad:text str_total nil "_mc" ptins height 0)
       )
     )
     (prompt "\nNenhum texto numérico foi selecionado.")
@@ -175,7 +175,7 @@
 	    (setq
 	      ptins (getpoint " Clique para inserir o texto com a área ou <sair>: ")
 	    )
-	     (ad:text nil "_mc" ptins (* *ad:th* *ad:sc*) 0 area)
+	     (ad:text area nil "_mc" ptins (* *ad:th* *ad:sc*) 0)
 	  )
 	)
 
@@ -215,12 +215,13 @@
     (setq
       ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: ")
     )
-     (ad:text nil
+     (ad:text (strcat "< " str_ang " >")
+	      nil
 	      "_mc"
 	      ptins
 	      (* *ad:th* *ad:sc*)
 	      (angtos ang)
-	      (strcat "< " str_ang " >")
+
      )
   )
 
@@ -281,7 +282,7 @@
 	    (setvar "OSMODE" 0)
 	    (if
 	      (setq ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: "))
-	       (ad:text nil "_mc" ptins (* *ad:th* *ad:sc*) 0 str_ang) ; TO-DO: bisect for rot
+	       (ad:text str_ang nil "_mc" ptins (* *ad:th* *ad:sc*) 0) ; TO-DO: bisect for rot
 	    )
 	  )
 	  (prompt "\nNão há ângulo.")
@@ -327,7 +328,7 @@
 	      )
 	       (progn
 		 (setq rot (angtos (ad:angle_pt (osnap (cadr sel) "_nea"))))
-		 (ad:text nil "_mc" ptins (* *ad:th* *ad:sc*) rot len)
+		 (ad:text len nil "_mc" ptins (* *ad:th* *ad:sc*) rot)
 	       )
 	    )
 	  )
