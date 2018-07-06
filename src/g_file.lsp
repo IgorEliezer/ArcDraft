@@ -58,7 +58,7 @@
       (setq *ad:th* 2.0)		; default height
       (setvar "DIMZIN" 0)		; includes trailing zeros
       (prompt
-	(strcat	"\n:: Altura de texto base: " (rtos *ad:th*) ".")
+	(strcat "\n:: Altura de texto base: " (rtos *ad:th*) ".")
       )
     )
   )
@@ -94,7 +94,6 @@
 
 
 ;;; COMMAND: Super save
-;;; 	TO-DO: check if layer '0' is off
 
 (defun c:ss ()
   (prompt "\nSS - Super save (purge + zoom + camada 0 corrente)")
@@ -102,7 +101,7 @@
 
   ;; Check if layer "0" is editable
   (if
-    (< 0 (cdr (assoc 70 (tblsearch "LAYER" "0"))))
+    (> (cdr (assoc 70 (tblsearch "LAYER" "0"))) 0)
      (prompt
        "\nA camada '0' está congelada ou trancada. Ela precisa estar editável para o comando funcionar."
      )
@@ -116,6 +115,10 @@
 
 	;; Execution
 	(progn
+	  (if
+	    (< (cdr (assoc 62 (entget (tblobjname "LAYER" "0")))) 0) ; if turned off
+	     (alert "A camada '0' está desligada e ficará corrente.")
+	  )
 	  (setvar "CLAYER" "0")
 	  (setvar "CECOLOR" "bylayer")
 	  (command "_zoom" "_e")

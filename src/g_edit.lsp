@@ -77,7 +77,6 @@
 ;;; COMMAND: OSMODE preset
 ;;; 	NOTE: ad:inicmd and ad:endcmd commented out due to overriding setvar "OSMODE".
 ;;;		- see TO-DO in error.lsp.
-;;; 	TO-DO: Move it to a proper module.
 
 (defun c:osp (/ var)
   (prompt "OSP - OSNAP pré-definido/recomendado")
@@ -96,7 +95,6 @@
 
 ;;; COMMAND: Scale multiple
 ;;;	Introduces global *ad:scalefactor*
-;;; 	TO-DO: Move it to a proper module.
 
 (defun c:scm (/ pt sc ss)
   (prompt "SCM - Scale múltiplo")

@@ -104,7 +104,6 @@
 ;;; ---- TEXT ----
 
 ;;; FUNCTION: Quick text insert
-;;; 	TO-DO: Move it to a separate module
 ;;;	TO-DO: Remove <style> as it's implied. Use (setvar "TEXTSTYLE") instead.
 ;;;	TO-DO: Maybe, reorder the variables in content, pt, h, rot, justify.
 ;;;	TO-DO: Check if style exists.

@@ -63,13 +63,25 @@ O ArcDraft requer AutoCAD 2007 ou superior para funcionar."
 
 
 ;;; FUNCTION: Check if drawing is in meters and warn user if not.
-;;;	TO-DO: this is a stub for a more complex function.
 
-(defun ad:check-dwg ()
+(defun ad:check-dwg (/ key)
   (if
     (/= (getvar "insunits") 6)
-     (prompt
-       "\nAtenção: O seu desenho não está em metros! Recomenda-se mudar isso pelo comando _UNITS."
+     (progn
+       (initget 0 "Sim Não")
+       (setq key
+	      (getkword
+		"\nEste desenho não está em metros. Deseja corrigir isso? (pode-se mudar depois pelo comando _UNITS) [Sim/Não] <Sim>: "
+	      )
+       )
+       (if
+	 (member key '(nil "Sim"))
+	  (progn
+	    (setvar "INSUNITS" 6)
+	    (prompt "\nUnidade: METROS")
+	  )
+	  (prompt "\nA unidade não foi alterada!")
+       )
      )
   )
 )
