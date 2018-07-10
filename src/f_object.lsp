@@ -104,7 +104,7 @@
 ;;; ---- TEXT ----
 
 ;;; FUNCTION: Quick text insert
-;;;	TO-DO: Check if style exists. Maybe reorder variables.
+;;;	TO-DO: Check if style exists.
 ;;;	Example: (ad:text "TESTx" "Standard" "_c" (getpoint "\nPonto: ") 5.5 15)
 
 (defun ad:text (content style justify pt h rot)

@@ -33,8 +33,8 @@
 
        ;; 3rd point for leader line
        (if (<= (car pt1) (car pt2))	; if rightward
-	 (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.66 *ad:sc*))) (cdr pt2)))
-	 (setq pta (append (list (- (car pt2) (* (strlen coord) 0.66 *ad:sc*))) (cdr pt2)))
+	 (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.66 *ad:th* *ad:sc*))) (cdr pt2)))
+	 (setq pta (append (list (- (car pt2) (* (strlen coord) 0.66 *ad:th* *ad:sc*))) (cdr pt2)))
        )
 
        ;; Draw leader line
@@ -98,7 +98,6 @@
 
 
 ;;; COMMAND: Sum numeric values from texts
-;;; 	TO-DO: Move it to a proper module.
 
 (defun c:somt (/ ent height i ptins ss str_total total value)
   (prompt "\nSOMT - Somar valores numéricos de textos")
@@ -221,7 +220,6 @@
 	      ptins
 	      (* *ad:th* *ad:sc*)
 	      (angtos ang)
-
      )
   )
 

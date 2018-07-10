@@ -11,6 +11,33 @@
 
 ;;; ---- FUNCTIONS ----
 
+;;; FUNCTION: Set default values
+
+(defun ad:defaults ()
+
+  ;; Working scale (global *ad:sc*)
+  (if
+    (null *ad:sc*)
+     (progn
+       (setq *ad:sc* 0.1)		; default 1:100
+       (setvar "DIMZIN" 8)		; suppress trailing zeros
+       (prompt (strcat "\n:: Escala de trabalho: 1:" (rtos (* 1000 *ad:sc*)) "."))
+     )
+  )
+
+  ;; Text height (global *ad:th*)
+  (if
+    (null *ad:th*)
+     (progn
+       (setq *ad:th* 2.0)		; default height
+       (setvar "DIMZIN" 0)		; includes trailing zeros
+       (prompt (strcat " Altura base de texto: " (rtos *ad:th*) "."))
+     )
+  )
+)
+(ad:defaults)				; execute
+
+
 ;;; FUNCTION: Dynamic prompt message generator
 
 (defun ad:msg (msg var)
@@ -29,63 +56,42 @@
 )
 
 
-;;; FUNCTION: Set default working scale
-;;;	Global *ad:sc*
+;;; ---- COMMANDS ----
 
-(defun ad:setscale ()
-  (if (null *ad:sc*)
-    (progn
-      (setq *ad:sc* 0.1)		; default 1:100
-      (setvar "DIMZIN" 8)		; suppress trailing zeros
-      (prompt
-	(strcat	"\n:: Escala de trabalho foi redefinida para 1:"
-		(rtos (* 1000 *ad:sc*))
-		"."
+;;; COMMAND: ArcDraft's basic config
+
+(defun c:aconfig (/ msg_sc option sc th)
+  (prompt "\nACONFIG - Configuração básica do ArcDraft")
+  (ad:inicmd)
+
+  (initget 0 "E A")
+  (setq	option
+	 (getkword
+	   "\nEscolha um item para configurar [Escala de trabalho/Altura de texto]: "
+	 )
+  )
+  (cond
+
+    ;; Working scale
+    ((= option "E")
+      (progn
+	(setvar "DIMZIN" 8)
+	(setq msg_sc (strcat "1:" (rtos (* 1000.0 *ad:sc*))))
+	(if (setq sc (getreal (strcat (ad:msg "\nDefina a nova escala de trabalho" msg_sc) "1:")))
+	  (setq *ad:sc* (/ sc 1000.0))
 	)
       )
     )
-  )
-)
-(ad:setscale)
 
-
-;;; FUNCTION: Set default text height
-;;;	Global *ad:th*
-
-(defun ad:settextheight ()
-  (if (null *ad:th*)
-    (progn
-      (setq *ad:th* 2.0)		; default height
-      (setvar "DIMZIN" 0)		; includes trailing zeros
-      (prompt
-	(strcat "\n:: Altura de texto base: " (rtos *ad:th*) ".")
-      )
-    )
-  )
-)
-(ad:settextheight)
-
-
-;;; ---- COMMANDS ----
-
-;;; COMMAND: Set working scale
-
-(defun c:est (/ msg_sc sc)
-  (prompt "\nEST - Escala de trabalho")
-  (ad:inicmd)
-
-  ;; Build numerical scale
-  (setvar "DIMZIN" 8)
-  (setq msg_sc (strcat "1:" (rtos (* 1000.0 *ad:sc*))))
-
-  ;; User input
-  (if
-    (setq sc (getreal (strcat (ad:msg "\nDefina a nova escala de trabalho" msg_sc) "1:")))
-     (setq *ad:sc*
-	    (/ sc
-	       1000.0
-	    )
+    ;; Text height
+    ((= option "A")
+     (progn
+       (setvar "DIMZIN" 0)		; includes trailing zeros
+       (if (setq th (getreal (ad:msg "\nDefina altura base de texto" (rtos *ad:th*))))
+	 (setq *ad:th* th)
+       )
      )
+    )
   )
 
   (ad:endcmd)
