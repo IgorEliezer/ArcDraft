@@ -127,7 +127,7 @@
 
 
 ;;; COMMAND: Copy and transfer text values
-;;; 	TO-DO: distinguish between mtext vs. dtext.
+;;; 	TO-DO: clean mtext value.
 
 (defun c:tt (/ ent1 ent1_assoc1 ent2 ent2_assoc1 entlist2)
   (prompt "\nTT - Transfere texto de textos, multitextos e atributos de blocos")

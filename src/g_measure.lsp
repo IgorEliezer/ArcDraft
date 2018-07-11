@@ -13,7 +13,7 @@
 
 ;;; COMMAND: Insert coordenates
 
-(defun c:ico (/ coord pref_x pref_y pt1 pt2 pta ptins x y)
+(defun c:ico (/ coord coord_len pref_x pref_y pt1 pt2 pta ptins x y)
   (prompt "\nICO - Inserir coordenadas X e Y")
   (ad:inicmd)
 
@@ -32,9 +32,10 @@
        (setq coord (strcat pref_x x " ; " pref_y y))
 
        ;; 3rd point for leader line
+       (setq coord_len (* (strlen coord) 0.7 *ad:th* *ad:sc*)) ; 0.7 is char width
        (if (<= (car pt1) (car pt2))	; if rightward
-	 (setq pta (append (list (+ (car pt2) (* (strlen coord) 0.66 *ad:th* *ad:sc*))) (cdr pt2)))
-	 (setq pta (append (list (- (car pt2) (* (strlen coord) 0.66 *ad:th* *ad:sc*))) (cdr pt2)))
+	 (setq pta (append (list (+ (car pt2) coord_len)) (cdr pt2)))
+	 (setq pta (append (list (- (car pt2) coord_len)) (cdr pt2)))
        )
 
        ;; Draw leader line
@@ -43,7 +44,7 @@
        ;; Insert text
        (setvar "OSMODE" 0)
        (setq ptins (ad:ptmed pt2 pta))
-       (ad:text coord nil "_bc" ptins (* *ad:th* *ad:sc*) nil)
+       (ad:text coord "_bc" ptins (* *ad:th* *ad:sc*) nil)
      )
   )
 
@@ -86,7 +87,7 @@
       (setvar "OSMODE" 0)
       (if
 	(setq ptins (getpoint " Clique para inserir o texto com o valor total ou <sair>: "))
-	 (ad:text str_total nil "_mc" ptins (* *ad:th* *ad:sc*) 0)
+	 (ad:text str_total "_mc" ptins (* *ad:th* *ad:sc*) 0)
       )
     )
     (prompt "\nNenhuma polilinha aberta foi selecionada.")
@@ -99,7 +100,7 @@
 
 ;;; COMMAND: Sum numeric values from texts
 
-(defun c:somt (/ ent height i ptins ss str_total total value)
+(defun c:somt (/ ent h i ptins ss str_total total value)
   (prompt "\nSOMT - Somar valores numéricos de textos")
   (ad:inicmd)
 
@@ -125,7 +126,7 @@
 
       ;; Text height
       ;; 	get it from the last entity
-      (setq height (cdr (assoc 40 (entget (ssname ss (1- i))))))
+      (setq h (cdr (assoc 40 (entget (ssname ss (1- i))))))
 
       ;; Prompt the user
       (setq str_total (rtos total))
@@ -138,7 +139,7 @@
 		      " Clique para inserir o texto com o valor total ou <sair>: "
 		    )
 	)
-	 (ad:text str_total nil "_mc" ptins height 0)
+	 (ad:text str_total "_mc" ptins h 0)
       )
     )
     (prompt "\nNenhum texto numérico foi selecionado.")
@@ -172,7 +173,7 @@
 	  (setvar "OSMODE" 0)
 	  (if
 	    (setq ptins (getpoint " Clique para inserir o texto com a área ou <sair>: "))
-	     (ad:text area nil "_mc" ptins (* *ad:th* *ad:sc*) 0)
+	     (ad:text area "_mc" ptins (* *ad:th* *ad:sc*) 0)
 	  )
 	)
 
@@ -278,7 +279,7 @@
 	    (setvar "OSMODE" 0)
 	    (if
 	      (setq ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: "))
-	       (ad:text str_ang nil "_mc" ptins (* *ad:th* *ad:sc*) 0)
+	       (ad:text str_ang "_mc" ptins (* *ad:th* *ad:sc*) 0)
 	    )
 	  )
 	  (prompt "\nNão há ângulo.")
@@ -324,7 +325,7 @@
 	      )
 	       (progn
 		 (setq rot (angtos (ad:angle_pt (osnap (cadr sel) "_nea"))))
-		 (ad:text len nil "_mc" ptins (* *ad:th* *ad:sc*) rot)
+		 (ad:text len "_mc" ptins (* *ad:th* *ad:sc*) rot)
 	       )
 	    )
 	  )

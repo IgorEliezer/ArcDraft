@@ -94,7 +94,7 @@
 
 (defun ad:mlayer (name color ltype)
   (if
-    (tblsearch "LAYER" name)		; if exists
+    (tblsearch "LAYER" name)
      (setvar "CLAYER" name)
      (command "_layer" "_make" name "_color" color name "_ltype" ltype name "")
   )
@@ -103,16 +103,25 @@
 
 ;;; ---- TEXT ----
 
-;;; FUNCTION: Quick text insert
-;;;	TO-DO: Check if style exists.
-;;;	Example: (ad:text "TESTx" "Standard" "_c" (getpoint "\nPonto: ") 5.5 15)
+;;; FUNCTION: Make style
+;;; 	Example: (ad:mstyle "Test" "Tahoma" 1.0)
 
-(defun ad:text (content style justify pt h rot)
-
-  ;; Style
-  (if (null style)
-    (setq style (getvar "TEXTSTYLE"))
+(defun ad:mstyle (name font h)
+  (if
+    (tblsearch "STYLE" name)
+     (setvar "TEXTSTYLE" name)
+     (command "_style" name font h "1.00" "0" "N" "N")
   )
+)
+
+
+;;; FUNCTION: Quick text insert
+;;;	Example: (ad:text "String" "_c" (getpoint "\nPonto: ") 5.5 15)
+
+(defun ad:text (content justify pt h rot / angbase style)
+
+  ;; Current style
+  (setq style (getvar "TEXTSTYLE"))
 
   ;; Justify
   (if (null justify)
@@ -121,21 +130,22 @@
 
   ;; <pt> is required
 
-  ;; <h> is required, unless style has a height (see below)
+  ;; <h> is required, use nil, t or anything if style has a height (see below)
 
   ;; Rotation
-  (if (null rot)
-    (setq rot 0)
+  (if (null rot) (setq rot 0.0))
+  (setq angbase (* (/ (getvar "ANGBASE") pi) 180.0)) ; check base angles
+  (if (= (getvar "ANGDIR") 0)
+    (setq rot (- rot angbase))
+    (setq rot (- angbase rot))
   )
 
   ;; <content> is required - insert text
   (if					; if style has a height, drop <h>
     (= (cdr (assoc 40 (tblsearch "STYLE" style))) 0.0)
-     (command "_text" "_s" style "_j" justify pt h rot content)
-     (command "_text" "_s" style "_j" justify pt rot content)
+     (command "_text" "_j" justify pt h rot content)
+     (command "_text" "_j" justify pt rot content)
   )
 )
 
 ;;; EOF
-
-
