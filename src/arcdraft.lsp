@@ -71,18 +71,19 @@ O ArcDraft requer AutoCAD 2007 ou superior para funcionar."
        (initget 0 "Sim Não")
        (setq key
 	      (getkword
-		"\nEste desenho não está em metros. Deseja corrigir isso? (pode-se mudar depois pelo comando _UNITS) [Sim/Não] <Sim>: "
+		"\nO desenho não está em metros. Deseja corrigir isso? (pode-se mudar depois pelo comando _UNITS) [Sim/Não] <Sim>: "
 	      )
        )
        (if
 	 (member key '(nil "Sim"))
 	  (progn
 	    (setvar "INSUNITS" 6)
-	    (prompt "\nUnidade: METROS")
+	    (prompt "\n:: Unidade: metros.")
 	  )
 	  (prompt "\nA unidade não foi alterada!")
        )
      )
+    (prompt "\n:: Unidade: metros.")
   )
 )
 

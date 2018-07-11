@@ -85,7 +85,7 @@
   (setvar "OSMODE" osmode_or)
 
   ;; Get object angle
-  (if (not (null pta))			; check if <pta> is valid
+  (if pta				; check if <pta> is valid
 
     ;; then: get the angle in radians
     (progn

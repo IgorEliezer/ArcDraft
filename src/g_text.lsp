@@ -144,9 +144,10 @@
      (setq entname2 (car (nentsel "\nSelecione o objeto de destino ")))
 
      ;; get data
-     (setq entname1_assoc1 (assoc 1 (cdr (entget entname1))))
-     (setq entlist2 (entget entname2))
-     (setq entname2_assoc1 (assoc 1 entlist2))
+     (setq entname1_assoc1 (assoc 1 (cdr (entget entname1)))
+	   entlist2	   (entget entname2)
+	   entname2_assoc1 (assoc 1 entlist2)
+     )
 
      ;; replace
      (entmod (subst entname1_assoc1 entname2_assoc1 entlist2))

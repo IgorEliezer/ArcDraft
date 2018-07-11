@@ -57,7 +57,7 @@
 	 )
        )
        (if
-	 (setq sc (getreal "\nDefina a nova escala do viewport (1:___) <sair>: "))
+	 (setq sc (getreal "\nDefina a nova escala do viewport (1:___): "))
 
 	  ;; Set viewport scale
 	  (progn
@@ -76,7 +76,7 @@
 
 ;;; COMMAND: OSMODE preset
 ;;; 	NOTE: ad:inicmd and ad:endcmd commented out due to overriding setvar "OSMODE".
-;;;		- see TO-DO in error.lsp.
+;;;		- see comments in error.lsp.
 
 (defun c:osp (/ var)
   (prompt "OSP - OSNAP pré-definido/recomendado")
@@ -96,29 +96,23 @@
 ;;; COMMAND: Scale multiple
 ;;;	Introduces global *ad:scalefactor*
 
-(defun c:scm (/ pt sc ss)
+(defun c:scm (/ pt ss)
   (prompt "SCM - Scale múltiplo")
   (ad:inicmd)
 
-  ;; Check global and use it 
-  (if (and (null sc) *ad:scalefactor*)
-    (setq sc *ad:scalefactor*)
-  )
-
   ;; Scale factor
-  (if
-    (null
-      (setq sc (getreal (ad:msg "\nEspecifique um fator de escala" *ad:scalefactor*)))
-    )
-     (setq sc *ad:scalefactor*)
-     (setq *ad:scalefactor* sc)
+  (setq	*ad:scalefactor*
+	 (cond
+	   ((getreal (ad:msg "\nEspecifique um fator de escala" *ad:scalefactor*)))
+	   (t *ad:scalefactor*)		; if ENTER
+	 )
   )
 
-  ;; Apply
-  (if sc
+  ;; Selection
+  (if *ad:scalefactor*
     (while (setq ss (ad:ssgetp nil "\nSelecione objetos: "))
       (setq pt (getpoint "\nEspecifique um ponto base: "))
-      (command "_scale" ss "" pt sc)
+      (command "_scale" ss "" pt *ad:scalefactor*)
     )
   )
 

@@ -171,9 +171,7 @@
 	  ;; Insert the text
 	  (setvar "OSMODE" 0)
 	  (if
-	    (setq
-	      ptins (getpoint " Clique para inserir o texto com a área ou <sair>: ")
-	    )
+	    (setq ptins (getpoint " Clique para inserir o texto com a área ou <sair>: "))
 	     (ad:text area nil "_mc" ptins (* *ad:th* *ad:sc*) 0)
 	  )
 	)
@@ -286,7 +284,7 @@
 	  (prompt "\nNão há ângulo.")
        )
      )
-     (prompt "\nRequer dois pontos sobre um objeto linear.")
+     (prompt "\nRequer dois pontos sobre objeto linear.")
   )
 
   (ad:endcmd)

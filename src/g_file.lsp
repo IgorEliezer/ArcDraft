@@ -16,24 +16,18 @@
 (defun ad:defaults ()
 
   ;; Working scale (global *ad:sc*)
-  (if
-    (null *ad:sc*)
-     (progn
-       (setq *ad:sc* 0.1)		; default 1:100
-       (setvar "DIMZIN" 8)		; suppress trailing zeros
-       (prompt (strcat "\n:: Escala de trabalho: 1:" (rtos (* 1000 *ad:sc*)) "."))
-     )
-  )
+  (if (null *ad:sc*)
+    (setq *ad:sc* 0.1)
+  )					; default 1:100
+  (setvar "DIMZIN" 8)			; suppress trailing zeros
+  (prompt (strcat " Escala de trabalho: 1:" (rtos (* 1000 *ad:sc*)) ".")) ; resumes last prompt
 
   ;; Text height (global *ad:th*)
-  (if
-    (null *ad:th*)
-     (progn
-       (setq *ad:th* 2.0)		; default height
-       (setvar "DIMZIN" 0)		; includes trailing zeros
-       (prompt (strcat " Altura base de texto: " (rtos *ad:th*) "."))
-     )
-  )
+  (if (null *ad:th*)
+    (setq *ad:th* 2.0)
+  )					; default height
+  (setvar "DIMZIN" 0)			; includes trailing zeros
+  (prompt (strcat " Altura base de texto: " (rtos *ad:th*) "."))
 )
 (ad:defaults)				; execute
 
@@ -74,13 +68,13 @@
 
     ;; Working scale
     ((= option "E")
-      (progn
-	(setvar "DIMZIN" 8)
-	(setq msg_sc (strcat "1:" (rtos (* 1000.0 *ad:sc*))))
-	(if (setq sc (getreal (strcat (ad:msg "\nDefina a nova escala de trabalho" msg_sc) "1:")))
-	  (setq *ad:sc* (/ sc 1000.0))
-	)
-      )
+     (progn
+       (setvar "DIMZIN" 8)
+       (setq msg_sc (strcat "1:" (rtos (* 1000.0 *ad:sc*))))
+       (if (setq sc (getreal (strcat (ad:msg "\nDefina a nova escala de trabalho" msg_sc) "1:")))
+	 (setq *ad:sc* (/ sc 1000.0))
+       )
+     )
     )
 
     ;; Text height

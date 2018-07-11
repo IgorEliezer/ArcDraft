@@ -64,6 +64,6 @@
 		". (c) Igor Eliezer Borges Arquiteto e Urbanista, ver licença em LICENSE.txt."
 	)
 )
-(prompt "\nDigite ?A para abrir a lista de comandos.") ; tip
+(prompt "\nDigite ?A para abrir a lista de comandos, ou ACONFIG para configurações.") ; tip
 
 ;;; EOF
