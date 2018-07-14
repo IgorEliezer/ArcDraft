@@ -62,7 +62,7 @@
 	       )
 
 	       ;; Rotate object if clicking again
-	       (if (eq ent ent_last) ; if it is the same entity as the previous
+	       (if (eq ent ent_last)	; if it is the same entity as the previous
 		 (setq ang (ad:fixangle (+ ang pi))) ; add 1 pi to the rotation angle
 	       )
 
@@ -72,7 +72,7 @@
 
 	       ;; Record last entity and change message for new selections
 	       (setq ent_last ent
-		     msg	  "\nClique sobre um texto, bloco sem atributo ou atributo para alinhar (clique no mesmo para inverter): "
+		     msg "\nClique sobre um texto, bloco sem atributo ou atributo para alinhar (clique no mesmo para inverter): "
 	       )
 	     )
 
@@ -88,35 +88,35 @@
 )
 
 
-;;; COMMAND: Unite texts
+;;; COMMAND: Text numbering
 
-(defun c:unt (/ ent1 ent2 entlist1 entlist2 str_1 str_2 str_new str_new_dxf)
-  (prompt "\nUNT - Unir textos")
+(defun c:ns (/ ent entlist entlist_assoc1 num prefix str sufix)
+  (prompt "\nNS - Numerador sequencial")
   (ad:inicmd)
 
-  ;; element 1
-  (setvar "OSMODE" 0)
-  (setq ent1 (car (entsel "\nSelecione o texto a ser completado: ")))
-
-  ;; text
-  (while
-    (setq ent2 (car (entsel "\nSelecione o texto a adicionar: ")))    
+  ;; user input
+  (if
+    (setq num (getint "\nDigite o número de partida: "))
      (progn
-       ;; anchor text
-       (setq entlist1 (entget ent1))
-       (setq str_1 (cdr (assoc 1 entlist1)))
+       (setq prefix (getstring "\nDigite o prefixo ou <ENTER> para nada: ")
+	     sufix  (getstring "\nDigite o sufixo ou <ENTER> para nada: ")
+       )
 
-       ;; complementary text
-       (setq entlist2 (entget ent2))
-       (setq str_2 (cdr (assoc 1 entlist2)))
+       ;; user selection
+       (while
+	 (setq
+	   ent (car (nentsel "\nSelecione um texto ou <sair>: "))
+	 )
 
-       ;; new text
-       (setq str_new (strcat str_1 " " str_2))
+	  ;; get data
+	  (setq entlist (entget ent))
+	  (setq entlist_assoc1 (assoc 1 entlist))
 
-       ;; replace and update
-       (setq str_new_dxf (cons 1 str_new))
-       (entmod
-	 (subst str_new_dxf (assoc 1 entlist1) entlist1)
+	  ;; construct text and pair, then insert and modify
+	  (setq str (strcat prefix (itoa num) sufix))
+
+	  (entmod (subst (cons 1 str) entlist_assoc1 entlist))
+	  (setq num (1+ num))
        )
      )
   )
@@ -142,7 +142,7 @@
 
      ;; get data
      (setq ent1_assoc1 (assoc 1 (cdr (entget ent1)))
-	   entlist2	   (entget ent2)
+	   entlist2    (entget ent2)
 	   ent2_assoc1 (assoc 1 entlist2)
      )
 
@@ -155,36 +155,37 @@
 )
 
 
-;;; COMMAND: Text numbering
+;;; COMMAND: Unite texts
 
-(defun c:ns (/ entlist entlist_assoc1 ent num str str_assoc1 str_num str_prefix str_sufix)
-  (prompt "\nNS - Numerador sequencial")
+(defun c:unt (/ ent1 ent2 entlist1 entlist2 str_1 str_2 str_new str_new_dxf)
+  (prompt "\nUNT - Unir textos")
   (ad:inicmd)
 
-  ;; user input
-  (setq num (getint "\nDigite o número de partida: "))
-  (setq	str_prefix (getstring "\nDigite o prefixo ou <ENTER> para nada: ")
-	str_sufix  (getstring "\nDigite o sufixo ou <ENTER> para nada: ")
-  )
+  ;; element 1
+  (setvar "OSMODE" 0)
+  (setq ent1 (car (entsel "\nSelecione o texto a ser completado: ")))
 
-  ;; user selection
+  ;; text
   (while
-    (setq
-      ent (car (nentsel "\nSelecione um texto ou <sair>: "))
-    )
+    (setq ent2 (car (entsel "\nSelecione o texto a adicionar: ")))
+     (progn
+       ;; anchor text
+       (setq entlist1 (entget ent1))
+       (setq str_1 (cdr (assoc 1 entlist1)))
 
-     ;; get data
-     (setq entlist (entget ent))
-     (setq entlist_assoc1 (assoc 1 entlist))
+       ;; complementary text
+       (setq entlist2 (entget ent2))
+       (setq str_2 (cdr (assoc 1 entlist2)))
 
-     ;; construct text and pair, then insert and modify
-     (setq str_num (itoa num)
-	   str	   (strcat str_prefix str_num str_sufix)
+       ;; new text
+       (setq str_new (strcat str_1 " " str_2))
+
+       ;; replace and update
+       (setq str_new_dxf (cons 1 str_new))
+       (entmod
+	 (subst str_new_dxf (assoc 1 entlist1) entlist1)
+       )
      )
-     (setq str_assoc1 (cons 1 str))
-
-     (entmod (subst str_assoc1 entlist_assoc1 entlist))
-     (setq num (1+ num))
   )
 
   (ad:endcmd)
