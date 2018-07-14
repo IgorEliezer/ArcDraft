@@ -6,7 +6,7 @@
 ;;;; License: ArcDraft, see LICENSE.txt.
 
 
-;;;; Commands for file management and handling. For now, a "better" save.
+;;;; Commands for file management and handling.
 
 
 ;;; ---- FUNCTIONS ----
@@ -17,18 +17,25 @@
 
   ;; Working scale (global *ad:sc*)
   (if (null *ad:sc*)
-    (setq *ad:sc* 0.1)
-  )					; default 1:100
+    (setq *ad:sc* 0.1)			; default 1:100
+  )
   (setvar "DIMZIN" 8)			; suppress trailing zeros
   (prompt (strcat " Escala de trabalho: 1:" (rtos (* 1000 *ad:sc*)) ".")) ; resumes last prompt
 
   ;; Text height (global *ad:th*)
   (if (null *ad:th*)
-    (setq *ad:th* 2.0)
-  )					; default height
+    (setq *ad:th* 2.0)			; default height
+  )
   (setvar "DIMZIN" 0)			; includes trailing zeros
   (prompt (strcat " Altura base de texto: " (rtos *ad:th*) "."))
+
+  ;; Coord format (global *ad:coord_f*)
+  (if (null *ad:coord_f*)
+    (setq *ad:coord_f* "XY")		; default X,Y format
+  )
+  (prompt (strcat " Coordenadas: " *ad:coord_f* "."))
 )
+
 (ad:defaults)				; execute
 
 
@@ -54,14 +61,14 @@
 
 ;;; COMMAND: ArcDraft's basic config
 
-(defun c:aconfig (/ msg_sc option sc th)
+(defun c:aconfig (/ coord_f msg_sc option sc th)
   (prompt "\nACONFIG - Configuração básica do ArcDraft")
   (ad:inicmd)
 
-  (initget 0 "E A")
+  (initget 0 "E A F")
   (setq	option
 	 (getkword
-	   "\nEscolha um item para configurar [Escala de trabalho/Altura de texto]: "
+	   "\nEscolha um item para configurar [Escala de trabalho/Altura de texto/Formato de coordenada]: "
 	 )
   )
   (cond
@@ -71,7 +78,7 @@
      (progn
        (setvar "DIMZIN" 8)
        (setq msg_sc (strcat "1:" (rtos (* 1000.0 *ad:sc*))))
-       (if (setq sc (getreal (strcat (ad:msg "\nDefina a nova escala de trabalho" msg_sc) "1:")))
+       (if (setq sc (getreal (strcat (ad:msg "\nDigite a nova escala de trabalho" msg_sc) "1:")))
 	 (setq *ad:sc* (/ sc 1000.0))
        )
      )
@@ -81,8 +88,20 @@
     ((= option "A")
      (progn
        (setvar "DIMZIN" 0)		; includes trailing zeros
-       (if (setq th (getreal (ad:msg "\nDefina altura base de texto" (rtos *ad:th*))))
+       (if (setq th (getreal (ad:msg "\nDigite a altura base de texto" (rtos *ad:th*))))
 	 (setq *ad:th* th)
+       )
+     )
+    )
+
+    ;; Coord format
+    ((= option "F")
+     (progn
+       (initget 0 "XY NE")
+       (if (setq coord_f
+		  (getkword (ad:msg "\nEscolha o formato do comando ICO [XY/NE]" *ad:coord_f*))
+	   )
+	 (setq *ad:coord_f* coord_f)
        )
      )
     )
