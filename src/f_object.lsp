@@ -133,7 +133,9 @@
   ;; <h> is required, use nil, t or anything if style has a height (see below)
 
   ;; Rotation
-  (if (null rot) (setq rot 0.0))
+  (if (null rot)
+    (setq rot 0.0)
+  )
   (setq angbase (* (/ (getvar "ANGBASE") pi) 180.0)) ; check base angles
   (if (= (getvar "ANGDIR") 0)
     (setq rot (- rot angbase))
@@ -156,9 +158,9 @@
   (if
     (> (/ (getvar "VIEWSIZE") *ad:th*) 20.0)
      (alert
-       "Aviso: Seu zoom estï¿½ muito distante para o texto ficar vï¿½sivel.
+       "Aviso: Seu zoom está muito distante para o texto ficar vísivel.
 
-Vocï¿½ pode:
+Você pode:
 - Aproximar o ZOOM;
 - Aumentar a altura de texto pelo comando ACONFIG."
      )
