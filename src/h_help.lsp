@@ -26,7 +26,7 @@
       "\nFeito para AutoCAD 2007 ou superior"
       "\n\nComandos:"
       "\n	?A - Abrir esta ajuda"
-      "\n	ACONFIG - Configuração básica do ArcDraft"      
+      "\n	ACONFIG - Configuração básica do ArcDraft"
       "\n	AE - Alinhar texto e bloco sem atributo"
       "\n	BB - Quebra no ponto"
       "\n	CUR - Definir camada corrente por seleção"
@@ -59,11 +59,12 @@
 
 ;;; FINAL MESSAGES
 
-(prompt	(strcat	"\nArcDraft carregado. Versão "
-		*ad:ver*
-		". (c) Igor Eliezer Borges Arquiteto e Urbanista, ver licença em LICENSE.txt."
-	)
+(prompt
+  (strcat "\nArcDraft carregado. Versão "
+	  *ad:ver*
+	  ". (c) Igor Eliezer Borges Arquiteto e Urbanista, ver licença em LICENSE.txt."
+  )
 )
-(prompt "\nDigite ?A para abrir a lista de comandos, ou ACONFIG para configurações.") ; tip
+(prompt "\nDigite ?A para lista de comandos, e ACONFIG para configurações.") ; tip
 
 ;;; EOF
