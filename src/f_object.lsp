@@ -148,4 +148,21 @@
   )
 )
 
+
+;;; FUNCTION: Check text visibility
+;;; 	It does nothing else than warning the user, for now.
+
+(defun ad:textviz ()
+  (if
+    (> (/ (getvar "VIEWSIZE") *ad:th*) 20.0)
+     (alert
+       "Aviso: Seu zoom est� muito distante para o texto ficar v�sivel.
+
+Voc� pode:
+- Aproximar o ZOOM;
+- Aumentar a altura de texto pelo comando ACONFIG."
+     )
+  )
+)
+
 ;;; EOF
