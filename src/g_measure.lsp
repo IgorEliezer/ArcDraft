@@ -246,11 +246,10 @@
       ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: ")
     )
      (ad:text (strcat "< " str_ang " >")
-	      nil
 	      "_mc"
 	      ptins
 	      (* *ad:th* *ad:sc*)
-	      (angtos ang)
+	      (atof (angtos ang))
      )
   )
 
@@ -311,7 +310,7 @@
 	    (setvar "OSMODE" 0)
 	    (if
 	      (setq ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: "))
-	       (ad:text str_ang "_mc" ptins (* *ad:th* *ad:sc*) 0)
+	       (ad:text str_ang "_mc" ptins (* *ad:th* *ad:sc*) 0.0)
 	    )
 	  )
 	  (prompt "\nNão há ângulo.")
