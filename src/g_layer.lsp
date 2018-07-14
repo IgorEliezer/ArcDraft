@@ -34,18 +34,24 @@
   (prompt "\nNLA - Criar camada")
   (ad:inicmd)
 
-  (setq	layname	 (getstring T "\nNome da camada a criar: ")
-	laycolor (getstring "\nDigite a cor da camada a criar (número de 0 a 255): ")
-  )
-
-  (command "_layer" "_make" layname "_color" laycolor "" "")
-  (command "_color" "_bylayer")
-  (prompt
-    (strcat "A camada \"" layname "\" na color " laycolor " foi criada e está corrente.")
+  (if
+    (and
+      (setq layname  (getstring T "\nNome da camada a criar: ")
+	    laycolor (getstring "\nDigite a cor da camada a criar (número de 0 a 255): ")
+      )
+    )
+     (progn
+       (command "_layer" "_make" layname "_color" laycolor "" "")
+       (command "_color" "_bylayer")
+       (prompt
+	 (strcat "A camada \"" layname "\" na color " laycolor " foi criada e está corrente.")
+       )
+     )
   )
 
   (ad:endcmd)
   (princ)
 )
+
 
 ;;; EOF
