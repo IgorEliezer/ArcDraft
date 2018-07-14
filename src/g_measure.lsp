@@ -13,38 +13,70 @@
 
 ;;; COMMAND: Insert coordenates
 
-(defun c:ico (/ coord coord_len pref_x pref_y pt1 pt2 pta ptins x y)
+(defun c:ico (/ coord coord_len msg pref_x pref_y pt1 pt2 pta ptins x y)
   (prompt "\nICO - Inserir coordenadas X e Y")
   (ad:inicmd)
 
   ;; User input
+  (ad:textviz)
   (if
     (setq pt1 (getpoint "\nClique num ponto para obter as coordenadas: "))
      (progn
-       (setq pt2 (getpoint pt1 "\nClique no segundo ponto para linha de chamada: "))
 
        ;; Build string
-       (setq x	    (rtos (car pt1))
-	     y	    (rtos (cadr pt1))
-	     pref_x "X = "
-	     pref_y "Y = "
+       (setq x (rtos (car pt1))
+	     y (rtos (cadr pt1))
        )
-       (setq coord (strcat pref_x x " ; " pref_y y))
-
-       ;; 3rd point for leader line
-       (setq coord_len (* (strlen coord) 0.7 *ad:th* *ad:sc*)) ; 0.7 is char width
-       (if (<= (car pt1) (car pt2))	; if rightward
-	 (setq pta (append (list (+ (car pt2) coord_len)) (cdr pt2)))
-	 (setq pta (append (list (- (car pt2) coord_len)) (cdr pt2)))
+       (cond
+	 ((= *ad:coord_f* "XY")
+	  (progn
+	    (setq pref_x "X = "
+		  pref_y "Y = "
+		  coord	 (strcat pref_x x "; " pref_y y)
+		  msg	 (strcat *ad:coord_f* ": " x "," y ".")
+	    )
+	  )
+	 )
+	 ((= *ad:coord_f* "NE")
+	  (progn
+	    (setq pref_x "E = "
+		  pref_y "N = "
+		  coord	 (strcat pref_y y "; " pref_x x)
+		  msg	 (strcat *ad:coord_f* ": " y "," x ".")
+	    )
+	  )
+	 )
        )
 
-       ;; Draw leader line
-       (command "_pline" pt1 pt2 pta "")
+       ;; Prompt the user
+       (prompt (strcat "\nCoordenadas " msg))
 
-       ;; Insert text
+       ;; Leader
        (setvar "OSMODE" 0)
-       (setq ptins (ad:ptmed pt2 pta))
-       (ad:text coord "_bc" ptins (* *ad:th* *ad:sc*) nil)
+       (if
+	 (setq
+	   pt2 (getpoint
+		 pt1
+		 " Clique no segundo ponto para linha de chamada com o valor ou <sair>: "
+	       )
+	 )
+	  (progn
+
+	    ;; Find 3rd point for leader line
+	    (setq coord_len (* (strlen coord) 0.7 *ad:th* *ad:sc*)) ; 0.7 is char width
+	    (if	(<= (car pt1) (car pt2)) ; if rightward
+	      (setq pta (append (list (+ (car pt2) coord_len)) (cdr pt2)))
+	      (setq pta (append (list (- (car pt2) coord_len)) (cdr pt2)))
+	    )
+
+	    ;; Draw leader line
+	    (command "_pline" pt1 pt2 pta "")
+
+	    ;; Insert text
+	    (setq ptins (ad:ptmed pt2 pta))
+	    (ad:text coord "_bc" ptins (* *ad:th* *ad:sc*) nil)
+	  )
+       )
      )
   )
 
