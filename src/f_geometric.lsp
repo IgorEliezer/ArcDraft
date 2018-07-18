@@ -77,10 +77,12 @@
 ;;; ---- ANGLES ----
 
 ;;; FUNCTION: Get angle from a point of a linear entity
+;;;	It's not affected by ANGBASE and ANGDIR.
+;;; 	Example: (ad:angle_pt (getpoint "\nPoint: "))
 
 (defun ad:angle_pt (pt / osmode_or pta)
   (setq osmode_or (getvar "OSMODE"))
-  (setvar "OSMODE" 0)			; for safety 
+  (setvar "OSMODE" 0)
   (setq pta (osnap (polar pt 0.00 0.01) "_nea")) ; get a second point along linear entity
   (setvar "OSMODE" osmode_or)
 

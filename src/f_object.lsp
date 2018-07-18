@@ -116,35 +116,32 @@
 
 
 ;;; FUNCTION: Quick text insert
+;;;	<pt> required.
+;;;	<h> required. Use nil, t or anything if style has a height (see below).
+;;;	<rot>, rotation, uses the current ANGBASE and ANGDIR. If null, the absolute zero is used.
 ;;;	Example: (ad:text "String" "_c" (getpoint "\nPonto: ") 5.5 15)
 
 (defun ad:text (content justify pt h rot / angbase style)
-
-  ;; Current style
-  (setq style (getvar "TEXTSTYLE"))
 
   ;; Justify
   (if (null justify)
     (setq justify "_mc")
   )
 
-  ;; <pt> is required
-
-  ;; <h> is required, use nil, t or anything if style has a height (see below)
-
   ;; Rotation
   (if (null rot)
-    (setq rot 0.0)
-  )
-  (setq angbase (* (/ (getvar "ANGBASE") pi) 180.0)) ; check base angles
-  (if (= (getvar "ANGDIR") 0)
-    (setq rot (- rot angbase))
-    (setq rot (- angbase rot))
+    (progn
+      (setq angbase (* (/ (getvar "ANGBASE") pi) 180.0))
+      (if (= (getvar "ANGDIR") 0)
+	(setq rot (- angbase))
+	(setq rot angbase)
+      )
+    )
   )
 
   ;; <content> is required - insert text
   (if					; if style has a height, drop <h>
-    (= (cdr (assoc 40 (tblsearch "STYLE" style))) 0.0)
+    (= (cdr (assoc 40 (tblsearch "STYLE" (getvar "TEXTSTYLE")))) 0.0)
      (command "_text" "_j" justify pt h rot content)
      (command "_text" "_j" justify pt rot content)
   )

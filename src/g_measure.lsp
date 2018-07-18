@@ -119,7 +119,7 @@
       (setvar "OSMODE" 0)
       (if
 	(setq ptins (getpoint " Clique para inserir o texto com o valor total ou <sair>: "))
-	 (ad:text str_total "_mc" ptins (* *ad:th* *ad:sc*) 0)
+	 (ad:text str_total "_mc" ptins (* *ad:th* *ad:sc*) nil)
       )
     )
     (prompt "\nNenhuma polilinha aberta foi selecionada.")
@@ -171,7 +171,7 @@
 		      " Clique para inserir o texto com o valor total ou <sair>: "
 		    )
 	)
-	 (ad:text str_total "_mc" ptins h 0)
+	 (ad:text str_total "_mc" ptins h nil)
       )
     )
     (prompt "\nNenhum texto numérico foi selecionado.")
@@ -205,7 +205,7 @@
 	  (setvar "OSMODE" 0)
 	  (if
 	    (setq ptins (getpoint " Clique para inserir o texto com a área ou <sair>: "))
-	     (ad:text area "_mc" ptins (* *ad:th* *ad:sc*) 0)
+	     (ad:text area "_mc" ptins (* *ad:th* *ad:sc*) nil)
 	  )
 	)
 
@@ -245,12 +245,7 @@
     (setq
       ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: ")
     )
-     (ad:text (strcat "< " str_ang " >")
-	      "_mc"
-	      ptins
-	      (* *ad:th* *ad:sc*)
-	      (atof (angtos ang))
-     )
+     (ad:text (strcat "< " str_ang " >")"_mc" ptins (* *ad:th* *ad:sc*) (atof (angtos ang)))
   )
 
   (ad:endcmd)
@@ -264,59 +259,67 @@
   (prompt "\nVV - Obter ângulo de vértice")
   (ad:inicmd)
 
-  ;; User input
+  ;; User input - 1st point
   (setvar "OSMODE" 512)
+  (setq pt1 (getpoint "\nClique sobre a primeira linha: "))
+  (setvar "OSMODE" 0)
   (if
-    (and
-      (setq pt1 (getpoint "\nClique sobre a primeira linha: "))
-      (setq pt2 (getpoint "\nClique sobre a segunda linha: "))
-    )
+    (null (setq pt1a (osnap (polar pt1 0.00 0.01) "_nea")))
      (progn
+       (prompt "\nVocê deve clicar sobre um objeto linear.")
+       (exit)
+     )
+  )
+
+  ;; User input - 2nd point
+  (setvar "OSMODE" 512)
+  (setq pt2 (getpoint "\nClique sobre a segunda linha: "))
+  (setvar "OSMODE" 0)
+  (if
+    (null (setq pt2a (osnap (polar pt2 0.00 0.01) "_nea")))
+     (progn
+       (prompt "\nVocê deve clicar sobre um objeto linear.")
+       (exit)
+     )
+  )
+
+  ;; Fix if vertical
+  (if (= 0.0 (distance pt1 pt1a))
+    (setq pt1a (osnap (polar pt1 (/ pi 2) 0.01) "_nea"))
+  )
+  (if (= 0.0 (distance pt2 pt2a))
+    (setq pt2a (osnap (polar pt2 (/ pi 2) 0.01) "_nea"))
+  )
+
+  ;; Intersection
+  (if
+    (setq ptint (inters pt1 pt1a pt2 pt2a nil))
+     (progn
+
+       ;; Prompt the user
+       (setq ang1 (angle ptint pt1)
+	     ang2 (angle ptint pt2)
+       )
+       (prompt (strcat "\nÂngulo 1: " (angtos ang1) ". Ângulo 2: " (angtos ang2) "."))
+       (setq ang_in  (abs (- ang1 ang2))
+	     ang_out (- (* 2 pi) ang_in)
+       )
+       (setq str_ang
+	      (strcat (angtos (max ang_in ang_out))
+		      " \U+2220 "
+		      (angtos (min ang_in ang_out))
+	      )
+       )
+       (prompt (strcat "\nÂngulos replementares: " str_ang "."))
+
+       ;; Insert text
        (setvar "OSMODE" 0)
-       (setq pt1a (osnap (polar pt1 0.00 0.01) "_nea")
-	     pt2a (osnap (polar pt2 0.00 0.01) "_nea")
-       )
-
-       ;; Fix if vertical
-       (if (= 0.0 (distance pt1 pt1a))
-	 (setq pt1a (osnap (polar pt1 (/ pi 2) 0.01) "_nea"))
-       )
-       (if (= 0.0 (distance pt2 pt2a))
-	 (setq pt2a (osnap (polar pt2 (/ pi 2) 0.01) "_nea"))
-       )
-
-       ;; Intersection
        (if
-	 (setq ptint (inters pt1 pt1a pt2 pt2a nil))
-	  (progn
-
-	    ;; Prompt the user
-	    (setq ang1 (angle ptint pt1)
-		  ang2 (angle ptint pt2)
-	    )
-	    (prompt (strcat "\nÂngulo 1: " (angtos ang1) ". Ângulo 2: " (angtos ang2) "."))
-	    (setq ang_in  (abs (- ang1 ang2))
-		  ang_out (- (* 2 pi) ang_in)
-	    )
-	    (setq str_ang
-		   (strcat (angtos (max ang_in ang_out))
-			   " \U+2220 "
-			   (angtos (min ang_in ang_out))
-		   )
-	    )
-	    (prompt (strcat "\nÂngulos replementares: " str_ang "."))
-
-	    ;; Insert text
-	    (setvar "OSMODE" 0)
-	    (if
-	      (setq ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: "))
-	       (ad:text str_ang "_mc" ptins (* *ad:th* *ad:sc*) 0.0)
-	    )
-	  )
-	  (prompt "\nNão há ângulo.")
+	 (setq ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: "))
+	  (ad:text str_ang "_mc" ptins (* *ad:th* *ad:sc*) nil)
        )
      )
-     (prompt "\nRequer dois pontos sobre objeto linear.")
+     (prompt "\nNão há ângulo.")
   )
 
   (ad:endcmd)
