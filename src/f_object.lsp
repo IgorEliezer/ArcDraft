@@ -122,6 +122,7 @@
 ;;;	Example: (ad:text "String" "_c" (getpoint "\nPonto: ") 5.5 15)
 
 (defun ad:text (content justify pt h rot / angbase style)
+  (ad:textviz)
 
   ;; Justify
   (if (null justify)
@@ -153,13 +154,13 @@
 
 (defun ad:textviz ()
   (if
-    (> (/ (getvar "VIEWSIZE") *ad:th*) 20.0)
+    (> (/ (getvar "VIEWSIZE") (* *ad:th* *ad:sc*)) 200.0)
      (alert
-       "Aviso: Seu zoom está muito distante para o texto ficar vísivel.
+       "ArcDraft detectou que o zoom está muito distante para o texto ficar vísivel.
 
-Você pode:
+Recomenda-se:
 - Aproximar o ZOOM;
-- Aumentar a altura de texto pelo comando ACONFIG."
+- Aumentar a altura de texto ou diminuir a escala pelo comando ACONFIG."
      )
   )
 )

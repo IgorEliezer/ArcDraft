@@ -18,7 +18,6 @@
   (ad:inicmd)
 
   ;; User input
-  (ad:textviz)
   (if
     (setq pt1 (getpoint "\nClique num ponto para obter as coordenadas: "))
      (progn
