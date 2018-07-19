@@ -241,10 +241,8 @@
   ;; Insert text
   (setvar "OSMODE" 0)
   (if
-    (setq
-      ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: ")
-    )
-     (ad:text (strcat "< " str_ang " >")"_mc" ptins (* *ad:th* *ad:sc*) (atof (angtos ang)))
+    (setq ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: "))
+     (ad:text (strcat "< " str_ang " >") "_mc" ptins (* *ad:th* *ad:sc*) (angtos ang))
   )
 
   (ad:endcmd)

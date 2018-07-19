@@ -61,7 +61,7 @@
 ;;; 	Prompts error message e retores values in case of error.
 
 (defun ad:error	(msg)
-  (prompt "\nComando cancelado!\n")	; message
+  (prompt "\nComando cancelado.\n")	; message
   (ad:endcmd)				; restore original command settings
 )
 
