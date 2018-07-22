@@ -9,10 +9,6 @@
 ;;;; Set up commands for block and layer listing.
 
 
-;;; ==== TO-DOs ====
-;;; 1.	C:GT will go here.
-
-
 ;;; ---- COMMANDS ----
 
 ;;; COMMAND: List and count blocks from selection

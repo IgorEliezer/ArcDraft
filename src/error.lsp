@@ -16,7 +16,7 @@
 ;;;		Also: (ad:inicmd nil) = none, (ad:inicmd t) = all.
 
 
-;;; ---- FUNCIONS ----
+;;; ---- FUNCTIONS ----
 
 ;;; FUNCTION: Command ini
 ;;; 	Saves some values for later and turns off echoing.
