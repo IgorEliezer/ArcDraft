@@ -126,6 +126,58 @@
 )
 
 
+;;; COMMAND: Sum numeric values from texts
+
+(defun c:somt (/ ent h i ptins ss str_total total value)
+  (prompt "\nSOMT - Somar valores numéricos de textos")
+  (ad:inicmd)
+
+  ;; User input
+  (setq	ss    (ad:ssgetp
+		'((0 . "TEXT") (1 . "#*,[+]#*,[`-]#*")) ; also accepts + and -
+		"\nSelecione textos que começam com números e que usam ponto como separador decimal, e <ENTER> para concluir: "
+	      )
+	i     0
+	total 0.00
+  )
+
+  ;; Sum
+  (if ss
+    (progn
+      (while
+	(setq ent (ssname ss i))
+	 (setq value (atof (cdr (assoc 1 (entget ent)))) ; NOTE: only leading numberic chars.
+	       total (+ total value)
+	       i     (1+ i)
+	 )
+      )
+
+      ;; Text height
+      ;; 	get it from the last entity
+      (setq h (cdr (assoc 40 (entget (ssname ss (1- i))))))
+
+      ;; Prompt the user
+      (setq str_total (rtos total))
+      (prompt (strcat "\nValor total: " str_total "."))
+
+      ;; Insert the text
+      (setvar "OSMODE" 0)
+      (if
+	(setq ptins (getpoint
+		      " Clique para inserir o texto com o valor total ou <sair>: "
+		    )
+	)
+	 (ad:text str_total "_mc" ptins h nil)
+      )
+    )
+    (prompt "\nNenhum texto numérico foi selecionado.")
+  )
+
+  (ad:endcmd)
+  (princ)
+)
+
+
 ;;; COMMAND: Copy and transfer text values
 ;;; 	TO-DO: clean mtext value.
 
