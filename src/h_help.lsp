@@ -35,6 +35,7 @@
       "\n	LBL - Listar blocos de uma seleção"
       "\n	LLA - Listar camadas de uma seleção"
       "\n	NLA - Criar camada"
+      "\n	NOTA - Inserir nota com chamada"
       "\n	NS - Numerador sequencial"
       "\n	OSP - OSNAP pré-definido/recomendado"
       "\n	SCM - Scale múltiplo"

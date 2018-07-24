@@ -88,6 +88,49 @@
 )
 
 
+;;; COMMAND: Insert note
+
+(defun c:nota (/ pt1 pt2 pt3 ptins)
+  (prompt "\nNOTA - Inserir nota com chamada")
+  (ad:inicmd)
+
+  ;; Leader
+  (prompt (strcat "\nAltura de texto: " (rtos (* *ad:th* *ad:sc*))))
+  (setvar "ORTHOMODE" 0)
+  (if
+    (and
+      (setq pt1 (getpoint "\nEspecifique o primeiro ponto: "))
+      (setq pt2 (getpoint pt1 "\nEspecifique o segundo ponto: "))
+    )
+     (progn
+       (command	"_pline"
+		pt1
+		pt2
+		(progn
+		  (setvar "ORTHOMODE" 1)
+		  (setq pt3 (getpoint pt2 "\nEspecifique o terceiro ponto: "))
+		)
+		(if pt3
+		  (command "")
+		)
+       )
+
+       ;; Text (<= (car pt2) (car pt3))
+       (if (and pt2 pt3)
+	 (progn
+	   (setq ptins (ad:ptmed pt2 pt3))
+	   (prompt "\nEscreva a nota (ENTER para pular linha, 2 ENTERs para sair):")
+	   (command "_dtext" "_bc" ptins (* *ad:th* *ad:sc*) (angtos (angle pt2 pt3)))
+	 )
+       )
+     )
+  )
+
+  (ad:endcmd)
+  (princ)
+)
+
+
 ;;; COMMAND: Text numbering
 
 (defun c:ns (/ ent entlist entlist_assoc1 num prefix str sufix)
