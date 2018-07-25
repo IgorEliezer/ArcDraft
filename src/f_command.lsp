@@ -39,7 +39,7 @@
   (if (null *ad:nota_j*)
     (setq *ad:nota_j* 0)		; default centered (1 = align left/right)
   )
-  (prompt (strcat " Nota: " "centralizada" "."))
+  (prompt (strcat " Nota: " "centralizada" ".")) ; TO-DO: hardcoded string
 )
 
 (ad:defaults)				; execute

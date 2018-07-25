@@ -13,19 +13,19 @@
 
 ;;; COMMAND: ArcDraft's basic config
 
-(defun c:aconfig (/ coord_f msg_sc option sc th)
+(defun c:aconfig (/ coord_f msg_nota_j msg_sc nota_j option sc th)
   (prompt "\nACONFIG - Configuração básica do ArcDraft")
   (ad:inicmd)
 
-  (initget 0 "E A F")
+  (initget 0 "E A F N")
   (setq	option
 	 (getkword
-	   "\nEscolha um item para configurar [Escala de trabalho/Altura de texto/Formato de coordenada]: "
+	   "\nEscolha um item para configurar [Escala de trabalho/Altura de texto/Formato de coordenada/Nota]: "
 	 )
   )
   (cond
 
-    ;; Working scale
+    ;; Working scale *ad:sc*
     ((= option "E")
      (progn
        (setvar "DIMZIN" 8)
@@ -36,7 +36,7 @@
      )
     )
 
-    ;; Text height
+    ;; Text height *ad:th*
     ((= option "A")
      (progn
        (setvar "DIMZIN" 0)		; includes trailing zeros
@@ -46,7 +46,7 @@
      )
     )
 
-    ;; Coord format
+    ;; Coord format *ad:coord_f*
     ((= option "F")
      (progn
        (initget 0 "XY NE")
@@ -55,6 +55,22 @@
 	   )
 	 (setq *ad:coord_f* coord_f)
        )
+     )
+    )
+
+    ;; Note justification *ad:nota_j*
+    ((= option "N")
+     (progn
+       (if (= *ad:nota_j* 0)
+	 (setq msg_nota_j "Centralizado")
+	 (setq msg_nota_j "Justificado")
+       )
+       (initget 0 "Centralizado Justificado")
+       (setq nota_j (getkword (ad:msg "\nEscolha o alinhamento do texto da nota [Centralizado/Justificado]" msg_nota_j)))
+       (cond
+	 ((= nota_j "Centralizado") (setq *ad:nota_j* 0))
+	 ((= nota_j "Justificado") (setq *ad:nota_j* 1))
+       )       
      )
     )
   )
