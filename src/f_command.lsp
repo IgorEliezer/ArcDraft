@@ -34,6 +34,12 @@
     (setq *ad:coord_f* "XY")		; default X,Y format
   )
   (prompt (strcat " Coordenadas: " *ad:coord_f* "."))
+
+  ; Note justify (global *ad:nota_j*)
+  (if (null *ad:nota_j*)
+    (setq *ad:nota_j* 0)		; default centered (1 = align left/right)
+  )
+  (prompt (strcat " Nota: " "centralizada" "."))
 )
 
 (ad:defaults)				; execute

@@ -90,12 +90,22 @@
 
 ;;; COMMAND: Insert note
 
-(defun c:nota (/ pt1 pt2 pt3 ptins)
+(defun c:nota (/ j-mode justify pt1 pt2 pt3 ptins)
   (prompt "\nNOTA - Inserir nota com chamada")
   (ad:inicmd)
 
+  ;; Status prompt
+  (if
+    (= *ad:nota_j* 0)
+     (setq j-mode "centralizado")
+     (setq j-mode "justificado")
+  )
+  (prompt
+    (strcat "\nAltura de texto: " (rtos (* *ad:th* *ad:sc*)) ". Texto: " j-mode ".")
+  )
+
   ;; Leader
-  (prompt (strcat "\nAltura de texto: " (rtos (* *ad:th* *ad:sc*))))
+
   (setvar "ORTHOMODE" 0)
   (if
     (and
@@ -111,16 +121,28 @@
 		  (setq pt3 (getpoint pt2 "\nEspecifique o terceiro ponto: "))
 		)
 		(if pt3
-		  (command "")
+		  (command "")		; finish polyline
 		)
        )
 
-       ;; Text (<= (car pt2) (car pt3))
+       ;; Text
        (if (and pt2 pt3)
 	 (progn
-	   (setq ptins (ad:ptmed pt2 pt3))
-	   (prompt "\nEscreva a nota (ENTER para pular linha, 2 ENTERs para sair):")
-	   (command "_dtext" "_bc" ptins (* *ad:th* *ad:sc*) (angtos (angle pt2 pt3)))
+	   (if (= *ad:nota_j* 0)
+	     (setq ptins   (ad:ptmed pt2 pt3)
+		   justify "_bc"
+	     )
+	     (if (<= (car pt2) (car pt3)) ; if rightward
+	       (setq ptins   (polar pt2 0.0 (* *ad:th* *ad:sc*))
+		     justify "_bl"
+	       )
+	       (setq ptins   (polar pt2 pi (* *ad:th* *ad:sc*))
+		     justify "_br"
+	       )
+	     )
+	   )
+	   (prompt "\nEscreva a nota (ENTER para pular linha, 2 ENTERs para sair): ")
+	   (command "_dtext" justify ptins (* *ad:th* *ad:sc*) 0.0) ; let user type
 	 )
        )
      )
@@ -129,6 +151,8 @@
   (ad:endcmd)
   (princ)
 )
+
+
 
 
 ;;; COMMAND: Text numbering
