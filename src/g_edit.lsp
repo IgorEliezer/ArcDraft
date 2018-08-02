@@ -94,25 +94,25 @@
 
 
 ;;; COMMAND: Scale multiple
-;;;	Introduces global *ad:scalefactor*
+;;;	Introduces global *ad:scm:factor*
 
 (defun c:scm (/ pt ss)
   (prompt "SCM - Scale múltiplo")
   (ad:inicmd)
 
   ;; Scale factor
-  (setq	*ad:scalefactor*
+  (setq	*ad:scm:factor*
 	 (cond
-	   ((getreal (ad:msg "\nEspecifique um fator de escala" *ad:scalefactor*)))
-	   (t *ad:scalefactor*)		; if ENTER
+	   ((getreal (ad:msg "\nEspecifique um fator de escala" *ad:scm:factor*)))
+	   (t *ad:scm:factor*)		; if ENTER
 	 )
   )
 
   ;; Selection
-  (if *ad:scalefactor*
+  (if *ad:scm:factor*
     (while (setq ss (ad:ssgetp nil "\nSelecione objetos: "))
       (setq pt (getpoint "\nEspecifique um ponto base: "))
-      (command "_scale" ss "" pt *ad:scalefactor*)
+      (command "_scale" ss "" pt *ad:scm:factor*)
     )
   )
 
