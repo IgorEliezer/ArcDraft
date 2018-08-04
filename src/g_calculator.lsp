@@ -106,4 +106,82 @@
   (princ)
 )
 
+
+;;; COMMAND: Calculate incline
+
+(defun c:ii (/ dh dist h1 h2 incl pt1 pt2 ptins str_incl)
+  (prompt "II - Calcular inclina��o")
+  (ad:inicmd)
+
+  (setvar "DIMZIN" 0)
+
+  ;; Get user input - 1st height
+  (initget 0)
+  (if (null (setq h1 (getreal "\nDigite o valor do n�vel inicial ou <obter>: ")))
+    (progn
+      (setq
+	h1 (atof
+	     (cdr (assoc 1 (cdr (entget (car (nentsel "\nSelecione um texto num�rico: "))))))
+	   )
+      )
+      (prompt (strcat "\nDado obtido: " (rtos h1) "."))
+    )
+  )
+
+  ;; Get user input - 2nd height
+  (initget 0)
+  (if (null (setq h2 (getreal "\nDigite o valor do n�vel final ou <obter>: ")))
+    (progn
+      (setq
+	h2 (atof
+	     (cdr (assoc 1 (cdr (entget (car (nentsel "\nSelecione um texto num�rico: "))))))
+	   )
+      )
+      (prompt (strcat "\nDado obtido: " (rtos h2) "."))
+    )
+  )
+
+  ;; Get user input - distance
+  ;; 	TO-DO: 'Calculate' option to find the distance from dh / incl = dist
+  (initget 0)
+  (if (null (setq dist (getreal "\nDigite a dist�ncia ou <obter de 2 pontos>: ")))
+    (progn
+      (setq pt1	 (getpoint "\nEspecifique o primeiro ponto: ")
+	    pt2	 (getpoint pt1 "\nEspecifique o segundo ponto: ")
+	    dist (distance pt1 pt2)
+      )
+      (prompt (strcat "\nDado obtido: " (rtos dist) "."))
+    )
+  )
+
+  ;; Calculate <incl>
+  (if
+    (and h1 h2 dist)
+
+     ;; then: calculate
+     (progn
+       (setq dh	  (- h2 h1)
+	     incl (/ dh dist)
+       )
+       (prompt (strcat "\nInclina��o: fator " (rtos incl) " (" (rtos (* incl 100)) "%). "))
+
+       ;; Insert the text
+       (setvar "OSMODE" 0)
+       (if
+	 (setq ptins (getpoint "Clique para inserir o texto com o valor: "))
+	  (progn
+	    (setq str_incl (strcat (rtos (* incl 100)) "%"))
+	    (ad:text str_incl "_bc" ptins (* *ad:th* *ad:sc*) nil)
+	  )
+       )
+     )
+
+     ;; else: prompt the use and exit
+     (prompt "\nValor inv�lido!")
+  )
+
+  (ad:endcmd)
+  (princ)
+)
+
 ;;; EOF
