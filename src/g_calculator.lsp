@@ -110,18 +110,18 @@
 ;;; COMMAND: Calculate incline
 
 (defun c:ii (/ dh dist h1 h2 incl pt1 pt2 ptins str_incl)
-  (prompt "II - Calcular inclinaï¿½ï¿½o")
+  (prompt "II - Calcular inclinação")
   (ad:inicmd)
 
   (setvar "DIMZIN" 0)
 
   ;; Get user input - 1st height
   (initget 0)
-  (if (null (setq h1 (getreal "\nDigite o valor do nï¿½vel inicial ou <obter>: ")))
+  (if (null (setq h1 (getreal "\nDigite o valor do nível inicial ou <obter>: ")))
     (progn
       (setq
 	h1 (atof
-	     (cdr (assoc 1 (cdr (entget (car (nentsel "\nSelecione um texto numï¿½rico: "))))))
+	     (cdr (assoc 1 (cdr (entget (car (nentsel "\nSelecione um texto numérico: "))))))
 	   )
       )
       (prompt (strcat "\nDado obtido: " (rtos h1) "."))
@@ -130,11 +130,11 @@
 
   ;; Get user input - 2nd height
   (initget 0)
-  (if (null (setq h2 (getreal "\nDigite o valor do nï¿½vel final ou <obter>: ")))
+  (if (null (setq h2 (getreal "\nDigite o valor do nível final ou <obter>: ")))
     (progn
       (setq
 	h2 (atof
-	     (cdr (assoc 1 (cdr (entget (car (nentsel "\nSelecione um texto numï¿½rico: "))))))
+	     (cdr (assoc 1 (cdr (entget (car (nentsel "\nSelecione um texto numérico: "))))))
 	   )
       )
       (prompt (strcat "\nDado obtido: " (rtos h2) "."))
@@ -144,7 +144,7 @@
   ;; Get user input - distance
   ;; 	TO-DO: 'Calculate' option to find the distance from dh / incl = dist
   (initget 0)
-  (if (null (setq dist (getreal "\nDigite a distï¿½ncia ou <obter de 2 pontos>: ")))
+  (if (null (setq dist (getreal "\nDigite a distância ou <obter de 2 pontos>: ")))
     (progn
       (setq pt1	 (getpoint "\nEspecifique o primeiro ponto: ")
 	    pt2	 (getpoint pt1 "\nEspecifique o segundo ponto: ")
@@ -163,7 +163,7 @@
        (setq dh	  (- h2 h1)
 	     incl (/ dh dist)
        )
-       (prompt (strcat "\nInclinaï¿½ï¿½o: fator " (rtos incl) " (" (rtos (* incl 100)) "%). "))
+       (prompt (strcat "\nInclinação: fator " (rtos incl) " (" (rtos (* incl 100)) "%). "))
 
        ;; Insert the text
        (setvar "OSMODE" 0)
@@ -177,7 +177,7 @@
      )
 
      ;; else: prompt the use and exit
-     (prompt "\nValor invï¿½lido!")
+     (prompt "\nValor inválido!")
   )
 
   (ad:endcmd)

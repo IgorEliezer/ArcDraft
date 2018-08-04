@@ -153,8 +153,6 @@
 )
 
 
-
-
 ;;; COMMAND: Text numbering
 
 (defun c:ns (/ ent entlist entlist_assoc1 num prefix str sufix)
