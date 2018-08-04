@@ -135,4 +135,28 @@
   )
 )
 
+
+;;; FUNCTION: Find the quadrant of an angle, 
+;;;	Considers the base angle
+;;;	Returns the quadrant number (I, II, III and IV)
+
+(defun ad:quadrant (ang_ref ang_check / ang)
+  (setq ang (ad:fixangle (- ang_check ang_ref)))
+  
+  (cond
+    ((and (>= ang 0) (<= ang (* 0.5 pi)))
+     1
+    )
+    ((and (> ang (* 0.5 pi)) (<= ang (* 1.0 pi)))
+     2
+    )
+    ((and (> ang (* 1.0 pi)) (<= ang (* 1.5 pi)))
+     3
+    )
+    ((or (> ang (* 1.5 pi)) (< ang 0))
+     4
+    )
+  )
+)
+
 ;;; EOF
