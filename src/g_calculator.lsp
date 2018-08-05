@@ -102,6 +102,7 @@
      )
      (setvar "BLIPMODE" 1)
   )
+  (setvar "BLIPMODE" 0) ; TO-DO: review code for a better way to toggle BLIPMODE.
   
   (ad:endcmd)
   (princ)
