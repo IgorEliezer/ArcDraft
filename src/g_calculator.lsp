@@ -11,10 +11,10 @@
 
 ;;; ---- COMMANDS ----
 
-;;; COMMAND: Find height
+;;; COMMAND: Find elevation
 
-(defun c:an (/ ang dh dist h1 h2 hi hmax hmin pta ptins pt_hi pt_hmax pt_hmin str_value)
-  (prompt "AN - Acha nível intermediário entre dois pontos conhecidos")
+(defun c:an (/ ang dh dist h1 h2 hi hmax hmin pta ptins pt_hi pt_hmax pt_hmin str_ele)
+  (prompt "AN - Achar nível entre dois pontos conhecidos")
   (ad:inicmd)
 
   (setvar "DIMZIN" 0)
@@ -43,6 +43,7 @@
 
   ;; Find the highest and lowest values, get the points and calculate
   (setvar "BLIPMODE" 1)
+  (setvar "OSMODE" 521)			; end, nod, nea
   (setq	hmax	(max h1 h2)		; highest value
 	hmin	(min h1 h2)		; lowest value
 	dh	(- hmax hmin)		; find d-height
@@ -62,7 +63,7 @@
 	     )
       )
     )
-     (if (= pta "L")			; user chose 'L'
+     (if (= pta "L")			; option 'L'
 
        ;; then: find the position of the height
        (progn
@@ -87,21 +88,21 @@
 	 )
 
 	 ;; Prompt the user
-	 (setq str_value (rtos hi))
-	 (prompt (strcat "\nNível intermediário: " str_value ". "))
+	 (setq str_ele (rtos hi))
+	 (prompt (strcat "\nNível intermediário: " str_ele ". "))
 
 	 ;; Insert the text
 	 (setvar "OSMODE" 0)
 	 (setvar "BLIPMODE" 0)
 	 (if
 	   (setq ptins (getpoint "Clique para inserir o texto com o valor ou <sair>: "))
-	    (ad:text str_value "_bc" ptins (* *ad:th* *ad:sc*) nil)
+	    (ad:text str_ele "_bc" ptins (* *ad:th* *ad:sc*) nil)
 	 )
        )
      )
      (setvar "BLIPMODE" 1)
   )
-
+  
   (ad:endcmd)
   (princ)
 )
@@ -163,7 +164,9 @@
        (setq dh	  (- h2 h1)
 	     incl (/ dh dist)
        )
-       (prompt (strcat "\nInclinação: fator " (rtos incl) " (" (rtos (* incl 100)) "%). "))
+       (prompt
+	 (strcat "\nInclinação: fator " (rtos incl) " (" (rtos (* incl 100)) "%). ")
+       )
 
        ;; Insert the text
        (setvar "OSMODE" 0)
