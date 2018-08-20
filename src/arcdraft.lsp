@@ -22,7 +22,7 @@
 ;;; FUNCTION: Set ArcDraft version
 
 (defun ad:version ()
-  (setq *ad:ver* "0.1.1 beta, 2018-08-??") ; version number, stage and date
+  (setq *ad:ver* "0.2 beta, 2018-08-20") ; version number, stage and date
 )
 
 (ad:version)				; execute
@@ -83,7 +83,7 @@ O ArcDraft requer AutoCAD 2007 ou superior para funcionar."
 	  (prompt "\nA unidade não foi alterada!")
        )
      )
-    (prompt "\n:: Unidade: metros.")
+     (prompt "\n:: Unidade: metros.")
   )
 )
 
