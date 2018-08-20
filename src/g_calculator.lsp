@@ -11,10 +11,10 @@
 
 ;;; ---- COMMANDS ----
 
-;;; COMMAND: Find elevation
+;;; COMMAND: Find elevation from two points
 
 (defun c:an (/ ang dh dist h1 h2 hi hmax hmin pta ptins pt_hi pt_hmax pt_hmin str_ele)
-  (prompt "AN - Achar nível entre dois pontos conhecidos")
+  (prompt "AN - Achar nível a partir de duas cotas de nível")
   (ad:inicmd)
 
   (setvar "DIMZIN" 0)
@@ -55,11 +55,12 @@
   ;; Intermediary points
   (while
     (progn
+      (setvar "OSMODE" 521)
       (initget 0 "L")
       (setq pta
 	     (getpoint
 	       pt_hmin
-	       "\nEspecifique o ponto onde se deseja obter o nível intermediário ou [Localizar nível]: "
+	       "\nClique no ponto onde se deseja obter o nível intermediário ou [Localizar nível]: "
 	     )
       )
     )
@@ -102,17 +103,17 @@
      )
      (setvar "BLIPMODE" 1)
   )
-  (setvar "BLIPMODE" 0) ; TO-DO: review code for a better way to toggle BLIPMODE.
-  
+  (setvar "BLIPMODE" 0)			; TO-DO: review code for a better way to toggle BLIPMODE.
+
   (ad:endcmd)
   (princ)
 )
 
 
-;;; COMMAND: Calculate incline
+;;; COMMAND: Calculate and insert incline
 
 (defun c:ii (/ dh dist h1 h2 incl pt1 pt2 ptins str_incl)
-  (prompt "II - Calcular inclinação")
+  (prompt "II - Inserir inclinação")
   (ad:inicmd)
 
   (setvar "DIMZIN" 0)

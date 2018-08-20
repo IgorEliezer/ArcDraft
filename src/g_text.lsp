@@ -88,10 +88,10 @@
 )
 
 
-;;; COMMAND: Insert note
+;;; COMMAND: Insert note with leader
 
 (defun c:nota (/ j-mode justify pt1 pt2 pt3 ptins)
-  (prompt "\nNOTA - Inserir nota com chamada")
+  (prompt "\nNOTA - Nota com chamada")
   (ad:inicmd)
 
   ;; Status prompt
