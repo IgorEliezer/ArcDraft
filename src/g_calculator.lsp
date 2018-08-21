@@ -112,7 +112,7 @@
 
 ;;; COMMAND: Calculate and insert incline
 
-(defun c:ii (/ dh dist h1 h2 incl pt1 pt2 ptins str_incl)
+(defun c:ii (/ dh dist h1 h2 incl pt1 pt2 ptins rot str_incl)
   (prompt "II - Inserir inclinação")
   (ad:inicmd)
 
@@ -175,8 +175,10 @@
        (if
 	 (setq ptins (getpoint "Clique para inserir o texto com o valor: "))
 	  (progn
-	    (setq str_incl (strcat (rtos (* incl 100)) "%"))
-	    (ad:text str_incl "_bc" ptins (* *ad:th* *ad:sc*) nil)
+	    (setq str_incl (strcat (rtos (* incl 100)) "%")
+		  rot	   (angtos (ad:fixangle_txt (angle pt1 pt2)))
+	    )
+	    (ad:text str_incl "_bc" ptins (* *ad:th* *ad:sc*) rot)
 	  )
        )
      )

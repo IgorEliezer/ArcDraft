@@ -23,6 +23,36 @@
 )
 
 
+;;; FUNCTION: fix text angle
+
+(defun ad:fixangle_txt (ang)
+
+  (if (minusp ang)			; if negative
+
+    ;; then: add 2 pi until 1st positive angle is found
+    (while (minusp ang)
+      (setq ang (+ ang (* 2 pi)))
+    )
+
+    ;; else: remove 2 pi until lowest positive angle is found
+    (while (>= ang (* 2 pi))
+      (setq ang (- ang (* 2 pi)))	
+    )
+  )
+
+  ;; fixing text inversion
+  (cond
+    ((and (> ang (* 0.5 pi)) (< ang (* 1.0 pi))) ; 90<A<180
+     (+ ang pi)				; + 180º
+    )
+    ((and (>= ang (* 1.0 pi)) (<= ang (* 1.5 pi))) ; 180<=A<=270
+     (- ang pi)				; - 180º
+    )
+    (t ang)
+  )
+)
+
+
 ;;; FUNCTION: Quick text insert
 ;;;	<pt> required.
 ;;;	<h> required. Use nil, t or anything if style has a height (see below).
