@@ -10,9 +10,8 @@
 
 
 ;;; ==== TO-DOs ====
-;;; 1.	Protect LUPREC.
-;;; 2.	Create an alist-based system.
-;;; 3.  Create an opt-in variable list protection, e.g. (ad:inicmd '([protected-vars-list])).
+;;; 1.	Create an alist-based system. Some will be mandatory.
+;;; 2.  Create an opt-in variable list protection, e.g. (ad:inicmd '([protected-vars-list])).
 ;;;		Also: (ad:inicmd nil) = none, (ad:inicmd t) = all.
 
 
@@ -24,10 +23,12 @@
 (defun ad:inicmd ()
 
   ;; save values
-  (setq	*ad:cmdecho_or*	(getvar "CMDECHO") ; echoing
+  (setq *ad:blipmode_or*(getvar "BLIPMODE") ; blip marks
+	*ad:cmdecho_or*	(getvar "CMDECHO") ; echoing
 	*ad:dimzin_or*	(getvar "DIMZIN") ; zero suppression
 	*ad:osmode_or*	(getvar "OSMODE") ; osmode
 	*ad:nomutt_or*	(getvar "NOMUTT") ; command line muttering
+	*ad:luprec_or*	(getvar "LUPREC") ; linear units/coordinates precision
 	*ad:error_or*	*error*		; error handling
   )
 
@@ -48,10 +49,12 @@
   (command "_undo" "_end")		; undo group created
 
   ;; restore original values
+  (setvar "BLIPMODE" *ad:blipmode_or*)
   (setvar "CMDECHO" *ad:cmdecho_or*)
   (setvar "DIMZIN" *ad:dimzin_or*)  
   (setvar "OSMODE" *ad:osmode_or*)
   (setvar "NOMUTT" *ad:nomutt_or*)
+  (setvar "LUPREC" *ad:luprec_or*)
   (setq *error* *ad:error_or*)
   (princ)
 )
