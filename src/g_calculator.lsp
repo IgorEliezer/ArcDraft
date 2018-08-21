@@ -72,7 +72,13 @@
 	       dist  (* (/ (- hi hmin) dh) (distance pt_hmin pt_hmax))
 	       pt_hi (polar pt_hmin ang dist)
 	 )
-	 (command "_point" pt_hi)	; place a point
+	 (command "_point" pt_hi)
+	 (setvar "OSMODE" 0)
+	 (setvar "BLIPMODE" 0)
+	 (if
+	   (setq ptins (getpoint "Clique para inserir o texto com o valor ou <prosseguir>: "))
+	    (ad:text (rtos hi) "_mc" ptins (* *ad:th* *ad:sc*) nil)
+	 )	 
        )
 
        ;; else: find the heights of the given points
@@ -127,7 +133,7 @@
 	     (cdr (assoc 1 (cdr (entget (car (nentsel "\nSelecione um texto numérico: "))))))
 	   )
       )
-      (prompt (strcat "\nDado obtido: " (rtos h1) "."))
+      (prompt (strcat "\nNível obtido: " (rtos h1) "."))
     )
   )
 
@@ -140,7 +146,7 @@
 	     (cdr (assoc 1 (cdr (entget (car (nentsel "\nSelecione um texto numérico: "))))))
 	   )
       )
-      (prompt (strcat "\nDado obtido: " (rtos h2) "."))
+      (prompt (strcat "\nNível obtido: " (rtos h2) "."))
     )
   )
 
@@ -153,7 +159,7 @@
 	    pt2	 (getpoint pt1 "\nEspecifique o segundo ponto: ")
 	    dist (distance pt1 pt2)
       )
-      (prompt (strcat "\nDado obtido: " (rtos dist) "."))
+      (prompt (strcat "\nDistância obtida: " (rtos dist) "."))
     )
   )
 
@@ -175,8 +181,9 @@
        (if
 	 (setq ptins (getpoint "Clique para inserir o texto com o valor: "))
 	  (progn
-	    (setq str_incl (strcat (rtos (* incl 100)) "%")
-		  rot	   (angtos (ad:fixangle_txt (angle pt1 pt2)))
+	    (setq str_incl (strcat "i=" (rtos (* incl 100)) "%"))
+	    (if	(and pt1 pt2)
+	      (setq rot (angtos (ad:fixangle_txt (angle pt1 pt2))))
 	    )
 	    (ad:text str_incl "_bc" ptins (* *ad:th* *ad:sc*) rot)
 	  )
@@ -190,5 +197,6 @@
   (ad:endcmd)
   (princ)
 )
+
 
 ;;; EOF
