@@ -34,11 +34,11 @@
 	       (prompt "\nEste objeto não é um bloco!")
 	    )
 	    (setq name (cdr (assoc 2 (entget (car ent)))))
+	    (prompt (strcat " Nome do bloco: \"" name "\"."))
 	  )
        )
-       (setq ss	(ad:ssgetp
-		  (list '(0 . "INSERT") (cons 2 name))
-		  (strcat " Nome do bloco: \"" name "\".\nSelecione objetos para contar: ")
+       (setq ss	(ad:ssgetp (list '(0 . "INSERT") (cons 2 name))
+			   "\nSelecione objetos para contar: "
 		)
        )
        (if ss
@@ -101,19 +101,20 @@
   ;; User input
   (initget 0 "L C")
   (if
-    (= (getkword "\nEscolha uma opção [Listar/Contar de uma camada] <Listar>: ") "C")
+    (= (getkword "\nEscolha uma opção [Listar/Contar de uma camada] <Listar>: ")
+       "C"
+    )
 
      ;; - Count
      (progn
        (if
 	 (= (setq name (getstring t "\nDigite o nome da camada ou <obter>: ")) "")
-	  (setq name (cdr (assoc 8 (entget (car (entsel "\nSelecione um objeto: "))))))
+	  (progn
+	    (setq name (cdr (assoc 8 (entget (car (entsel "\nSelecione um objeto: "))))))
+	    (prompt (strcat " Nome da camada: \"" name "\"."))
+	  )
        )
-       (setq ss	(ad:ssgetp
-		  (list (cons 8 name))
-		  (strcat " Nome da camada: \"" name "\".\nSelecione objetos para contar: ")
-		)
-       )
+       (setq ss (ad:ssgetp (list (cons 8 name)) "\nSelecione objetos para contar: "))
        (if ss
 	 (setq len (sslength ss))
 	 (setq len 0)
