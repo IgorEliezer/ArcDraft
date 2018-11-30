@@ -51,4 +51,35 @@
   (princ)
 )
 
+
+;;; COMMAND: Cycle zoom
+
+(defun c:czoom (/ ent i ss)
+  (prompt "\nCZOOM - Zoom circular")
+  (ad:inicmd)
+
+  (setq
+    ss (ad:ssgetp
+	 nil
+	 "\nSelecione objetos para dar zoom em cada (Dica: use \"p\" para seleção anterior): "
+       )
+  )
+  (setq i 0)
+  (repeat (sslength ss)
+    (setq ent (ssname ss i))
+    (command "_zoom" "_o" ent "")
+    (sssetfirst nil (ssadd ent))
+    (initget 0 "Próximo Sair")
+    (if
+      (= (getkword "\nTecle ENTER para ir ao próximo ou [Sair] <Próximo>: ") "Sair")
+       (exit)
+       (setq i (1+ i))
+    )
+  )
+  (prompt "\nConcluído.")
+
+  (ad:endcmd)
+  (princ)
+)
+
 ;;; EOF
