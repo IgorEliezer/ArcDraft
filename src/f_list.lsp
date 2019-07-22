@@ -8,6 +8,10 @@
 
 ;;;; Functions for list handling.
 
+;;; TO-DO:
+;;;	Create (ad:sublist lst index len): index and len can be nil or negative
+;;;	Create (ad:getdir path)
+
 
 ;;; ---- LISTS ----
 
@@ -28,6 +32,26 @@
     (setq lst (cdr lst))
   )
   str
+)
+
+
+;;; FUNCTION: list to string
+
+(defun ad:str->lst (str sep / pos elem lst char)
+  (setq	pos 1
+	elem ""
+  )
+  (repeat (strlen str)
+    (setq char (substr str pos 1))
+    (if	(/= char sep)
+      (setq elem (strcat elem char))
+      (setq lst	 (append lst (list elem))
+	    elem ""
+      )
+    )
+    (setq pos (1+ pos))
+  )
+  (setq lst (append lst (list elem)))
 )
 
 
@@ -106,6 +130,5 @@
   )
   ss_out
 )
-
 
 ;;; EOF
