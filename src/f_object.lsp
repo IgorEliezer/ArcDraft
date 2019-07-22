@@ -91,12 +91,17 @@
 ;;; ---- LAYER ----
 
 ;;; FUNCTION: Make layer
+;;; 	Creates and sets layer current.
 
 (defun ad:mlayer (name color ltype)
   (if
-    (tblsearch "LAYER" name)
-     (setvar "CLAYER" name)
-     (command "_layer" "_make" name "_color" color name "_ltype" ltype name "")
+    (not (tblsearch "LAYER" name)) ; if layer does not exist.
+    (if
+       (wcmatch color "*`,*`,*")	; if R,G,B
+	(command "_layer" "_make" name "_color" "_t" color name "_ltype" ltype name "")
+	(command "_layer" "_make" name "_color" color name "_ltype" ltype name "")
+     )
+     (setvar "CLAYER" name) ; set current if layer already exist
   )
 )
 
