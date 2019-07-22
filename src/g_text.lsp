@@ -299,10 +299,13 @@
 
        ;; replace and update
        (setq str_new_dxf (cons 1 str_new))
-       (entmod
-	 (subst str_new_dxf (assoc 1 entlist1) entlist1)
-       )
+       (entmod (subst str_new_dxf (assoc 1 entlist1) entlist1))
      )
+  )
+
+  ;; delete old object
+  (if (null *ad:unt:delete*) ; TO:DO: implement global var.
+    (entdel ent2)
   )
 
   (ad:endcmd)
