@@ -35,7 +35,7 @@
   (ad:inicmd)
 
   (setq layname (getstring T "\nNome da camada a criar: "))
-  
+
   (if
     (/= layname "")
      (progn
@@ -51,6 +51,9 @@
     (setq laycolor (itoa (acad_colordlg 1)))
   )
 
+  ;; TO-DO: test if <laycolor> is a valid ACI or RGB color.
+
+  ;; Create layer
   (if
     (and layname laycolor)
      (progn
