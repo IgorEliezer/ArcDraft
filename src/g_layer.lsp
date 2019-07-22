@@ -33,23 +33,18 @@
 (defun c:nla (/ laycolor layname)
   (prompt "\nNLA - Criar camada")
   (ad:inicmd)
-  
+
   (if
     (and
       (setq layname  (getstring T "\nNome da camada a criar: ")
-	    laycolor (getstring "\nDigite a cor da camada a criar (número de 0 a 255 ou R,G,B): ")
+	    laycolor (getstring "\nDigite a cor da camada a criar (número de 0 a 255): ")
       )
     )
-    
      (progn
-       (if (member laycolor '("C" "c"))
-	 (setq laycolor (itoa (acad_colordlg 1)))
-       )
-
-       (ad:mlayer layname laycolor "Continuous")	 
+       (command "_layer" "_make" layname "_color" laycolor "" "")
        (command "_color" "_bylayer")
        (prompt
-	 (strcat "A camada \"" layname "\" na cor " laycolor " foi criada e está corrente.")
+	 (strcat "A camada \"" layname "\" na color " laycolor " foi criada e está corrente.")
        )
      )
   )
@@ -58,7 +53,5 @@
   (princ)
 )
 
+
 ;;; EOF
-
-
-
