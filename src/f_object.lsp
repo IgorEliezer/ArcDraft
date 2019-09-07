@@ -105,4 +105,21 @@
   )
 )
 
+
+;;; ---- LWPOLYLINE ----
+
+;;; FUNCTION: List vertices of a polyline
+;;; 	Creates a list of vertices.
+;;;	Example: (ad:listplv (car (entsel)))
+
+(defun ad:listplv (ent / lst pair)
+  (foreach pair	(entget ent)
+    (if	(= 10 (car pair))
+      (setq lst (append lst (list (cdr pair))))
+    )
+  )
+  lst
+)
+
+
 ;;; EOF
