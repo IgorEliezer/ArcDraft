@@ -13,8 +13,9 @@
 
 ;;; COMMAND: Insert coordenates
 
-(defun c:ico (/ coord coord_len msg pref_x pref_y pt1 pt2 pta ptins x y)
-  (prompt "\nICO - Inserir coordenadas X e Y")
+(defun c:ico (/ coord coord2 coord_len msg pref_x pref_y pt1 pt2 pta ptins x y)
+  (prompt "ICO - Inserir coordenadas X e Y")
+  (prompt (strcat "\nConfigurações atuais: Formato de coordenada=" *ad:coord_f*))
   (ad:inicmd)
 
   ;; User input
@@ -32,7 +33,7 @@
 	    (setq pref_x "X = "
 		  pref_y "Y = "
 		  coord	 (strcat pref_x x "; " pref_y y)
-		  msg	 (strcat *ad:coord_f* ": " x "," y ".")
+		  msg	 (strcat "XY" ": " x "," y ".")
 	    )
 	  )
 	 )
@@ -41,7 +42,17 @@
 	    (setq pref_x "E = "
 		  pref_y "N = "
 		  coord	 (strcat pref_y y "; " pref_x x)
-		  msg	 (strcat *ad:coord_f* ": " y "," x ".")
+		  msg	 (strcat "NE" ": " y "," x ".")
+	    )
+	  )
+	 )
+	 ((= *ad:coord_f* "X-Y")
+	  (progn
+	    (setq pref_x "X = "
+		  pref_y "Y = "
+		  coord	 (strcat pref_x x)
+		  coord2 (strcat pref_y y)
+		  msg	 (strcat "XY" ": " x "," y ".")
 	    )
 	  )
 	 )
@@ -74,6 +85,13 @@
 	    ;; Insert text
 	    (setq ptins (ad:ptmed pt2 pta))
 	    (ad:text coord "_bc" ptins (* *ad:th* *ad:sc*) nil)
+	    (if	coord2
+	      (ad:text coord2 "_tc"
+		       (polar ptins (* 1.5 pi) (* 0.25 *ad:th* *ad:sc*))
+		       (* *ad:th* *ad:sc*)
+		       nil
+	      )
+	    )
 	  )
        )
      )
@@ -190,7 +208,12 @@
   (setvar "OSMODE" 0)
   (if
     (setq ptins (getpoint " Clique para inserir o texto com os ângulos ou <sair>: "))
-     (ad:text (strcat "< " str_ang " >") "_mc" ptins (* *ad:th* *ad:sc*) (angtos ang))
+     (ad:text (strcat "< " str_ang " >")
+	      "_mc"
+	      ptins
+	      (* *ad:th* *ad:sc*)
+	      (angtos ang)
+     )
   )
 
   (ad:endcmd)
@@ -318,5 +341,6 @@
   (ad:endcmd)
   (princ)
 )
+
 
 ;;; EOF
