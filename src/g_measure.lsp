@@ -434,4 +434,31 @@
 )
 
 
+;;; COMMAND: Draw survey line (WIP)
+
+(defun c:rumo ()
+  (prompt "\nRUMO - Desenha rumo")
+  (ad:inicmd)
+
+  (setq pta (getpoint "\nEspecifique o 1º ponto ou ponto ré: "))
+  (prompt (strcat " Coordenada: " (ad:lst->str pta "; ")))
+
+  (setq ptb (getpoint pta "\nEspecifique o 2º ponto ou ponto vante: "))
+  (prompt (strcat " Coordenada: " (ad:lst->str ptb "; ")))
+
+  (prompt (strcat "\nDistância obtida: " (rtos (setq dist (distance pta ptb)))))
+
+  (command "_pline" pta ptb "")
+
+  (setq ptm (ad:ptmed pta ptb))
+  (setq rot (angtos (ad:fixangle_txt (angle pta ptb))))
+
+  (ad:text (strcat " \U+2220 " rot) "_bc" ptm (* *ad:th* *ad:sc*) rot)
+  (ad:text (strcat "D=" (rtos dist) " m") "_tc" ptm (* *ad:th* *ad:sc*) rot)
+
+  (ad:endcmd)
+  (princ)
+)
+
+
 ;;; EOF
