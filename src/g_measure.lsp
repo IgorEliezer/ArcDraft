@@ -112,6 +112,10 @@
 
 (defun c:sompl (/ ent i len ptins ss str_total total)
   (prompt "\nSOMPL - Somar comprimentos de polilinhas abertas")
+  (prompt (strcat "\nConfigurações atuais: Altura de texto="
+		  (rtos (* *ad:th* *ad:sc*))
+	  )
+  )
   (ad:inicmd)
 
   ;; User input
@@ -157,6 +161,10 @@
 
 (defun c:vaa (/ area ent ptins)
   (prompt "\nVAA - Obter área")
+  (prompt (strcat "\nConfigurações atuais: Altura de texto="
+		  (rtos (* *ad:th* *ad:sc*))
+	  )
+  )
   (ad:inicmd)
 
   ;; User input
@@ -194,6 +202,10 @@
 
 (defun c:va (/ ang pt ptins str_ang tip)
   (prompt "\nVA - Obter ângulo de objeto linear")
+  (prompt (strcat "\nConfigurações atuais: Altura de texto="
+		  (rtos (* *ad:th* *ad:sc*))
+	  )
+  )
   (ad:inicmd)
 
   ;; User input
@@ -231,6 +243,10 @@
 
 (defun c:vv (/ ang1 ang2 ang_in ang_out pt1 pt1a pt2 pt2a ptins ptint str_ang)
   (prompt "\nVV - Obter ângulo de vértice")
+  (prompt (strcat "\nConfigurações atuais: Altura de texto="
+		  (rtos (* *ad:th* *ad:sc*))
+	  )
+  )
   (ad:inicmd)
 
   ;; User input - 1st point
@@ -305,6 +321,10 @@
 
 (defun c:vpl (/ entlist len ptins rot sel)
   (prompt "\nVPL - Obter comprimento de polilinha aberta")
+  (prompt (strcat "\nConfigurações atuais: Altura de texto="
+		  (rtos (* *ad:th* *ad:sc*))
+	  )
+  )
   (ad:inicmd)
 
   ;; User input
