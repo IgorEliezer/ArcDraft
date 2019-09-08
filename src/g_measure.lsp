@@ -61,6 +61,16 @@
 	    )
 	  )
 	 )
+	 ((= *ad:coord_f* "N-E")
+	  (progn
+	    (setq pref_x "E = "
+		  pref_y "N = "
+		  coord	 (strcat pref_y y)
+		  coord2 (strcat pref_x x)
+		  msg	 (strcat "NE" ": " y "," x ".")
+	    )
+	  )
+	 )
        )
 
        ;; Prompt the user
@@ -78,7 +88,7 @@
 	  (progn
 
 	    ;; Find 3rd point for leader line
-	    (setq coord_len (* (strlen coord) 0.7 *ad:th* *ad:sc*)) ; 0.7 is char width
+	    (setq coord_len (* (strlen coord) 0.71 *ad:th* *ad:sc*)) ; 0.71 is char width
 	    (if	(<= (car pt1) (car pt2)) ; if rightward
 	      (setq pta (append (list (+ (car pt2) coord_len)) (cdr pt2)))
 	      (setq pta (append (list (- (car pt2) coord_len)) (cdr pt2)))
@@ -120,7 +130,8 @@
 
   ;; User input
   (setq	ss    (ad:ssgetp
-		'((0 . "LWPOLYLINE") (-4 . "<or") (70 . 0) (70 . 128) (-4 . "or>")) ; open LWPL
+		'((0 . "LWPOLYLINE") (-4 . "<or") (70 . 0) (70 . 128) (-4 . "or>"))
+					; not closed polylines
 		"\nSelecione polilinhas para medir (somente as abertas serão consideradas), e <ENTER> para concluir: "
 	      )
 	i     0
@@ -398,11 +409,12 @@
 
   ;; User input
   (setq ls_pt (ad:listplv (car (entsel "\nSelecione uma polilinha: "))))
+  (prompt (strcat "\nA polilinha possui " (itoa (length ls_pt)) " vértices."))
 
   (initget 0 "Círculo Número")
   (setq	option
 	 (cond
-	   ((getkword "\nMarque os vértices com [Círculo/Número] <Círculo>: "))
+	   ((getkword " Marcar vértices com [Círculo/Número] <Círculo>: "))
 	   (t "Círculo")
 	 )
   )

@@ -49,9 +49,9 @@
     ;; Coord format *ad:coord_f*
     ((= option "F")
      (progn
-       (initget 0 "XY NE X-Y")
+       (initget 0 "XY NE X-Y N-E")
        (if (setq coord_f
-		  (getkword (ad:msg "\nEscolha o formato do comando ICO [XY/NE/X-Y]" *ad:coord_f*))
+		  (getkword (ad:msg "\nEscolha o formato do comando ICO [XY/NE/X-Y (duas linhas)/N-E (duas linhas)]" *ad:coord_f*))
 	   )
 	 (setq *ad:coord_f* coord_f)
        )
