@@ -369,4 +369,57 @@
 )
 
 
+;;; COMMAND: Mark or number vertices of a polyline
+
+(defun c:mve (/ ls_pt option)
+  (prompt "\nMVE - Marcar ou numerar vértices")
+  (prompt (strcat "\nConfigurações atuais: Altura de texto="
+		  (rtos (* *ad:th* *ad:sc*))
+	  )
+  )
+  (ad:inicmd)
+
+  ;; Define local functions
+  (defun :mv-circle (ls_pt / pt)
+    (foreach pt	ls_pt
+      (command "_circle" pt (* *ad:th* 0.5))
+    )
+  )
+
+  (defun :mv-number (ls_pt / pt ct)
+    (setq ct 0)
+    (foreach pt	ls_pt
+      (progn
+	(ad:text (itoa ct) "_bc" pt (* *ad:th* *ad:sc*) nil)
+	(setq ct (1+ ct))
+      )
+    )
+  )
+
+  ;; User input
+  (setq ls_pt (ad:listplv (car (entsel "\nSelecione uma polilinha: "))))
+
+  (initget 0 "Círculo Número")
+  (setq	option
+	 (cond
+	   ((getkword "\nMarque os vértices com [Círculo/Número] <Círculo>: "))
+	   (t "Círculo")
+	 )
+  )
+
+  ;; Define local function to mark vertices
+  (cond
+    ((= option "Círculo")
+     (:mv-circle ls_pt)
+    )
+    ((= option "Número")
+     (:mv-number ls_pt)
+    )
+  )
+
+  (ad:endcmd)
+  (princ)
+)
+
+
 ;;; EOF
