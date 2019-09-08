@@ -15,6 +15,10 @@
 
 (defun c:an (/ ang dh dist h1 h2 hi hmax hmin pta ptins pt_hi pt_hmax pt_hmin str_ele)
   (prompt "AN - Achar nível a partir de duas cotas de nível")
+  (prompt (strcat "\nConfigurações atuais: Altura de texto="
+		  (rtos (* *ad:th* *ad:sc*))
+	  )
+  )
   (ad:inicmd)
 
   (setvar "DIMZIN" 0)
@@ -120,6 +124,10 @@
 
 (defun c:ii (/ dh dist h1 h2 incl pt1 pt2 ptins rot str_incl)
   (prompt "II - Inserir inclinação")
+  (prompt (strcat "\nConfigurações atuais: Altura de texto="
+		  (rtos (* *ad:th* *ad:sc*))
+	  )
+  )
   (ad:inicmd)
 
   (setvar "DIMZIN" 0)

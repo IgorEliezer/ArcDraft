@@ -92,6 +92,10 @@
 
 (defun c:nota (/ j-mode justify pt1 pt2 pt3 ptins)
   (prompt "\nNOTA - Nota com chamada")
+  (prompt (strcat "\nConfigurações atuais: Altura de texto="
+		  (rtos (* *ad:th* *ad:sc*))
+	  )
+  )
   (ad:inicmd)
 
   ;; Status prompt

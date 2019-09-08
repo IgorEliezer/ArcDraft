@@ -56,7 +56,7 @@
 ;;; FUNCTION: Quick text insert
 ;;;	<pt> required.
 ;;;	<h> required. Use nil, t or anything if style has a height (see below).
-;;;	<rot>, rotation, uses the current ANGBASE and ANGDIR. If null, the absolute zero is used.
+;;;	<rot>, rotation 0-360, uses the current ANGBASE and ANGDIR. If null, the absolute zero is used.
 ;;;	Example: (ad:text "String" "_c" (getpoint "\nPonto: ") 5.5 15)
 
 (defun ad:text (content justify pt h rot / angbase style)
