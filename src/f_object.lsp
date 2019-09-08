@@ -122,4 +122,13 @@
 )
 
 
+;;; FUNCTION: Check whether a polyline is closed
+;;;	Example: (ad:is_plclosed (car (entsel)))
+
+(defun ad:is_plclosed (ent / value)
+  (setq value (cdr (assoc 70 (entget ent))))
+  (or (= value 1)(= value 129))
+)
+
+
 ;;; EOF
