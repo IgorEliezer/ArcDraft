@@ -14,8 +14,13 @@
 ;;; COMMAND: Insert coordenates
 
 (defun c:ico (/ coord coord2 coord_len msg pref_x pref_y pt1 pt2 pta ptins x y)
-  (prompt "ICO - Inserir coordenadas X e Y")
-  (prompt (strcat "\nConfigurações atuais: Formato de coordenada=" *ad:coord_f*))
+  (prompt "\nICO - Inserir coordenadas X e Y")
+  (prompt (strcat "\nConfigurações atuais: Formato de coordenada="
+		  *ad:coord_f*
+		  ", Altura de texto="
+		  (rtos (* *ad:th* *ad:sc*))
+	  )
+  )
   (ad:inicmd)
 
   ;; User input
@@ -86,7 +91,8 @@
 	    (setq ptins (ad:ptmed pt2 pta))
 	    (ad:text coord "_bc" ptins (* *ad:th* *ad:sc*) nil)
 	    (if	coord2
-	      (ad:text coord2 "_tc"
+	      (ad:text coord2
+		       "_tc"
 		       (polar ptins (* 1.5 pi) (* 0.25 *ad:th* *ad:sc*))
 		       (* *ad:th* *ad:sc*)
 		       nil

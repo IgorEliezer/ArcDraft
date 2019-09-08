@@ -76,7 +76,8 @@
        (setq i (1+ i))
     )
   )
-  (prompt "\nConcluído.")
+  (prompt "\nChegou no último. ")
+  (prompt "Concluído.")
 
   (ad:endcmd)
   (princ)

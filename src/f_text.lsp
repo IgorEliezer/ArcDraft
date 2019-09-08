@@ -88,11 +88,13 @@
 
 
 ;;; FUNCTION: Check text visibility
-;;; 	It does nothing else than warning the user, for now.
+;;; 	Returns true if zoom is enough for text visibility.
+;;; 	Issues an alert if zoomed out too much.
 
 (defun ad:textviz ()
   (if
-    (> (/ (getvar "VIEWSIZE") (* *ad:th* *ad:sc*)) 200.0)
+    (not (> (/ (getvar "VIEWSIZE") (* *ad:th* *ad:sc*)) 200.0))
+     t
      (alert
        "ArcDraft detectou que o zoom está muito distante para o texto ficar vísivel.
 
@@ -102,5 +104,6 @@ Recomenda-se:
      )
   )
 )
+
 
 ;;; EOF
