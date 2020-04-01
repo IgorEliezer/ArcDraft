@@ -9,9 +9,8 @@
 ;;;; First set ArcDraft version and check support.
 
 
-;;;; /!\ ArcDraft REQUIRES AutoCAD 2007 OR HIGHER /!\
+;;;; /!\ ArcDraft REQUIRES AutoCAD 2007 or BricsCAD 17 OR HIGHER /!\
 ;;;; Custom functions and global variables are prefixed with "ad:"
-;;;; FOR FUTURE: BricsCAD support (it already does, but not officially)
 
 
 ;;; ---- HELLO WORLD! ----

@@ -2,3 +2,4 @@ prj/
 releases/
 src/tests
 etc/
+*.bak

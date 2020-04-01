@@ -31,6 +31,7 @@
 
 
 ;;; COMMAND: Set viewport scale
+;;;	VL functions below work on BricsCAD.
 
 (defun c:evp (/ ent sc)
   (prompt "\nEVP - Escala de Viewport")

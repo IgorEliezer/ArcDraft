@@ -159,4 +159,21 @@
   )
 )
 
+
+;;; ---- TEXT ----
+
+;;; FUNCTION: Get the midcenter of a text
+;;;	  VL functions below work on BricsCAD.
+;;;	  ent: entity, text
+;;;	  returns: coord
+
+(defun ad:txtmed (ent / bmax bmin ptmax ptmin x y)
+  (vla-getboundingbox (vlax-ename->vla-object ent) 'bmin 'bmax)
+  (setq	ptmin (vlax-safearray->list bmin)
+	ptmax (vlax-safearray->list bmax)
+  )
+  (mapcar '(lambda (x y) (/ (+ x y) 2)) ptmin ptmax)
+)
+
+
 ;;; EOF

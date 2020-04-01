@@ -12,7 +12,9 @@
 ;;; ---- SELECTION ----
 
 ;;; FUNCTION: SSGET with filter and prompt
+;;;	VL functions below work on BricsCAD.
 ;;; 	NOMUTT is covered by error.lsp
+;;; 	Example: (ad:ssgetp '((0 . "CIRCLE")) "\nSelect a circle: ")
 
 (defun ad:ssgetp (filter msg / ss)
   (prompt msg)

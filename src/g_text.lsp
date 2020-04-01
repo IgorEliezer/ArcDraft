@@ -72,7 +72,8 @@
 
 	       ;; Record last entity and change message for new selections
 	       (setq ent_last ent
-		     msg "\nClique sobre um texto, bloco sem atributo ou atributo para alinhar (clique no mesmo para inverter): "
+		     msg
+		      "\nClique sobre um texto, bloco sem atributo ou atributo para alinhar (clique no mesmo para inverter): "
 	       )
 	     )
 
@@ -308,12 +309,75 @@
   )
 
   ;; delete old object
-  (if (null *ad:unt:delete*) ; TO:DO: implement global var.
+  (if (null *ad:unt:delete*)		; TO:DO: implement global var.
     (entdel ent2)
   )
 
   (ad:endcmd)
   (princ)
 )
+
+
+;;; COMMAND: Generate coord table in CSV format
+
+(defun c:gtc (/	ent file filename_csv filename_dwg filepath filter i lay line pt sel ss_num text x y)
+  (prompt "\nGTC - Gera tabela de coordenadas de textos de uma camada")
+  (ad:inicmd)
+
+  ;; Layer-filter
+  (setq	sel (car (entsel "\nSelecione um texto para obter camada-filtro: "))
+	lay (cdr (assoc 8 (entget sel)))
+  )
+  (prompt (strcat "\nCamada-filtro: " lay "."))
+
+  ;; Texts
+  (setq	filter (list (cons 0 "TEXT") (cons 8 lay))
+	ss_num (ad:ssgetp
+		 filter
+		 "\nSelecione os textos para obter coords (DICA: digital 'all' para o desenho inteiro): "
+	       )
+  )
+  (prompt
+    (strcat "\nSelecionou " (itoa (sslength ss_num)) " texto(s).\n")
+  )
+
+  ;; Dialog
+  (prompt "\nAguardando seleção de pasta...")
+  (terpri)
+  (setq	filename_dwg (getvar "DWGNAME")	; get drawing file nane
+	filename_csv (strcat (substr filename_dwg 1 (- (strlen filename_dwg) 4)))
+  )
+  (setq	filepath (getfiled "Salvar tabela de dados"
+			   filename_csv
+			   "csv"
+			   (+ 0 1 4 8)	; flags
+		 )
+  )
+
+  ;; CSV file
+  (setq file (open filepath "w"))
+  (setq line (strcat "TextValue" "," "Coord")) ; header
+  (write-line line file)		; write header
+
+  (prompt "\nLendo. Aguarde...")
+  (setq i 0)
+  (while
+    (setq ent (ssname ss_num i))
+     (setq text	(cdr (assoc 1 (entget ent)))
+	   pt	(ad:txtmed ent)		; text midpoint
+	   x	(rtos (nth 0 pt) 2 6)	; coord x or East
+	   y	(rtos (nth 1 pt) 2 6)	; coord y or North
+     )
+     (setq line (strcat text "," "POINT (" x " " y ")"))
+     (write-line line file)
+     (setq i (1+ i))
+  )
+  (close file)
+  (prompt (strcat "Salvo em " filepath "."))
+
+  (ad:endcmd)
+  (princ)
+)
+
 
 ;;; EOF
