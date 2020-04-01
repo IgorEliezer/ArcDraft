@@ -89,6 +89,4 @@ O ArcDraft requer AutoCAD 2007 ou superior para funcionar."
 (ad:check-dwg)				; execute
 
 
-;; it's all set! Now go ahead to load ArcDraft...
-
 ;;; EOF

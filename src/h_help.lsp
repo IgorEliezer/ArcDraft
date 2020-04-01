@@ -32,6 +32,7 @@
       "\n AN \t - Achar nível a partir de duas cotas de nível"
       "\n BB \t - Quebra no ponto"
       "\n CUR \t - Definir camada corrente por seleção"
+      "\n GTC \t - Gera tabela de coordenadas de textos de uma camada"
       "\n EVP \t - Escala de Viewport"
       "\n ICO \t - Inserir coordenadas X e Y" 
       "\n II \t - Inserir inclinação"
@@ -71,4 +72,6 @@
 )
 (prompt "\nDigite ?A para lista de comandos, e ACONFIG para configurações.") ; tip
 
+
 ;;; EOF
+
