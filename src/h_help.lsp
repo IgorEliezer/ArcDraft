@@ -23,7 +23,7 @@
       "*** ArcDraft - Aplicativo para desenho em CAD ***"
       "\nVersão "
       *ad:ver*
-      "\nFeito para AutoCAD 2007 ou superior"
+      "\nFeito para AutoCAD 2007, BricsCAD 17 ou superior"
       "\n"
       "\nATALHO\t COMANDO"
       "\n ?A \t - Abrir esta ajuda"
@@ -34,7 +34,7 @@
       "\n CUR \t - Definir camada corrente por seleção"
       "\n GTC \t - Gera tabela de coordenadas de textos de uma camada"
       "\n EVP \t - Escala de Viewport"
-      "\n ICO \t - Inserir coordenadas X e Y" 
+      "\n ICO \t - Inserir coordenadas X e Y"
       "\n II \t - Inserir inclinação"
       "\n LBL \t - Listar blocos de uma seleção"
       "\n LLA \t - Listar camadas de uma seleção"
@@ -55,7 +55,7 @@
       "\n\nEscrito por Igor Eliezer Borges (igoreliezer.com)"
       "\nPágina oficial, download e manual: igoreliezer.com/arcdraft"
       "\nVer licença em LICENSE.txt."
-     )
+    )
   )
   (ad:endcmd)
   (princ)
@@ -66,12 +66,11 @@
 
 (prompt
   (strcat "\nArcDraft carregado. Versão "
-	  *ad:ver*
-	  ". (c) Igor Eliezer Borges Arquiteto e Urbanista, ver licença em LICENSE.txt."
+          *ad:ver*
+          ". (c) Igor Eliezer Borges Arquiteto e Urbanista, ver licença em LICENSE.txt."
   )
 )
-(prompt "\nDigite ?A para lista de comandos, e ACONFIG para configurações.") ; tip
+(prompt "\nDigite ?A para lista de comandos, e ACONFIG para configurações.")  ; tip
 
 
 ;;; EOF
-
