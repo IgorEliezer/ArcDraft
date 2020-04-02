@@ -333,7 +333,7 @@
   (setq filter (list (cons 0 "TEXT") (cons 8 lay))
         ss_num (ad:ssgetp
                  filter
-                 "\nSelecione os textos para obter coords: "
+                 "\nSelecione os textos para obter coordenadas: "
                )
   )
   (prompt
