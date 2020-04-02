@@ -18,70 +18,70 @@
   (ad:inicmd)
 
   ;; Point for alignment angle
-  (setvar "OSMODE" 512)			; nea
+  (setvar "OSMODE" 512)  ; nea
   (if
     (setq
       pt1
-       (getpoint
-	 "\nClique numa linha para obter um ângulo de alinhamento, ou no vazio para zero graus: "
-       )
+      (getpoint
+        "\nClique numa linha para obter um ângulo de alinhamento, ou no vazio para zero graus: "
+      )
     )
-     (progn
+    (progn
 
-       ;; Alignment angle
-       (if
-	 (null (setq ang (ad:angle_pt pt1))) ; check if on empty space
-	  (setq ang 0.00)		; set alignment angle to zero
-       )
-       (prompt (strcat "\nÂngulo obtido: " (angtos ang 0 2) "°."))
+      ;; Alignment angle
+      (if
+        (null (setq ang (ad:angle_pt pt1)))  ; check if on empty space
+        (setq ang 0.00)          ; set alignment angle to zero
+      )
+      (prompt (strcat "\nÂngulo obtido: " (angtos ang 0 2) "°."))
 
-       ;; Entity to be aligned
-       (setq msg "\nClique sobre um texto, bloco sem atributo ou atributo para alinhar: ")
-       (while
-	 (setq sel (entsel msg))	; selection
+      ;; Entity to be aligned
+      (setq msg "\nClique sobre um texto, bloco sem atributo ou atributo para alinhar: ")
+      (while
+        (setq sel (entsel msg))  ; selection
 
-	  ;; Check entity
-	  (setq ent (car sel))
-	  (if
-	    (member (cdr (assoc 0 (entget ent)))
-		    '("TEXT" "MTEXT" "ATTDEF" "INSERT")
+        ;; Check entity
+        (setq ent (car sel))
+        (if
+          (member (cdr (assoc 0 (entget ent)))
+                  '( "TEXT" "MTEXT" "ATTDEF" "INSERT")
 
-	    )				; valid entity types
+          )  ; valid entity types
 
-	     ;; then: valid, proceed...
-	     (progn
+          ;; then: valid, proceed...
+          (progn
 
-	       ;; Entity list
-	       (setq ent_internal (car (nentselp (cadr sel))))
-					; try to get the subentity by selection point
-	       (if
-		 (= (cdr (assoc 0 (entget ent_internal))) "ATTRIB")
-					; subentity is a block attribute
-		  (setq entlist (entget ent_internal)) ; then: from subentity
-		  (setq entlist (entget ent)) ; else: from entity
-	       )
+            ;; Entity list
+            (setq ent_internal (car (nentselp (cadr sel))))
+            ; try to get the subentity by selection point
+            (if
+              (= (cdr (assoc 0 (entget ent_internal))) "ATTRIB")
+              ; subentity is a block attribute
+              (setq entlist (entget ent_internal))  ; then: from subentity
+              (setq entlist (entget ent))           ; else: from entity
+            )
 
-	       ;; Rotate object if clicking again
-	       (if (eq ent ent_last)	; if it is the same entity as the previous
-		 (setq ang (ad:fixangle (+ ang pi))) ; add 1 pi to the rotation angle
-	       )
+            ;; Rotate object if clicking again
+            (if (eq ent ent_last)  ; if it is the same entity as the previous
+              (setq ang (ad:fixangle (+ ang pi)))  ; add 1 pi to the rotation angle
+            )
 
-	       ;; Modify the entity
-	       (entmod (subst (cons 50 ang) (assoc 50 entlist) entlist))
-	       (entupd ent)		; update entity
+            ;; Modify the entity
+            (entmod (subst (cons 50 ang) (assoc 50 entlist) entlist))
+            (entupd ent)       ; update entity
 
-	       ;; Record last entity and change message for new selections
-	       (setq ent_last ent
-		     msg
-		      "\nClique sobre um texto, bloco sem atributo ou atributo para alinhar (clique no mesmo para inverter): "
-	       )
-	     )
+            ;; Record last entity and change message for new selections
+            (setq ent_last ent
+                  msg
+                  "\nClique sobre um texto, bloco sem atributo ou atributo para alinhar (clique no mesmo para inverter): "
+            )
+          )
 
-	     ;; else: invalid, prompt the user.
-	     (prompt "\nElemento inválido!")
-	  )
-       )
-     )
+          ;; else: invalid, prompt the user.
+          (prompt "\nElemento inválido!")
+        )
+      )
+    )
   )
 
   (ad:endcmd)
@@ -94,16 +94,16 @@
 (defun c:nota (/ j-mode justify pt1 pt2 pt3 ptins)
   (prompt "\nNOTA - Nota com chamada")
   (prompt (strcat "\nConfigurações atuais: Altura de texto="
-		  (rtos (* *ad:th* *ad:sc*))
-	  )
+                  (rtos (* *ad:th* *ad:sc*))
+          )
   )
   (ad:inicmd)
 
   ;; Status prompt
   (if
     (= *ad:nota_j* 0)
-     (setq j-mode "centralizado")
-     (setq j-mode "justificado")
+    (setq j-mode "centralizado")
+    (setq j-mode "justificado")
   )
   (prompt
     (strcat "\nAltura de texto: " (rtos (* *ad:th* *ad:sc*)) ". Texto: " j-mode ".")
@@ -117,40 +117,40 @@
       (setq pt1 (getpoint "\nEspecifique o primeiro ponto: "))
       (setq pt2 (getpoint pt1 "\nEspecifique o segundo ponto: "))
     )
-     (progn
-       (command	"_pline"
-		pt1
-		pt2
-		(progn
-		  (setvar "ORTHOMODE" 1)
-		  (setq pt3 (getpoint pt2 "\nEspecifique o terceiro ponto: "))
-		)
-		(if pt3
-		  (command "")		; finish polyline
-		)
-       )
+    (progn
+      (command "_pline"
+               pt1
+               pt2
+        (progn
+          (setvar "ORTHOMODE" 1)
+          (setq pt3 (getpoint pt2 "\nEspecifique o terceiro ponto: "))
+        )
+               (if pt3
+                 (command "")  ; finish polyline
+               )
+      )
 
-       ;; Text
-       (if (and pt2 pt3)
-	 (progn
-	   (if (= *ad:nota_j* 0)
-	     (setq ptins   (ad:ptmed pt2 pt3)
-		   justify "_bc"
-	     )
-	     (if (<= (car pt2) (car pt3)) ; if rightward
-	       (setq ptins   (polar pt2 0.0 (* *ad:th* *ad:sc*))
-		     justify "_bl"
-	       )
-	       (setq ptins   (polar pt2 pi (* *ad:th* *ad:sc*))
-		     justify "_br"
-	       )
-	     )
-	   )
-	   (prompt "\nEscreva a nota (ENTER para pular linha, 2 ENTERs para sair): ")
-	   (command "_dtext" justify ptins (* *ad:th* *ad:sc*) 0.0) ; let user type
-	 )
-       )
-     )
+      ;; Text
+      (if (and pt2 pt3)
+        (progn
+          (if (= *ad:nota_j* 0)
+            (setq ptins (ad:ptmed pt2 pt3)
+                  justify "_bc"
+            )
+            (if (<= (car pt2) (car pt3))  ; if rightward
+              (setq ptins (polar pt2 0.0 (* *ad:th* *ad:sc*))
+                    justify "_bl"
+              )
+              (setq ptins (polar pt2 pi (* *ad:th* *ad:sc*))
+                    justify "_br"
+              )
+            )
+          )
+          (prompt "\nEscreva a nota (ENTER para pular linha, 2 ENTERs para sair): ")
+          (command "_dtext" justify ptins (* *ad:th* *ad:sc*) 0.0)  ; let user type
+        )
+      )
+    )
   )
 
   (ad:endcmd)
@@ -167,28 +167,28 @@
   ;; user input
   (if
     (setq num (getint "\nDigite o número de partida: "))
-     (progn
-       (setq prefix (getstring "\nDigite o prefixo ou <ENTER> para nada: ")
-	     sufix  (getstring "\nDigite o sufixo ou <ENTER> para nada: ")
-       )
+    (progn
+      (setq prefix (getstring "\nDigite o prefixo ou <ENTER> para nada: ")
+            sufix (getstring "\nDigite o sufixo ou <ENTER> para nada: ")
+      )
 
-       ;; user selection
-       (while
-	 (setq
-	   ent (car (nentsel "\nSelecione um texto ou <sair>: "))
-	 )
+      ;; user selection
+      (while
+        (setq
+          ent (car (nentsel "\nSelecione um texto ou <sair>: "))
+        )
 
-	  ;; get data
-	  (setq entlist (entget ent))
-	  (setq entlist_assoc1 (assoc 1 entlist))
+        ;; get data
+        (setq entlist (entget ent))
+        (setq entlist_assoc1 (assoc 1 entlist))
 
-	  ;; construct text and pair, then insert and modify
-	  (setq str (strcat prefix (itoa num) sufix))
+        ;; construct text and pair, then insert and modify
+        (setq str (strcat prefix (itoa num) sufix))
 
-	  (entmod (subst (cons 1 str) entlist_assoc1 entlist))
-	  (setq num (1+ num))
-       )
-     )
+        (entmod (subst (cons 1 str) entlist_assoc1 entlist))
+        (setq num (1+ num))
+      )
+    )
   )
 
   (ad:endcmd)
@@ -203,23 +203,23 @@
   (ad:inicmd)
 
   ;; User input
-  (setq	ss    (ad:ssgetp
-		'((0 . "TEXT") (1 . "#*,[+]#*,[`-]#*")) ; also accepts + and -
-		"\nSelecione textos que começam com números e que usam ponto como separador decimal, e <ENTER> para concluir: "
-	      )
-	i     0
-	total 0.00
+  (setq ss (ad:ssgetp
+             '((0 . "TEXT") (1 . "#*,[+]#*,[`-]#*"))     ; also accepts + and -
+             "\nSelecione textos que começam com números e que usam ponto como separador decimal, e <ENTER> para concluir: "
+           )
+        i 0
+        total 0.00
   )
 
   ;; Sum
   (if ss
     (progn
       (while
-	(setq ent (ssname ss i))
-	 (setq value (atof (cdr (assoc 1 (entget ent)))) ; NOTE: only leading numberic chars.
-	       total (+ total value)
-	       i     (1+ i)
-	 )
+        (setq ent (ssname ss i))
+        (setq value (atof (cdr (assoc 1 (entget ent))))  ; NOTE: only leading numberic chars.
+              total (+ total value)
+              i (1+ i)
+        )
       )
 
       ;; Text height
@@ -233,11 +233,11 @@
       ;; Insert the text
       (setvar "OSMODE" 0)
       (if
-	(setq ptins (getpoint
-		      " Clique para inserir o texto com o valor total ou <sair>: "
-		    )
-	)
-	 (ad:text str_total "_mc" ptins h nil)
+        (setq ptins (getpoint
+                      " Clique para inserir o texto com o valor total ou <sair>: "
+                    )
+        )
+        (ad:text str_total "_mc" ptins h nil)
       )
     )
     (prompt "\nNenhum texto numérico foi selecionado.")
@@ -262,14 +262,14 @@
       (setq ent2 (car (nentsel "\nSelecione o objeto de destino: ")))
     )
 
-     ;; get data
-     (setq ent1_assoc1 (assoc 1 (cdr (entget ent1)))
-	   entlist2    (entget ent2)
-	   ent2_assoc1 (assoc 1 entlist2)
-     )
+    ;; get data
+    (setq ent1_assoc1 (assoc 1 (cdr (entget ent1)))
+          entlist2 (entget ent2)
+          ent2_assoc1 (assoc 1 entlist2)
+    )
 
-     ;; replace
-     (entmod (subst ent1_assoc1 ent2_assoc1 entlist2))
+    ;; replace
+    (entmod (subst ent1_assoc1 ent2_assoc1 entlist2))
   )
 
   (ad:endcmd)
@@ -290,26 +290,26 @@
   ;; text
   (while
     (setq ent2 (car (entsel "\nSelecione o texto a adicionar: ")))
-     (progn
-       ;; anchor text
-       (setq entlist1 (entget ent1))
-       (setq str_1 (cdr (assoc 1 entlist1)))
+    (progn
+      ;; anchor text
+      (setq entlist1 (entget ent1))
+      (setq str_1 (cdr (assoc 1 entlist1)))
 
-       ;; complementary text
-       (setq entlist2 (entget ent2))
-       (setq str_2 (cdr (assoc 1 entlist2)))
+      ;; complementary text
+      (setq entlist2 (entget ent2))
+      (setq str_2 (cdr (assoc 1 entlist2)))
 
-       ;; new text
-       (setq str_new (strcat str_1 " " str_2))
+      ;; new text
+      (setq str_new (strcat str_1 " " str_2))
 
-       ;; replace and update
-       (setq str_new_dxf (cons 1 str_new))
-       (entmod (subst str_new_dxf (assoc 1 entlist1) entlist1))
-     )
+      ;; replace and update
+      (setq str_new_dxf (cons 1 str_new))
+      (entmod (subst str_new_dxf (assoc 1 entlist1) entlist1))
+    )
   )
 
   ;; delete old object
-  (if (null *ad:unt:delete*)		; TO:DO: implement global var.
+  (if (null *ad:unt:delete*)  ; TO:DO: implement global var.
     (entdel ent2)
   )
 
@@ -320,22 +320,22 @@
 
 ;;; COMMAND: Generate coord table in CSV format
 
-(defun c:gtc (/	ent file filename_csv filename_dwg filepath filter i lay line pt sel ss_num text x y)
+(defun c:gtc (/ ent file filename_csv filename_dwg filepath filter i lay line pt sel ss_num text x y)
   (prompt "\nGTC - Gera tabela de coordenadas de textos de uma camada")
   (ad:inicmd)
 
   ;; Layer-filter
-  (setq	sel (car (entsel "\nSelecione um texto para obter camada-filtro: "))
-	lay (cdr (assoc 8 (entget sel)))
+  (setq sel (car (entsel "\nSelecione um texto para obter camada-filtro: "))
+        lay (cdr (assoc 8 (entget sel)))
   )
   (prompt (strcat "\nCamada-filtro: " lay "."))
 
   ;; Texts
-  (setq	filter (list (cons 0 "TEXT") (cons 8 lay))
-	ss_num (ad:ssgetp
-		 filter
-		 "\nSelecione os textos para obter coords (DICA: digital 'all' para o desenho inteiro): "
-	       )
+  (setq filter (list (cons 0 "TEXT") (cons 8 lay))
+        ss_num (ad:ssgetp
+                 filter
+                 "\nSelecione os textos para obter coords: "
+               )
   )
   (prompt
     (strcat "\nSelecionou " (itoa (sslength ss_num)) " texto(s).\n")
@@ -344,33 +344,33 @@
   ;; Dialog
   (prompt "\nAguardando seleção de pasta...")
   (terpri)
-  (setq	filename_dwg (getvar "DWGNAME")	; get drawing file nane
-	filename_csv (strcat (substr filename_dwg 1 (- (strlen filename_dwg) 4)))
+  (setq filename_dwg (getvar "DWGNAME")         ; get drawing file nane
+        filename_csv (strcat (substr filename_dwg 1 (- (strlen filename_dwg) 4)))
   )
-  (setq	filepath (getfiled "Salvar tabela de dados"
-			   filename_csv
-			   "csv"
-			   (+ 0 1 4 8)	; flags
-		 )
+  (setq filepath (getfiled "Salvar tabela de dados"
+                           filename_csv
+                           "csv"
+                           (+ 0 1 4 8)          ; flags
+                 )
   )
 
   ;; CSV file
   (setq file (open filepath "w"))
-  (setq line (strcat "TextValue" "," "Coord")) ; header
-  (write-line line file)		; write header
+  (setq line (strcat "TextValue" "," "Coord"))  ; header
+  (write-line line file)           ; write header
 
   (prompt "\nLendo. Aguarde...")
   (setq i 0)
   (while
     (setq ent (ssname ss_num i))
-     (setq text	(cdr (assoc 1 (entget ent)))
-	   pt	(ad:txtmed ent)		; text midpoint
-	   x	(rtos (nth 0 pt) 2 6)	; coord x or East
-	   y	(rtos (nth 1 pt) 2 6)	; coord y or North
-     )
-     (setq line (strcat text "," "POINT (" x " " y ")"))
-     (write-line line file)
-     (setq i (1+ i))
+    (setq text (cdr (assoc 1 (entget ent)))
+          pt (ad:txtmed ent)       ; text midpoint
+          x (rtos (nth 0 pt) 2 6)  ; coord x or East
+          y (rtos (nth 1 pt) 2 6)  ; coord y or North
+    )
+    (setq line (strcat text "," "POINT (" x " " y ")"))
+    (write-line line file)
+    (setq i (1+ i))
   )
   (close file)
   (prompt (strcat "Salvo em " filepath "."))
