@@ -45,7 +45,6 @@
         (if
           (member (cdr (assoc 0 (entget ent)))
                   '( "TEXT" "MTEXT" "ATTDEF" "INSERT")
-
           )  ; valid entity types
 
           ;; then: valid, proceed...
@@ -360,6 +359,7 @@
   (write-line line file)           ; write header
 
   (prompt "\nLendo. Aguarde...")
+  (setvar "OSMODE" 0) ; todo: necessary?
   (setq i 0)
   (while
     (setq ent (ssname ss_num i))
