@@ -159,7 +159,7 @@
 
 ;;; COMMAND: Text numbering
 
-(defun c:ns (/ ent entlist entlist_assoc1 num prefix str sufix)
+(defun c:ns (/ ent entlist entlist_assoc1 num prefix s sufix)
   (prompt "\nNS - Numerador sequencial")
   (ad:inicmd)
 
@@ -182,9 +182,9 @@
         (setq entlist_assoc1 (assoc 1 entlist))
 
         ;; construct text and pair, then insert and modify
-        (setq str (strcat prefix (itoa num) sufix))
+        (setq s (strcat prefix (itoa num) sufix))
 
-        (entmod (subst (cons 1 str) entlist_assoc1 entlist))
+        (entmod (subst (cons 1 s) entlist_assoc1 entlist))
         (setq num (1+ num))
       )
     )
@@ -319,12 +319,13 @@
 
 ;;; COMMAND: Generate coord table in CSV format
 
-(defun c:gtc (/ ent file filename_csv filename_dwg filepath filter i lay line pt sel ss_num text x y)
+(defun c:gtc (/ ent f filename_csv filename_dwg filepath filter i lay line pt sel ss_num text x y)
   (prompt "\nGTC - Gera tabela de coordenadas de textos de uma camada")
   (ad:inicmd)
 
   ;; Layer-filter
   (setq sel (car (entsel "\nSelecione um texto para obter camada-filtro: "))
+;        etype (cdr (assoc 0 (entget sel)))
         lay (cdr (assoc 8 (entget sel)))
   )
   (prompt (strcat "\nCamada-filtro: " lay "."))
@@ -354,25 +355,25 @@
   )
 
   ;; CSV file
-  (setq file (open filepath "w"))
+  (setq f (open filepath "w"))
   (setq line (strcat "TextValue" "," "Coord"))  ; header
-  (write-line line file)           ; write header
+  (write-line line f)         ; write header
 
   (prompt "\nLendo. Aguarde...")
-  (setvar "OSMODE" 0) ; todo: necessary?
+  (setvar "OSMODE" 0)         ; todo: necessary?
   (setq i 0)
   (while
     (setq ent (ssname ss_num i))
     (setq text (cdr (assoc 1 (entget ent)))
-          pt (ad:txtmed ent)       ; text midpoint
+          pt (ad:txtmed ent)  ; text midpoint
           x (rtos (nth 0 pt) 2 6)  ; coord x or East
           y (rtos (nth 1 pt) 2 6)  ; coord y or North
     )
     (setq line (strcat text "," "POINT (" x " " y ")"))
-    (write-line line file)
+    (write-line line f)
     (setq i (1+ i))
   )
-  (close file)
+  (close f)
   (prompt (strcat "Salvo em " filepath "."))
 
   (ad:endcmd)

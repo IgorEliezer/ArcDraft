@@ -63,13 +63,13 @@ O ArcDraft requer AutoCAD 2007, BricsCAD 17 ou superior para funcionar."
 ;;; FUNCTION: Working ArcDraft path
 ;;;   Todo: implement special alerts for AutoCAD and BricsCAD.
 
-(defun ad:path (/ file filepath)
-  (setq file "arcdraft.lsp")
+(defun ad:path (/ f filepath)
+  (setq f "arcdraft.lsp")
   (if
-    (setq filepath (findfile file))
+    (setq filepath (findfile f))
     (setq *ad:path* (substr filepath 1 (- (strlen filepath) 13)))
     (progn
-      (prompt (strcat "\nErro: A pasta do " file " não foi encontrada. Carregamento cancelado!"))
+      (prompt (strcat "\nErro: A pasta do " f " não foi encontrada. Carregamento cancelado!"))
       (setq *ad:path* nil)
       (exit)
     )
